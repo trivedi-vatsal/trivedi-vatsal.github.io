@@ -22,7 +22,7 @@ const { title, body, colSpan, rowSpan, href, colorText } = Astro.props
 >
   {
     href ? (
-      <a href={href} class={`block h-full w-full ${colorText || ' '}`}>
+      <a href={href} class={`block h-full w-full ${colorText || ' '}`} target="_blank">
         <SquareArrowOutUpRight
           className="group-hover:text-primary position absolute right-6 "
           size={20}
