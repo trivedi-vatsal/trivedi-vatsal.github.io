@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://trivedi-vatsal.github.io/sitemap-index.xml
