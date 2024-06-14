@@ -6,6 +6,8 @@ export const loaderAnimation = [
   { easing: 'ease-out' },
 ]
 
+export const googleAnalyticsDestinationId = 'G-S5L9LJDESQ'
+
 export const LINKS = {
   github: 'https://github.com/trivedi-vatsal',
   linkedin: 'https://www.linkedin.com/in/trivedi-vatsal/',
