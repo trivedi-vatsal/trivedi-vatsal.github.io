@@ -99,8 +99,8 @@ export const EXPERIENCE = [
     location: 'Gandhinagar, India',
     position: 'Software Enginner',
     link: 'https://tcs.com',
-    start: '2020',
-    end: '2018',
+    start: '2018',
+    end: '2020',
     tasks: [],
   },
 ]
