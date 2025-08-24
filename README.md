@@ -1,4 +1,4 @@
-# Vatsal Trivedi - Portfolio
+# Vatsal Trivedi - Portfolio  
 
 This is my portfolio site built with the technologies mentioned below. The live URL is [https://vatsal.xyz](https://vatsal.xyz).
 
