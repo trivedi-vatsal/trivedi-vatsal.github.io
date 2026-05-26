@@ -2,7 +2,7 @@
 
 This is my portfolio site built with the technologies mentioned below. The live URL is [https://vatsal.xyz](https://vatsal.xyz).
 
-## Design
+## Design 
 
 ![View 1](public/View1.png)
 
