@@ -6,7 +6,7 @@ import TopLayout from '../../layouts/TopLayout.astro'
 import BottomLayout from '../../layouts/BottomLayout.astro'
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )
 ---
 

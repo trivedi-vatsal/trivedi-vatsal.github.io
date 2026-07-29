@@ -1,15 +1,18 @@
 {
-  "name": "@area44/astro-shadcn-ui-template",
-  "version": "23.12.26",
-  "description": "An Astro template for building apps.",
+  "name": "vatsal-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio and blog for Vatsal Trivedi.",
   "author": {
-    "name": "AREA44"
+    "name": "Vatsal Trivedi",
+    "url": "https://vatsal.xyz"
   },
   "license": "MIT",
   "scripts": {
     "build": "astro build",
+    "check": "astro-check",
     "dev": "astro dev",
     "format": "prettier -w . --cache",
+    "format:check": "prettier -c .",
     "preview": "astro preview",
     "start": "astro dev"
   },
@@ -24,7 +27,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "lucide-react": "^0.363.0",
-    "moment-timezone": "^0.5.45",
     "motion": "^10.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -34,6 +36,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",

@@ -1,8 +1,47 @@
 ---
 import Card from '../Card.astro'
-import TimeZoneV2 from './TimeZoneCardV2'
+
+const timezone = 'Asia/Kolkata'
+const location = 'Bengaluru, India'
 ---
 
 <Card colSpan="lg:col-span-2" rowSpan="md:row-span-2" title="Time zone">
-  <TimeZoneV2 timezone="Asia/Kolkata" client:load />
+  <div>
+    <p id="timezone-datetime" class="tabular-nums"></p>
+    <p class="text-sm text-gray-500">{location}</p>
+  </div>
 </Card>
+
+<script define:vars={{ timezone }}>
+  function initTimezone() {
+    const el = document.getElementById('timezone-datetime')
+    if (!el) return
+
+    if (el.dataset.intervalId) {
+      clearInterval(Number(el.dataset.intervalId))
+    }
+
+    const formatter = new Intl.DateTimeFormat('en-IN', {
+      timeZone: timezone,
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+    })
+
+    const update = () => {
+      el.textContent = formatter.format(new Date())
+    }
+
+    update()
+    const id = setInterval(update, 1000)
+    el.dataset.intervalId = String(id)
+  }
+
+  initTimezone()
+  document.addEventListener('astro:page-load', initTimezone)
+</script>

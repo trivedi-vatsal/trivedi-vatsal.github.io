@@ -39,23 +39,12 @@ export const BLOG: Page = {
   DESCRIPTION: 'Writing on topics I am passionate about.',
 }
 
-// Projects Page
-export const PROJECTS: Page = {
-  TITLE: 'Projects',
-  DESCRIPTION: 'Recent projects I have worked on.',
-}
-
-// Search Page
-export const SEARCH: Page = {
-  TITLE: 'Search',
-  DESCRIPTION: 'Search all posts and projects by keyword.',
-}
-
 // Study Page
 export const STUDIES = [
   {
     title: 'Bachelor of Engineering - Computer Engineering',
-    institution: 'Birla Vishvakarma Mahavidyalaya Engineering College, Vallabh Vidyanagar',
+    institution:
+      'Birla Vishvakarma Mahavidyalaya Engineering College, Vallabh Vidyanagar',
     link: 'https://bvmengineering.ac.in/',
     date: '2014 - 2018',
   },
@@ -73,7 +62,7 @@ export const EXPERIENCE = [
       'Leading the development of an AI-powered platform that transforms pharmaceutical content creation and workflow automation.',
       'Architecting an AI Content Wizard integrated with Veeva CRM for end-to-end pharmaceutical workflow automation and brand-compliant content creation.',
       'Implementing automated content generation and repurposing pipelines that reduce production timelines while ensuring regulatory compliance.',
-      'Establishing cross-functional engineering best practices and centralized content lifecycle management covering creation, approval, and distribution.'
+      'Establishing cross-functional engineering best practices and centralized content lifecycle management covering creation, approval, and distribution.',
     ],
   },
   {
@@ -86,7 +75,7 @@ export const EXPERIENCE = [
     tasks: [
       'Leading the modernization of the MR platform into a cloud-agnostic SaaS product with AI/ML integration.',
       'Driving architecture and feature development using TypeScript, React, FeatherJS, Delta Lake, Postgres, and vector databases.',
-      'Delivering major improvements in scalability, performance, and user engagement through data-driven personalization.'
+      'Delivering major improvements in scalability, performance, and user engagement through data-driven personalization.',
     ],
   },
   {
@@ -100,7 +89,7 @@ export const EXPERIENCE = [
       'Delivered 14+ integrations including Shopify Public App, Seatgeek, HubSpot, AWS QuickSight, GoodData, Matomo, WooCommerce, WordPress, Batch Push, and Unlayer Editor.',
       'Implemented ML-driven insights using Google BigQuery and GoodData for personalized campaign optimization.',
       'Enhanced performance through query optimization, caching, and CDN strategies.',
-      'Addressed complex integration challenges related to scalability, data security, and performance optimization.'
+      'Addressed complex integration challenges related to scalability, data security, and performance optimization.',
     ],
   },
   {
@@ -114,7 +103,7 @@ export const EXPERIENCE = [
       'Developed and delivered full-stack applications using ReactJS, Angular, NodeJS, and ExpressJS.',
       'Enabled business collaboration using Microsoft 365 suite including SharePoint, Teams, Power Automate, and Power BI.',
       'Implemented GA360-based analytics solutions using Google Analytics, Tag Manager, and Data Studio.',
-      'Contributed to scalable, data-driven decision-making through end-to-end digital solutions.'
+      'Contributed to scalable, data-driven decision-making through end-to-end digital solutions.',
     ],
   },
 ]
