@@ -9,17 +9,41 @@ import { googleAnalyticsDestinationId } from '../lib/constants'
 interface Props {
   title?: string | undefined
   description?: string | undefined
-  ogImage?: URL | undefined
+  ogImage?: URL | string | undefined
+  ogType?: 'website' | 'article'
+  publishedTime?: Date
+  modifiedTime?: Date
+  author?: string
+  useTitleTemplate?: boolean
 }
 
-const { title, description, ogImage } = Astro.props
+const {
+  title,
+  description,
+  ogImage,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  author,
+  useTitleTemplate,
+} = Astro.props
 ---
 
 <html lang="en">
   <head>
-    <HeadSEO title={title} description={description} ogImage={ogImage} />
+    <HeadSEO
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogType={ogType}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      useTitleTemplate={useTitleTemplate}
+    />
     <ViewTransitions />
     <GoogleAnalytics id={googleAnalyticsDestinationId} />
+    <slot name="head" />
   </head>
   <body class="min-h-screen bg-background font-sans antialiased">
     <div class="flex flex-col items-center justify-center">

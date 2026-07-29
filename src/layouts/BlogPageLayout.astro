@@ -1,0 +1,42 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import TopLayout from './TopLayout.astro'
+import BottomLayout from './BottomLayout.astro'
+
+interface Props {
+  title: string
+  description?: string
+  ogType?: 'website' | 'article'
+  publishedTime?: Date
+  modifiedTime?: Date
+  author?: string
+}
+
+const {
+  title,
+  description,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  author,
+} = Astro.props
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType={ogType}
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
+  author={author}
+>
+  <slot name="head" slot="head" />
+  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
+    <TopLayout>
+      <slot name="header" />
+    </TopLayout>
+    <BottomLayout>
+      <slot />
+    </BottomLayout>
+  </main>
+</BaseLayout>

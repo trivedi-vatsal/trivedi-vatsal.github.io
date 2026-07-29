@@ -67,6 +67,8 @@ draft: false
 ---
 ```
 
+The blog index is at `/blog/`. RSS is available at `/rss.xml`. A sitemap is generated at build time.
+
 ## Credits
 
 Based on a template by [bue221](https://github.com/bue221/astro-portfolio), customized for my experience.
