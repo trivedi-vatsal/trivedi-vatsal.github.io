@@ -1,0 +1,10 @@
+---
+title: 'Shipping integrations that do not flake'
+description: 'Patterns for retries, idempotency, and clear failure modes when wiring third-party APIs.'
+pubDate: 2026-07-20
+tags: ['integrations', 'engineering']
+---
+
+Third-party APIs fail in boring ways: timeouts, partial writes, duplicate webhooks. Treat every call as unreliable and design for that from day one.
+
+Use idempotency keys on writes, bound retries with jitter, and surface failure states the UI can explain. Logs should answer what happened without opening a debugger.

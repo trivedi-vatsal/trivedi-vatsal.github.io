@@ -256,6 +256,14 @@
     @apply absolute inset-[2px] rounded-full bg-emerald-500;
   }
 
+  .status-dot--primary::before {
+    @apply bg-primary/70;
+  }
+
+  .status-dot--primary::after {
+    @apply bg-primary;
+  }
+
   .generative-grid {
     background-image: linear-gradient(
         hsl(var(--foreground) / 0.04) 1px,
@@ -285,5 +293,9 @@
   .bento-tile {
     animation: none !important;
     transition: none !important;
+  }
+
+  .bento-tile:hover {
+    transform: none;
   }
 }

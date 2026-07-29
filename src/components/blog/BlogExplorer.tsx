@@ -87,12 +87,7 @@ export function BlogExplorer({
   )
 
   if (posts.length === 0) {
-    return (
-      <p className="text-muted-foreground">
-        No posts yet. Check back soon for writing on engineering, integrations,
-        and building thoughtful products.
-      </p>
-    )
+    return <p className="text-muted-foreground">No notes yet.</p>
   }
 
   return (
@@ -168,7 +163,7 @@ export function BlogExplorer({
       )}
 
       {lanes.length === 0 ? (
-        <p className="text-muted-foreground">No posts match your filters.</p>
+        <p className="text-muted-foreground">No notes match these filters.</p>
       ) : (
         <div className="flex flex-col">
           {lanes.map((lane) => (

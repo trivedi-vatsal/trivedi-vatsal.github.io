@@ -13,7 +13,7 @@ export function BlogSwimLane({ lane, layout }: Props) {
   return (
     <section
       aria-labelledby={`lane-${lane.key}`}
-      className="border-border/50 animate-in fade-in slide-in-from-bottom-2 border-b py-8 duration-300 last:border-b-0"
+      className="border-border/50 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 border-b py-6 duration-300 last:border-b-0"
     >
       <div className="md:grid md:grid-cols-[11rem_minmax(0,1fr)] md:gap-8">
         <header className="mb-4 md:sticky md:top-24 md:mb-0 md:self-start">

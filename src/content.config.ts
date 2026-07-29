@@ -11,6 +11,8 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
     author: z.string().default('Vatsal Trivedi'),
+    heroImage: z.string().optional(),
+    heroAlt: z.string().optional(),
   }),
 })
 

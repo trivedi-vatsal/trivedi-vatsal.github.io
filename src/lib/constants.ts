@@ -16,9 +16,7 @@ export const LINKS = {
 export const NAV_LINKS = [
   { label: 'Work', href: '/work/' },
   { label: 'Experiments', href: '/experiments/' },
-  { label: 'Notes', href: '/blog/' },
-  { label: 'About', href: '/#identity' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Journal', href: '/blog/' },
 ]
 
 // Global
@@ -42,8 +40,8 @@ export const WORK: Page = {
 
 // Blog Page
 export const BLOG: Page = {
-  TITLE: 'Notes',
-  DESCRIPTION: 'Writing on AI, engineering, integrations, and product craft.',
+  TITLE: 'Journal',
+  DESCRIPTION: 'Thinking, documented. Writing on AI, engineering, integrations, and product craft.',
 }
 
 // Study Page
@@ -65,11 +63,13 @@ export const EXPERIENCE = [
     start: 'May 2025',
     end: 'Current',
     link: '',
+    current: true,
+    stack: ['TypeScript', 'React', 'LLM', 'Veeva CRM', 'Python', 'Postgres'],
     tasks: [
-      'Leading the development of an AI-powered platform that transforms pharmaceutical content creation and workflow automation.',
-      'Architecting an AI Content Wizard integrated with Veeva CRM for end-to-end pharmaceutical workflow automation and brand-compliant content creation.',
-      'Implementing automated content generation and repurposing pipelines that reduce production timelines while ensuring regulatory compliance.',
-      'Establishing cross-functional engineering best practices and centralized content lifecycle management covering creation, approval, and distribution.',
+      'Ship an AI platform that automates pharma content creation and workflows.',
+      'Build Content Wizard with Veeva CRM for brand-compliant end-to-end production.',
+      'Cut content timelines with generation pipelines under regulatory constraints.',
+      'Stand up shared engineering practices and a unified content lifecycle.',
     ],
   },
   {
@@ -79,10 +79,18 @@ export const EXPERIENCE = [
     start: 'Dec 2021',
     end: 'Mar 2025',
     link: 'https://www.comviva.com/',
+    stack: [
+      'TypeScript',
+      'React',
+      'FeatherJS',
+      'Delta Lake',
+      'Postgres',
+      'Vector DB',
+    ],
     tasks: [
-      'Leading the modernization of the MR platform into a cloud-agnostic SaaS product with AI/ML integration.',
-      'Driving architecture and feature development using TypeScript, React, FeatherJS, Delta Lake, Postgres, and vector databases.',
-      'Delivering major improvements in scalability, performance, and user engagement through data-driven personalization.',
+      'Modernize MR into a cloud-agnostic SaaS with AI/ML baked in.',
+      'Own architecture across TypeScript, React, FeatherJS, Delta Lake, and vectors.',
+      'Lift scale, performance, and engagement with data-driven personalization.',
     ],
   },
   {
@@ -92,11 +100,19 @@ export const EXPERIENCE = [
     start: 'Jun 2020',
     end: 'Nov 2021',
     link: 'https://www.comviva.com/',
+    stack: [
+      'Shopify',
+      'HubSpot',
+      'BigQuery',
+      'GoodData',
+      'AWS',
+      'CDN',
+    ],
     tasks: [
-      'Delivered 14+ integrations including Shopify Public App, Seatgeek, HubSpot, AWS QuickSight, GoodData, Matomo, WooCommerce, WordPress, Batch Push, and Unlayer Editor.',
-      'Implemented ML-driven insights using Google BigQuery and GoodData for personalized campaign optimization.',
-      'Enhanced performance through query optimization, caching, and CDN strategies.',
-      'Addressed complex integration challenges related to scalability, data security, and performance optimization.',
+      'Ship 14+ integrations across commerce, CRM, analytics, and editors.',
+      'Drive campaign personalization with BigQuery and GoodData ML insights.',
+      'Raise performance via query tuning, caching, and CDN.',
+      'Unblock hard integration work on scale, security, and latency.',
     ],
   },
   {
@@ -106,11 +122,19 @@ export const EXPERIENCE = [
     start: 'Sep 2018',
     end: 'May 2020',
     link: 'https://www.tcs.com/',
+    stack: [
+      'React',
+      'Angular',
+      'Node.js',
+      'Express',
+      'Microsoft 365',
+      'GA360',
+    ],
     tasks: [
-      'Developed and delivered full-stack applications using ReactJS, Angular, NodeJS, and ExpressJS.',
-      'Enabled business collaboration using Microsoft 365 suite including SharePoint, Teams, Power Automate, and Power BI.',
-      'Implemented GA360-based analytics solutions using Google Analytics, Tag Manager, and Data Studio.',
-      'Contributed to scalable, data-driven decision-making through end-to-end digital solutions.',
+      'Deliver full-stack apps in React, Angular, Node, and Express.',
+      'Enable collaboration with SharePoint, Teams, Power Automate, and Power BI.',
+      'Stand up GA360 analytics with Tag Manager and Data Studio.',
+      'Ship digital solutions that feed data-driven decisions.',
     ],
   },
 ]

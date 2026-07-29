@@ -69,7 +69,7 @@ export const EXPERIMENTS = [
   },
   {
     title: 'Writing',
-    blurb: 'Notes on engineering and product craft.',
+    blurb: 'Thinking, documented.',
     href: LINKS.devto,
     external: true,
   },
@@ -107,16 +107,12 @@ export const LIFE = {
  */
 export const STACK = [
   {
-    name: 'AI / LLMs',
-    projects: ['AI Platform for Pharma', 'Comviva'],
+    name: 'TypeScript',
+    projects: ['Comviva', 'AI Platform for Pharma'],
   },
   {
     name: 'React',
     projects: ['AI Platform for Pharma', 'Comviva', 'TCS'],
-  },
-  {
-    name: 'TypeScript',
-    projects: ['Comviva', 'AI Platform for Pharma'],
   },
   {
     name: 'Node',
@@ -129,6 +125,10 @@ export const STACK = [
   {
     name: 'Astro',
     projects: ['vatsal.xyz'],
+  },
+  {
+    name: 'AI / LLMs',
+    projects: ['AI Platform for Pharma', 'Comviva'],
   },
   {
     name: 'Cloud / SaaS',

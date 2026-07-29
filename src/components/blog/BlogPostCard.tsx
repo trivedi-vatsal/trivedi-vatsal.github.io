@@ -14,12 +14,49 @@ type Props = {
   className?: string
 }
 
+function CoverMedia({
+  post,
+  className,
+}: {
+  post: BlogPostSummary
+  className?: string
+}) {
+  const monogram = post.tags[0]?.charAt(0).toUpperCase() || '▸'
+
+  if (post.heroImage) {
+    return (
+      <img
+        src={post.heroImage}
+        alt={post.heroAlt ?? ''}
+        className={cn(
+          'aspect-[16/9] w-full rounded object-cover grayscale transition duration-500 group-hover:grayscale-0 motion-reduce:transition-none',
+          className,
+        )}
+      />
+    )
+  }
+
+  return (
+    <div
+      className={cn(
+        'bg-muted flex aspect-[16/9] w-full items-center justify-center rounded',
+        className,
+      )}
+      aria-hidden="true"
+    >
+      <span className="text-muted-foreground/40 font-mono text-4xl sm:text-5xl">
+        {monogram}
+      </span>
+    </div>
+  )
+}
+
 export function BlogPostCard({ post, layout, className }: Props) {
   if (layout === 'list') {
     return (
       <article
         className={cn(
-          'border-border/60 group border-b py-5 last:border-b-0',
+          'border-border/60 group border-b py-5 transition-colors last:border-b-0 hover:border-foreground/18',
           className,
         )}
       >
@@ -33,6 +70,8 @@ export function BlogPostCard({ post, layout, className }: Props) {
             </a>
           )}
           <time dateTime={post.pubDate}>{formatPostDate(post.pubDate)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{formatReadingTime(post.readingTime)}</span>
           {post.updatedDate && post.updatedDate !== post.pubDate && (
             <span>Updated {formatPostDate(post.updatedDate)}</span>
           )}
@@ -48,11 +87,8 @@ export function BlogPostCard({ post, layout, className }: Props) {
         <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
           {post.description}
         </p>
-        <a
-          href={post.href}
-          className="text-primary mt-3 inline-flex text-sm font-medium hover:underline"
-        >
-          Read more →
+        <a href={post.href} className="bento-arrow text-primary mt-3 text-sm">
+          Read more <span aria-hidden="true">→</span>
         </a>
       </article>
     )
@@ -61,15 +97,19 @@ export function BlogPostCard({ post, layout, className }: Props) {
   return (
     <article
       className={cn(
-        'border-border/70 bg-card/40 hover:border-primary/40 flex h-full flex-col rounded-lg border p-4 transition-colors',
+        'bento-tile group flex h-full flex-col p-4',
         className,
       )}
     >
+      <CoverMedia post={post} className="mb-3" />
       <h3 className="text-base font-semibold tracking-tight">
         <a href={post.href} className="hover:text-primary transition-colors">
           {post.title}
         </a>
       </h3>
+      <p className="text-muted-foreground mt-2 line-clamp-2 text-sm leading-relaxed">
+        {post.description}
+      </p>
       <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-2 text-xs">
         <time dateTime={post.pubDate}>{formatPostDate(post.pubDate)}</time>
         <span aria-hidden="true">·</span>

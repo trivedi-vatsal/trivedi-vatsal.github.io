@@ -14,23 +14,40 @@ import { EXPERIENCE } from '../lib/constants'
         {WORK.TITLE}
       </h1>
       <p class="text-muted-foreground mt-3 max-w-2xl text-base">
-        Places I've built — AI platforms, enterprise SaaS, and integration-heavy
+        Places I have built. AI platforms, enterprise SaaS, and integration-heavy
         systems.
       </p>
     </TopLayout>
     <BottomLayout>
-      <ul class="space-y-0">
+      <ol class="relative">
+        <div
+          class="bg-border absolute top-8 bottom-8 left-[4px] w-px sm:top-10 sm:bottom-10"
+          aria-hidden="true"
+        >
+        </div>
         {
           EXPERIENCE.map((entry) => (
-            <li class="border-border animate border-b py-8 first-of-type:pt-0 last-of-type:border-none">
+            <li class="relative py-8 pl-8 sm:py-10 sm:pl-10">
+              {entry.current ? (
+                <span
+                  class="status-dot status-dot--primary absolute top-8 left-0 sm:top-10"
+                  aria-hidden="true"
+                />
+              ) : (
+                <span
+                  class="border-border bg-background absolute top-8 left-0 h-2.5 w-2.5 rounded-full border sm:top-10"
+                  aria-hidden="true"
+                />
+              )}
+              {entry.current && <span class="sr-only">Current</span>}
               <div class="text-muted-foreground font-mono text-[0.7rem] tracking-[0.12em] uppercase">
-                {entry.start} — {entry.end}
+                {entry.start} - {entry.end}
               </div>
               <div class="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 {entry.link ? (
                   <a
                     href={entry.link}
-                    class="text-primary text-xl font-semibold tracking-tight hover:underline"
+                    class="text-primary focus-visible:ring-ring text-xl font-semibold tracking-tight hover:underline focus-visible:ring-2 focus-visible:outline-none"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -51,14 +68,22 @@ import { EXPERIENCE } from '../lib/constants'
               <ul class="mt-4 max-w-3xl space-y-2">
                 {entry.tasks.map((task) => (
                   <li class="text-foreground/85 text-sm leading-relaxed">
+                    <span aria-hidden="true">▸ </span>
                     {task}
                   </li>
                 ))}
               </ul>
+              {entry.stack && entry.stack.length > 0 && (
+                <ul class="text-muted-foreground mt-4 flex max-w-3xl flex-wrap gap-x-3 gap-y-1.5 font-mono text-[0.65rem] tracking-wide">
+                  {entry.stack.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
-      </ul>
+      </ol>
     </BottomLayout>
   </main>
 </BaseLayout>

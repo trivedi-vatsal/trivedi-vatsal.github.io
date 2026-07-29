@@ -9,6 +9,8 @@ export type BlogPostSummary = {
   updatedDate?: string
   tags: string[]
   readingTime: number
+  heroImage?: string
+  heroAlt?: string
 }
 
 export type BlogLane = {
@@ -60,6 +62,8 @@ export function toBlogPostSummary(
     updatedDate: entry.data.updatedDate?.toISOString(),
     tags: entry.data.tags,
     readingTime: getReadingTime(entry.body),
+    heroImage: entry.data.heroImage,
+    heroAlt: entry.data.heroAlt,
   }
 }
 

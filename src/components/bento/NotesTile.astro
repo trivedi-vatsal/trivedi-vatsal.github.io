@@ -19,10 +19,13 @@ const { title, description, href, tags, pubDate, readingTime } = Astro.props
   class="order-7 col-span-1 flex min-h-[240px] flex-col justify-between p-5 sm:p-6 lg:order-8 lg:col-span-5"
   radius="default"
   delay={200}
-  ariaLabel={`Latest note: ${title}`}
+  ariaLabel={`Journal: ${title}`}
 >
   <div>
-    <p class="bento-label">Latest note</p>
+    <p class="bento-label">Journal</p>
+    <p class="text-muted-foreground mt-2 font-mono text-xs tracking-wide">
+      Thinking, documented.
+    </p>
     <h2
       class="mt-4 text-2xl leading-tight font-semibold tracking-tight sm:text-3xl"
     >
@@ -38,7 +41,7 @@ const { title, description, href, tags, pubDate, readingTime } = Astro.props
   >
     <div>
       <p class="text-muted-foreground font-mono text-[0.65rem] tracking-wide">
-        {tags.length ? tags.map((t) => t).join(' · ') : 'Notes'}
+        {tags.length ? tags.map((t) => t).join(' · ') : 'Journal'}
       </p>
       <p class="text-muted-foreground mt-1 font-mono text-[0.65rem]">
         {formatPostDate(pubDate)} · {formatReadingTime(readingTime)}
