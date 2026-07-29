@@ -1,0 +1,85 @@
+---
+import BentoTile from './BentoTile.astro'
+import { CURRENTLY_BUILDING } from '../../lib/portfolio'
+---
+
+<BentoTile
+  href={CURRENTLY_BUILDING.href}
+  class="order-4 col-span-1 flex min-h-[220px] flex-col justify-between overflow-hidden p-5 sm:p-6 lg:order-4 lg:col-span-5"
+  radius="soft"
+  delay={120}
+  ariaLabel="Currently building"
+>
+  <div class="relative z-10">
+    <div class="flex items-center justify-between gap-2">
+      <p class="bento-label">Currently building</p>
+      <span
+        class="font-mono text-[0.6rem] tracking-[0.12em] text-emerald-600 uppercase dark:text-emerald-400"
+      >
+        {CURRENTLY_BUILDING.status}
+      </span>
+    </div>
+    <h2 class="mt-3 text-2xl font-semibold tracking-tight">
+      {CURRENTLY_BUILDING.title}
+    </h2>
+    <p class="text-muted-foreground mt-2 max-w-md text-sm leading-relaxed">
+      {CURRENTLY_BUILDING.summary}
+    </p>
+    <ul class="mt-4 flex flex-wrap gap-2">
+      {
+        CURRENTLY_BUILDING.tags.map((tag) => (
+          <li class="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+            / {tag}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <!-- Abstract architecture visualization -->
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-28 opacity-70"
+    aria-hidden="true"
+  >
+    <svg class="h-full w-full" viewBox="0 0 400 110" fill="none">
+      <rect
+        x="24"
+        y="40"
+        width="70"
+        height="44"
+        rx="4"
+        class="stroke-foreground/20"
+        stroke-width="1"></rect>
+      <rect
+        x="120"
+        y="24"
+        width="90"
+        height="60"
+        rx="4"
+        class="stroke-primary/50"
+        stroke-width="1.5"></rect>
+      <rect
+        x="240"
+        y="36"
+        width="70"
+        height="48"
+        rx="4"
+        class="stroke-foreground/20"
+        stroke-width="1"></rect>
+      <rect
+        x="330"
+        y="48"
+        width="50"
+        height="36"
+        rx="4"
+        class="stroke-foreground/15"
+        stroke-width="1"></rect>
+      <path
+        d="M94 62 H120 M210 54 H240 M310 60 H330"
+        class="stroke-primary/40"
+        stroke-width="1"
+        stroke-dasharray="3 3"></path>
+      <circle cx="165" cy="54" r="3" class="fill-primary"></circle>
+    </svg>
+  </div>
+</BentoTile>

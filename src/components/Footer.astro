@@ -1,30 +1,19 @@
-<footer class="border-t py-6 md:px-8 md:py-0">
+<footer class="border-t border-border/60 py-6 md:px-8 md:py-0">
   <div
-    class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row"
+    class="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-3 sm:px-4 md:h-20 md:flex-row md:px-6"
   >
-    <p
-      class="text-muted-foreground text-center text-sm leading-loose md:text-left"
-    >
-      Built by{' '}
-      <a
-        href="https://github.com/trivedi-vatsal"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="font-medium underline underline-offset-4"
-      >
-        Vatsal Trivedi
-      </a>
-      . with <span class="text-red-500">❤️</span> using Astro and Tailwind CSS. The
-      source code is available on{' '}
+    <p class="text-muted-foreground text-center font-mono text-xs tracking-wide md:text-left">
+      © {new Date().getFullYear()} Vatsal Trivedi · Built with Astro
+    </p>
+    <p class="text-muted-foreground text-center text-xs md:text-right">
       <a
         href="https://github.com/trivedi-vatsal/trivedi-vatsal.github.io"
         target="_blank"
         rel="noopener noreferrer"
-        class="font-medium underline underline-offset-4"
+        class="hover:text-foreground underline-offset-4 transition-colors hover:underline"
       >
-        GitHub
+        Source
       </a>
-      .
     </p>
   </div>
 </footer>

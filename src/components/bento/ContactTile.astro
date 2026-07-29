@@ -1,0 +1,40 @@
+---
+import BentoTile from './BentoTile.astro'
+import { LINKS } from '../../lib/constants'
+---
+
+<BentoTile
+  id="contact"
+  href={LINKS.mail}
+  class="order-11 col-span-1 flex min-h-[260px] flex-col justify-between bg-foreground p-6 text-background sm:col-span-2 sm:min-h-[300px] sm:p-8 lg:order-11 lg:col-span-12 dark:bg-card dark:text-foreground"
+  radius="soft"
+  delay={260}
+  ariaLabel="Contact"
+>
+  <p class="bento-label !text-background/55 dark:!text-muted-foreground">
+    Contact
+  </p>
+
+  <div class="my-8">
+    <h2
+      class="max-w-3xl text-3xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+    >
+      Have an<br />interesting<br class="sm:hidden" /> problem?
+    </h2>
+    <p
+      class="mt-4 max-w-xl text-lg text-background/70 sm:text-xl dark:text-muted-foreground"
+    >
+      Let's build something.
+    </p>
+  </div>
+
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <span class="bento-arrow !text-background dark:!text-foreground">
+      Get in touch
+      <span aria-hidden="true">→</span>
+    </span>
+    <span class="font-mono text-[0.65rem] tracking-wide text-background/50 dark:text-muted-foreground">
+      Bengaluru · Remote-friendly
+    </span>
+  </div>
+</BentoTile>

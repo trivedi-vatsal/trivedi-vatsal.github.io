@@ -19,38 +19,51 @@ import { NAV_LINKS } from '../lib/constants'
 </script>
 
 <header
-  class="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur"
+  class="bg-background/90 supports-[backdrop-filter]:bg-background/70 sticky top-0 z-50 w-full border-b border-border/60 backdrop-blur-md"
 >
   <div
-    class="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0"
+    class="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-3 sm:h-16 sm:px-4 md:px-6"
   >
-    <div class="flex gap-6 md:gap-10">
-      <a href="/" class="flex items-center space-x-2">
-        <span class="inline-block font-bold">&lt;V/&gt;</span>
+    <a
+      href="/"
+      class="group flex items-center gap-2 font-semibold tracking-tight"
+      aria-label="Vatsal Trivedi home"
+    >
+      <span
+        class="border-foreground/20 group-hover:border-primary group-hover:text-primary flex h-8 w-8 items-center justify-center border font-mono text-sm transition-colors"
+      >
+        V
+      </span>
+      <span class="sr-only sm:not-sr-only sm:inline-block sm:text-sm">
+        Vatsal Trivedi
+      </span>
+    </a>
+
+    <nav aria-label="Main navigation" class="flex items-center gap-0.5 sm:gap-1">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            href={link.href}
+            class={`${buttonVariants({ variant: 'ghost', size: 'sm' })} hidden text-xs font-medium tracking-wide sm:inline-flex md:text-sm`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <!-- Compact nav for very small screens -->
+      <a
+        href="/work/"
+        class={`${buttonVariants({ variant: 'ghost', size: 'sm' })} text-xs sm:hidden`}
+      >
+        Work
       </a>
-    </div>
-    <div class="flex flex-1 items-center justify-end space-x-4">
-      <nav aria-label="Main navigation" class="flex items-center space-x-1">
-        {
-          NAV_LINKS.map((link) =>
-            link.external ? (
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class={buttonVariants({ variant: 'ghost' })}
-              >
-                {link.label}
-              </a>
-            ) : (
-              <a href={link.href} class={buttonVariants({ variant: 'ghost' })}>
-                {link.label}
-              </a>
-            ),
-          )
-        }
-        <ModeToggle transition:persist client:load />
-      </nav>
-    </div>
+      <a
+        href="/blog/"
+        class={`${buttonVariants({ variant: 'ghost', size: 'sm' })} text-xs sm:hidden`}
+      >
+        Notes
+      </a>
+      <ModeToggle transition:persist client:load />
+    </nav>
   </div>
 </header>

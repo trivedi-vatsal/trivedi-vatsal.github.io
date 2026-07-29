@@ -1,0 +1,54 @@
+---
+import BentoTile from './BentoTile.astro'
+import { formatPostDate, formatReadingTime } from '../../lib/blog'
+
+interface Props {
+  title: string
+  description: string
+  href: string
+  tags: string[]
+  pubDate: string
+  readingTime: number
+}
+
+const { title, description, href, tags, pubDate, readingTime } = Astro.props
+---
+
+<BentoTile
+  href={href}
+  class="order-7 col-span-1 flex min-h-[240px] flex-col justify-between p-5 sm:p-6 lg:order-8 lg:col-span-5"
+  radius="default"
+  delay={200}
+  ariaLabel={`Latest note: ${title}`}
+>
+  <div>
+    <p class="bento-label">Latest note</p>
+    <h2
+      class="mt-4 text-2xl leading-tight font-semibold tracking-tight sm:text-3xl"
+    >
+      {title}
+    </h2>
+    <p class="text-muted-foreground mt-3 line-clamp-2 text-sm leading-relaxed">
+      {description}
+    </p>
+  </div>
+
+  <div class="mt-6 flex flex-wrap items-end justify-between gap-3 border-t border-border/80 pt-4">
+    <div>
+      <p class="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+        {
+          tags.length
+            ? tags.map((t) => t).join(' · ')
+            : 'Notes'
+        }
+      </p>
+      <p class="mt-1 font-mono text-[0.65rem] text-muted-foreground">
+        {formatPostDate(pubDate)} · {formatReadingTime(readingTime)}
+      </p>
+    </div>
+    <span class="bento-arrow text-foreground">
+      Read note
+      <span aria-hidden="true">→</span>
+    </span>
+  </div>
+</BentoTile>

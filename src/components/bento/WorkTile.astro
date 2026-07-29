@@ -1,0 +1,27 @@
+---
+import BentoTile from './BentoTile.astro'
+import { SELECTED_WORK } from '../../lib/portfolio'
+---
+
+<BentoTile
+  href={SELECTED_WORK.href}
+  class="order-9 col-span-1 flex min-h-[200px] flex-col justify-between p-5 sm:p-6 lg:order-3 lg:col-span-3"
+  radius="default"
+  delay={100}
+  ariaLabel="Selected work"
+>
+  <div>
+    <p class="bento-label">Selected work</p>
+    <ul class="mt-4 space-y-2">
+      {
+        SELECTED_WORK.themes.map((theme) => (
+          <li class="text-lg font-medium tracking-tight sm:text-xl">{theme}</li>
+        ))
+      }
+    </ul>
+  </div>
+  <span class="bento-arrow mt-6 text-foreground">
+    View work
+    <span aria-hidden="true">→</span>
+  </span>
+</BentoTile>

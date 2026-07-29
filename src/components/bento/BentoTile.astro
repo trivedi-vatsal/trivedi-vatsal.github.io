@@ -1,0 +1,55 @@
+---
+interface Props {
+  class?: string
+  radius?: 'default' | 'flat' | 'soft' | 'sharp'
+  href?: string
+  external?: boolean
+  id?: string
+  ariaLabel?: string
+  delay?: number
+  as?: 'article' | 'div' | 'section'
+}
+
+const {
+  class: className = '',
+  radius = 'default',
+  href,
+  external = false,
+  id,
+  ariaLabel,
+  delay = 0,
+  as: Tag = 'article',
+} = Astro.props
+
+const radiusClass =
+  radius === 'flat'
+    ? 'bento-tile--flat'
+    : radius === 'soft'
+      ? 'bento-tile--soft'
+      : radius === 'sharp'
+        ? 'bento-tile--sharp'
+        : ''
+
+const classes = `bento-tile group tile-reveal ${radiusClass} ${className}`.trim()
+const style = delay ? `animation-delay: ${delay}ms` : undefined
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      id={id}
+      aria-label={ariaLabel}
+      class={`${classes} block focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none`}
+      style={style}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+    >
+      <slot />
+    </a>
+  ) : (
+    <Tag id={id} aria-label={ariaLabel} class={classes} style={style}>
+      <slot />
+    </Tag>
+  )
+}

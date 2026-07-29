@@ -15,16 +15,23 @@ export const LINKS = {
 
 export const NAV_LINKS = [
   { label: 'Work', href: '/work/' },
-  { label: 'Blog', href: '/blog/' },
-  { label: 'GitHub', href: LINKS.github, external: true },
+  { label: 'Experiments', href: '/experiments/' },
+  { label: 'Notes', href: '/blog/' },
+  { label: 'About', href: '/#identity' },
+  { label: 'Contact', href: '/#contact' },
 ]
 
 // Global
 export const SITE: Site = {
   TITLE: 'Vatsal Trivedi',
   DESCRIPTION:
-    'Full Spectrum Engineer | Integration Specialist | UI/UX Enthusiast - With over 8 years of experience building innovative web applications and scalable SaaS platforms.',
+    'AI engineer, full-stack builder, and designer in Bengaluru. Intelligent products, developer tools, and digital experiences.',
   AUTHOR: 'Vatsal Trivedi',
+}
+
+export const EXPERIMENTS_PAGE: Page = {
+  TITLE: 'Experiments',
+  DESCRIPTION: 'Design studies, open source, writing, and creative outlets.',
 }
 
 // Work Page
@@ -35,8 +42,8 @@ export const WORK: Page = {
 
 // Blog Page
 export const BLOG: Page = {
-  TITLE: 'Blog',
-  DESCRIPTION: 'Writing on topics I am passionate about.',
+  TITLE: 'Notes',
+  DESCRIPTION: 'Writing on AI, engineering, integrations, and product craft.',
 }
 
 // Study Page

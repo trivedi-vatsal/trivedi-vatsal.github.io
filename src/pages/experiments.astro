@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import TopLayout from '../layouts/TopLayout.astro'
+import BottomLayout from '../layouts/BottomLayout.astro'
+import { EXPERIMENTS_PAGE } from '../lib/constants'
+import { EXPERIMENTS } from '../lib/portfolio'
+---
+
+<BaseLayout
+  title={EXPERIMENTS_PAGE.TITLE}
+  description={EXPERIMENTS_PAGE.DESCRIPTION}
+>
+  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
+    <TopLayout>
+      <h1
+        class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
+      >
+        {EXPERIMENTS_PAGE.TITLE}
+      </h1>
+      <p class="text-muted-foreground mt-3 max-w-2xl text-base">
+        Outlets for design, open source, writing, and visual craft — linked to
+        real work elsewhere.
+      </p>
+    </TopLayout>
+    <BottomLayout>
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {
+          EXPERIMENTS.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+                class="bento-tile group hover:border-foreground/20 flex h-full flex-col justify-between p-6 transition-colors"
+              >
+                <div>
+                  <p class="bento-label">Experiment</p>
+                  <h2 class="mt-3 text-2xl font-semibold tracking-tight">
+                    {item.title}
+                  </h2>
+                  <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
+                    {item.blurb}
+                  </p>
+                </div>
+                <span class="bento-arrow mt-6 text-foreground">
+                  {item.external ? 'Open' : 'View'}
+                  <span aria-hidden="true">{item.external ? '↗' : '→'}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </BottomLayout>
+  </main>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import BentoTile from './BentoTile.astro'
+import { LIFE } from '../../lib/portfolio'
+---
+
+<BentoTile
+  class="order-8 col-span-1 flex min-h-[240px] flex-col justify-between overflow-hidden p-5 sm:p-6 lg:order-9 lg:col-span-4"
+  radius="soft"
+  delay={220}
+  ariaLabel="Life outside code"
+>
+  <div class="relative z-10">
+    <p class="bento-label">{LIFE.title}</p>
+    <ul class="mt-5 grid grid-cols-2 gap-3">
+      {
+        LIFE.interests.map((interest) => (
+          <li>
+            <a
+              href={interest.href}
+              target={interest.external ? '_blank' : undefined}
+              rel={interest.external ? 'noopener noreferrer' : undefined}
+              class="hover:text-primary block text-lg font-medium tracking-tight transition-colors sm:text-xl"
+            >
+              {interest.label}
+              {interest.external && (
+                <span class="ml-1 font-mono text-xs text-muted-foreground">↗</span>
+              )}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div
+    class="pointer-events-none absolute -right-6 -bottom-10 h-40 w-40 rounded-full bg-primary/10 blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-60"
+    aria-hidden="true"
+  >
+  </div>
+  <p class="text-muted-foreground relative z-10 mt-6 text-sm">
+    The human layer — frames, places, and visual craft.
+  </p>
+</BentoTile>

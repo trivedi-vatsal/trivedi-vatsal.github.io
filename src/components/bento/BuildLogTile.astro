@@ -1,0 +1,44 @@
+---
+import BentoTile from './BentoTile.astro'
+import type { BuildLogEntry } from '../../lib/portfolio'
+
+interface Props {
+  entries: BuildLogEntry[]
+}
+
+const { entries } = Astro.props
+---
+
+<BentoTile
+  class="order-10 col-span-1 flex min-h-[220px] flex-col p-5 sm:p-6 lg:order-10 lg:col-span-3"
+  radius="sharp"
+  delay={240}
+  ariaLabel="Build log"
+>
+  <p class="bento-label">Build log</p>
+  {
+    entries.length === 0 ? (
+      <p class="text-muted-foreground mt-4 text-sm">No dated entries yet.</p>
+    ) : (
+      <ol class="mt-4 space-y-3">
+        {entries.map((entry) => (
+          <li class="flex flex-col gap-0.5 border-l-2 border-border pl-3">
+            <time class="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+              {entry.date}
+            </time>
+            {entry.href ? (
+              <a
+                href={entry.href}
+                class="hover:text-primary text-sm font-medium transition-colors"
+              >
+                {entry.label}
+              </a>
+            ) : (
+              <span class="text-sm font-medium">{entry.label}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</BentoTile>

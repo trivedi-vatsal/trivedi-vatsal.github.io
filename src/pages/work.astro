@@ -3,42 +3,56 @@ import { WORK } from '../lib/constants'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import TopLayout from '../layouts/TopLayout.astro'
 import BottomLayout from '../layouts/BottomLayout.astro'
-
 import { EXPERIENCE } from '../lib/constants'
 ---
 
 <BaseLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
   <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
     <TopLayout>
-      <h1
-        class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
-      >
+      <p class="bento-label mb-3">Career</p>
+      <h1 class="scroll-m-20 text-3xl font-semibold tracking-tight sm:text-4xl">
         {WORK.TITLE}
       </h1>
+      <p class="text-muted-foreground mt-3 max-w-2xl text-base">
+        Places I've built — AI platforms, enterprise SaaS, and integration-heavy
+        systems.
+      </p>
     </TopLayout>
     <BottomLayout>
-      <ul>
+      <ul class="space-y-0">
         {
           EXPERIENCE.map((entry) => (
-            <li class="animate mt-4 border-b border-black/10 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none dark:border-white/25">
-              <div class="mb-4 text-sm uppercase">
-                {entry.start} - {entry.end}
+            <li class="border-border animate border-b py-8 first-of-type:pt-0 last-of-type:border-none">
+              <div class="font-mono text-[0.7rem] tracking-[0.12em] text-muted-foreground uppercase">
+                {entry.start} — {entry.end}
               </div>
-              {entry.link ? (
-                <a href={entry.link} class="text-primary font-semibold">
-                  {entry.company}
-                </a>
-              ) : (
-                <span class="text-foreground font-semibold">
-                  {entry.company}
-                </span>
-              )}
-              <div class="text-sm font-semibold">{entry.position}</div>
-              <article class="prose dark:prose-invert">
-                {entry.tasks.map((i) => (
-                  <>{i}</>
+              <div class="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                {entry.link ? (
+                  <a
+                    href={entry.link}
+                    class="text-primary text-xl font-semibold tracking-tight hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {entry.company}
+                  </a>
+                ) : (
+                  <span class="text-xl font-semibold tracking-tight">
+                    {entry.company}
+                  </span>
+                )}
+                <span class="text-muted-foreground text-sm">{entry.position}</span>
+              </div>
+              <p class="text-muted-foreground mt-1 font-mono text-xs tracking-wide">
+                {entry.location}
+              </p>
+              <ul class="mt-4 max-w-3xl space-y-2">
+                {entry.tasks.map((task) => (
+                  <li class="text-sm leading-relaxed text-foreground/85">
+                    {task}
+                  </li>
                 ))}
-              </article>
+              </ul>
             </li>
           ))
         }
