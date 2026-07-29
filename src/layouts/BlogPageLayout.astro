@@ -12,14 +12,8 @@ interface Props {
   author?: string
 }
 
-const {
-  title,
-  description,
-  ogType,
-  publishedTime,
-  modifiedTime,
-  author,
-} = Astro.props
+const { title, description, ogType, publishedTime, modifiedTime, author } =
+  Astro.props
 ---
 
 <BaseLayout

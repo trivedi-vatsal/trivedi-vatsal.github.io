@@ -10,11 +10,11 @@ import { EXPERIENCE } from '../lib/constants'
 <BaseLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
   <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
     <TopLayout>
-      <h2
+      <h1
         class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
       >
         {WORK.TITLE}
-      </h2>
+      </h1>
     </TopLayout>
     <BottomLayout>
       <ul>
@@ -25,11 +25,11 @@ import { EXPERIENCE } from '../lib/constants'
                 {entry.start} - {entry.end}
               </div>
               {entry.link ? (
-                <a href={entry.link} class="font-semibold text-primary">
+                <a href={entry.link} class="text-primary font-semibold">
                   {entry.company}
                 </a>
               ) : (
-                <span class="font-semibold text-foreground">
+                <span class="text-foreground font-semibold">
                   {entry.company}
                 </span>
               )}

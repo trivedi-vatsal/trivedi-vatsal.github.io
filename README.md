@@ -5,7 +5,7 @@ Personal portfolio and blog built with Astro. Live at [vatsal.xyz](https://vatsa
 ## Tech stack
 
 - **Astro** — static site framework
-- **Tailwind CSS** — styling
+- **Tailwind CSS** — styling (v4 via Vite plugin)
 - **shadcn/ui** — accessible React components (theme toggle, buttons)
 - **MDX** — blog posts via Astro content collections
 
@@ -46,7 +46,7 @@ src/
   pages/         Routes (/, /work, /blog)
   styles/        Global CSS
 astro.config.ts
-tailwind.config.ts
+src/styles/globals.css   Tailwind theme + base styles
 ```
 
 ## Deployment

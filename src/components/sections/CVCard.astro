@@ -7,26 +7,22 @@ const PDF = 'https://resume.vatsal.xyz/pdf/Vatsal%20Trivedi.pdf'
 ---
 
 <Card colSpan="md:col-span-1" rowSpan="md:row-span-4" title="CV">
-  <div class="mt-4 flex w-full justify-center">
-    <div
-      class="card card-compact md:w-112 lg:w-128 w-96 gap-2 border-[oklch(var(--p))] transition-all"
-    >
-      <figure>
-        <object data={PDF} type="application/pdf" width="100%"></object>
-      </figure>
-      <div class="mt-4 flex flex-col gap-2">
-        <p class="text-sm text-muted-foreground">
-          View and download my resume by clicking on the button below
-        </p>
-        <div class="card-actions mt-2 flex w-full items-center justify-center">
-          <a target="_blank" href={PDF}>
-            <Button>
-              Download resume
-              <File />
-            </Button>
-          </a>
-        </div>
-      </div>
+  <div class="mt-4 flex w-full flex-col gap-4">
+    <p class="text-muted-foreground text-sm">
+      Download a PDF copy of my resume, or open it in a new tab.
+    </p>
+    <div class="flex flex-wrap gap-2">
+      <a
+        href={PDF}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Download resume PDF"
+      >
+        <Button>
+          Download resume
+          <File />
+        </Button>
+      </a>
     </div>
   </div>
 </Card>

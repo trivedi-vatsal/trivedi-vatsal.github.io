@@ -11,11 +11,11 @@ import { EXPERIENCE } from '../../lib/constants'
         <div>
           <h3 class="text-lg font-semibold">{exp.position}</h3>
           {exp.link ? (
-            <a class="text-sm text-primary" href={exp.link}>
+            <a class="text-primary text-sm" href={exp.link}>
               {exp.company}
             </a>
           ) : (
-            <span class="text-sm text-foreground">{exp.company}</span>
+            <span class="text-foreground text-sm">{exp.company}</span>
           )}
           <p class="text-sm text-gray-600">
             {exp.start} - {exp.end}
