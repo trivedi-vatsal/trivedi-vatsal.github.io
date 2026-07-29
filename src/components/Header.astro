@@ -1,6 +1,7 @@
 ---
 import { buttonVariants } from '../components/ui/button'
 import { ModeToggle } from '../components/ui/ThemeToggle'
+import { NAV_LINKS } from '../lib/constants'
 ---
 
 <script is:inline>
@@ -29,18 +30,25 @@ import { ModeToggle } from '../components/ui/ThemeToggle'
       </a>
     </div>
     <div class="flex flex-1 items-center justify-end space-x-4">
-      <nav class="flex items-center space-x-1">
-        <a href="/blog/" class={buttonVariants({ variant: 'ghost' })}>
-          Blog
-        </a>
-        <a
-          href="https://github.com/trivedi-vatsal"
-          target="_blank"
-          rel="noreferrer"
-          class={buttonVariants({ variant: 'ghost' })}
-        >
-          GitHub
-        </a>
+      <nav aria-label="Main navigation" class="flex items-center space-x-1">
+        {
+          NAV_LINKS.map((link) =>
+            link.external ? (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={buttonVariants({ variant: 'ghost' })}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <a href={link.href} class={buttonVariants({ variant: 'ghost' })}>
+                {link.label}
+              </a>
+            )
+          )
+        }
         <ModeToggle transition:persist client:load />
       </nav>
     </div>

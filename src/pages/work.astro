@@ -24,12 +24,15 @@ import { EXPERIENCE } from '../lib/constants'
               <div class="mb-4 text-sm uppercase">
                 {entry.start} - {entry.end}
               </div>
-              <a
-                href={entry.link ?? ''}
-                class={`font-semibold ${entry?.link ? 'text-primary' : 'text-foreground'}`}
-              >
-                {entry.company}
-              </a>
+              {entry.link ? (
+                <a href={entry.link} class="font-semibold text-primary">
+                  {entry.company}
+                </a>
+              ) : (
+                <span class="font-semibold text-foreground">
+                  {entry.company}
+                </span>
+              )}
               <div class="text-sm font-semibold">{entry.position}</div>
               <article class="prose dark:prose-invert">
                 {entry.tasks.map((i) => (

@@ -1,11 +1,5 @@
 import type { Site, Page } from './types'
 
-export const loaderAnimation = [
-  '.loader',
-  { opacity: [1, 0], pointerEvents: 'none' },
-  { easing: 'ease-out' },
-]
-
 export const googleAnalyticsDestinationId = 'G-S5L9LJDESQ'
 
 export const LINKS = {
@@ -18,6 +12,12 @@ export const LINKS = {
   devto: 'https://dev.to/trivedivatsal',
   resume: 'https://resume.vatsal.xyz',
 }
+
+export const NAV_LINKS = [
+  { label: 'Work', href: '/work/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'GitHub', href: LINKS.github, external: true },
+]
 
 // Global
 export const SITE: Site = {

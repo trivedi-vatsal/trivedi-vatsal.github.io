@@ -6,9 +6,7 @@ import robotsTxt from 'astro-robots-txt'
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.CI
-    ? 'https://trivedi-vatsal.github.io'
-    : 'http://localhost:4321',
+  site: process.env.CI ? 'https://vatsal.xyz' : 'http://localhost:4321',
   integrations: [
     react(),
     mdx(),

@@ -3,22 +3,22 @@
  * Originally from the 'astro-analytics' package.
  * https://github.com/Destiner/astro-analytics
  */
- export interface Props {
-  id: string;
+export interface Props {
+  id: string
 }
 
-const { id } = Astro.props;
+const { id } = Astro.props
 
-const gtagUrl = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+const gtagUrl = `https://www.googletagmanager.com/gtag/js?id=${id}`
 ---
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script type="text/partytown" src={gtagUrl}></script>
-<script type="text/partytown" define:vars={{ id }}>
-  window.dataLayer = window.dataLayer || [];
+<script async src={gtagUrl}></script>
+<script define:vars={{ id }}>
+  window.dataLayer = window.dataLayer || []
   function gtag() {
-    window.dataLayer.push(arguments);
+    window.dataLayer.push(arguments)
   }
-  gtag("js", new Date());
-  gtag("config", id);
+  gtag('js', new Date())
+  gtag('config', id)
 </script>
