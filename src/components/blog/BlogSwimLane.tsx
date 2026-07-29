@@ -36,7 +36,11 @@ export function BlogSwimLane({ lane, layout }: Props) {
           )}
         >
           {lane.posts.map((post) => (
-            <BlogPostCard key={`${lane.key}-${post.id}`} post={post} layout={layout} />
+            <BlogPostCard
+              key={`${lane.key}-${post.id}`}
+              post={post}
+              layout={layout}
+            />
           ))}
         </div>
       </div>

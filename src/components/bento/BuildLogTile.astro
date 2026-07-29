@@ -22,8 +22,8 @@ const { entries } = Astro.props
     ) : (
       <ol class="mt-4 space-y-3">
         {entries.map((entry) => (
-          <li class="flex flex-col gap-0.5 border-l-2 border-border pl-3">
-            <time class="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
+          <li class="border-border flex flex-col gap-0.5 border-l-2 pl-3">
+            <time class="text-muted-foreground font-mono text-[0.65rem] tracking-wide">
               {entry.date}
             </time>
             {entry.href ? (

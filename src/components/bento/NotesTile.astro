@@ -33,16 +33,14 @@ const { title, description, href, tags, pubDate, readingTime } = Astro.props
     </p>
   </div>
 
-  <div class="mt-6 flex flex-wrap items-end justify-between gap-3 border-t border-border/80 pt-4">
+  <div
+    class="border-border/80 mt-6 flex flex-wrap items-end justify-between gap-3 border-t pt-4"
+  >
     <div>
-      <p class="font-mono text-[0.65rem] tracking-wide text-muted-foreground">
-        {
-          tags.length
-            ? tags.map((t) => t).join(' · ')
-            : 'Notes'
-        }
+      <p class="text-muted-foreground font-mono text-[0.65rem] tracking-wide">
+        {tags.length ? tags.map((t) => t).join(' · ') : 'Notes'}
       </p>
-      <p class="mt-1 font-mono text-[0.65rem] text-muted-foreground">
+      <p class="text-muted-foreground mt-1 font-mono text-[0.65rem]">
         {formatPostDate(pubDate)} · {formatReadingTime(readingTime)}
       </p>
     </div>

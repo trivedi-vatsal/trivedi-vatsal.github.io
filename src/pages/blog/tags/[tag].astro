@@ -2,11 +2,7 @@
 import { getCollection } from 'astro:content'
 import BlogPageLayout from '../../../layouts/BlogPageLayout.astro'
 import { BlogExplorer } from '../../../components/blog/BlogExplorer'
-import {
-  getAllTags,
-  slugifyTag,
-  toBlogPostSummary,
-} from '../../../lib/blog'
+import { getAllTags, slugifyTag, toBlogPostSummary } from '../../../lib/blog'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft)
@@ -31,7 +27,9 @@ const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .map(toBlogPostSummary)
 
 const posts = allPosts.filter((post) =>
-  post.tags.some((t) => slugifyTag(t) === slug || t.toLowerCase() === tag.toLowerCase()),
+  post.tags.some(
+    (t) => slugifyTag(t) === slug || t.toLowerCase() === tag.toLowerCase(),
+  ),
 )
 
 const title = tag
@@ -54,7 +52,7 @@ const description = `Articles about ${tag}`
       </ol>
     </nav>
     <h1
-      class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 capitalize"
+      class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight capitalize first:mt-0"
     >
       {tag}
     </h1>

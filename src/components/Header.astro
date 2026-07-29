@@ -19,7 +19,7 @@ import { NAV_LINKS } from '../lib/constants'
 </script>
 
 <header
-  class="bg-background/90 supports-[backdrop-filter]:bg-background/70 sticky top-0 z-50 w-full border-b border-border/60 backdrop-blur-md"
+  class="bg-background/90 supports-[backdrop-filter]:bg-background/70 border-border/60 sticky top-0 z-50 w-full border-b backdrop-blur-md"
 >
   <div
     class="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-3 sm:h-16 sm:px-4 md:px-6"
@@ -39,7 +39,10 @@ import { NAV_LINKS } from '../lib/constants'
       </span>
     </a>
 
-    <nav aria-label="Main navigation" class="flex items-center gap-0.5 sm:gap-1">
+    <nav
+      aria-label="Main navigation"
+      class="flex items-center gap-0.5 sm:gap-1"
+    >
       {
         NAV_LINKS.map((link) => (
           <a

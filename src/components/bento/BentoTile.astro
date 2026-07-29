@@ -30,7 +30,8 @@ const radiusClass =
         ? 'bento-tile--sharp'
         : ''
 
-const classes = `bento-tile group tile-reveal ${radiusClass} ${className}`.trim()
+const classes =
+  `bento-tile group tile-reveal ${radiusClass} ${className}`.trim()
 const style = delay ? `animation-delay: ${delay}ms` : undefined
 ---
 
@@ -40,7 +41,7 @@ const style = delay ? `animation-delay: ${delay}ms` : undefined
       href={href}
       id={id}
       aria-label={ariaLabel}
-      class={`${classes} block focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none`}
+      class={`${classes} focus-visible:ring-ring block focus-visible:ring-2 focus-visible:outline-none`}
       style={style}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}

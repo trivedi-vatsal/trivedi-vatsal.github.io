@@ -12,20 +12,20 @@ import { FEATURED } from '../../lib/portfolio'
 >
   <!-- Dominant visual plane -->
   <div
-    class="relative min-h-[180px] flex-1 overflow-hidden bg-foreground/[0.03] dark:bg-foreground/[0.05]"
+    class="bg-foreground/[0.03] dark:bg-foreground/[0.05] relative min-h-[180px] flex-1 overflow-hidden"
   >
     <div class="generative-grid absolute inset-0"></div>
     <div
-      class="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent transition-transform duration-700 group-hover:scale-105"
+      class="from-primary/15 absolute inset-0 bg-gradient-to-br via-transparent to-transparent transition-transform duration-700 group-hover:scale-105"
     >
     </div>
     <div
-      class="absolute -right-10 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full border border-primary/30 transition-transform duration-700 group-hover:scale-110"
+      class="border-primary/30 absolute top-1/2 -right-10 h-56 w-56 -translate-y-1/2 rounded-full border transition-transform duration-700 group-hover:scale-110"
       aria-hidden="true"
     >
     </div>
     <div
-      class="absolute right-8 top-1/2 h-36 w-36 -translate-y-1/2 rounded-full border border-dashed border-foreground/20"
+      class="border-foreground/20 absolute top-1/2 right-8 h-36 w-36 -translate-y-1/2 rounded-full border border-dashed"
       aria-hidden="true"
     >
     </div>
@@ -38,7 +38,7 @@ import { FEATURED } from '../../lib/portfolio'
           {FEATURED.name}
         </h2>
         <p
-          class="mt-1 font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          class="text-muted-foreground mt-1 font-mono text-[0.65rem] tracking-[0.12em] uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         >
           {FEATURED.position} · {FEATURED.period}
         </p>
@@ -46,7 +46,9 @@ import { FEATURED } from '../../lib/portfolio'
     </div>
   </div>
 
-  <div class="flex flex-col gap-4 border-t p-5 sm:flex-row sm:items-end sm:justify-between sm:p-6">
+  <div
+    class="flex flex-col gap-4 border-t p-5 sm:flex-row sm:items-end sm:justify-between sm:p-6"
+  >
     <div class="max-w-xl">
       <p class="text-muted-foreground text-sm leading-relaxed">
         {FEATURED.description}
@@ -61,7 +63,7 @@ import { FEATURED } from '../../lib/portfolio'
         }
       </ul>
     </div>
-    <span class="bento-arrow shrink-0 text-foreground">
+    <span class="bento-arrow text-foreground shrink-0">
       Explore
       <span aria-hidden="true">→</span>
     </span>

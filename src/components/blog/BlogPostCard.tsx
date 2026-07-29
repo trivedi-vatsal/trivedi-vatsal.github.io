@@ -27,7 +27,7 @@ export function BlogPostCard({ post, layout, className }: Props) {
           {post.tags[0] && (
             <a
               href={`/blog/tags/${slugifyTag(post.tags[0])}/`}
-              className="hover:text-primary font-medium uppercase tracking-wide"
+              className="hover:text-primary font-medium tracking-wide uppercase"
             >
               {post.tags[0]}
             </a>
@@ -38,7 +38,10 @@ export function BlogPostCard({ post, layout, className }: Props) {
           )}
         </div>
         <h3 className="text-lg font-semibold tracking-tight">
-          <a href={post.href} className="group-hover:text-primary transition-colors">
+          <a
+            href={post.href}
+            className="group-hover:text-primary transition-colors"
+          >
             {post.title}
           </a>
         </h3>

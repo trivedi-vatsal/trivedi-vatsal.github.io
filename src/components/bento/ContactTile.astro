@@ -6,7 +6,7 @@ import { LINKS } from '../../lib/constants'
 <BentoTile
   id="contact"
   href={LINKS.mail}
-  class="order-11 col-span-1 flex min-h-[260px] flex-col justify-between bg-foreground p-6 text-background sm:col-span-2 sm:min-h-[300px] sm:p-8 lg:order-11 lg:col-span-12 dark:bg-card dark:text-foreground"
+  class="bg-foreground text-background dark:bg-card dark:text-foreground order-11 col-span-1 flex min-h-[260px] flex-col justify-between p-6 sm:col-span-2 sm:min-h-[300px] sm:p-8 lg:order-11 lg:col-span-12"
   radius="soft"
   delay={260}
   ariaLabel="Contact"
@@ -22,7 +22,7 @@ import { LINKS } from '../../lib/constants'
       Have an<br />interesting<br class="sm:hidden" /> problem?
     </h2>
     <p
-      class="mt-4 max-w-xl text-lg text-background/70 sm:text-xl dark:text-muted-foreground"
+      class="text-background/70 dark:text-muted-foreground mt-4 max-w-xl text-lg sm:text-xl"
     >
       Let's build something.
     </p>
@@ -33,7 +33,9 @@ import { LINKS } from '../../lib/constants'
       Get in touch
       <span aria-hidden="true">→</span>
     </span>
-    <span class="font-mono text-[0.65rem] tracking-wide text-background/50 dark:text-muted-foreground">
+    <span
+      class="text-background/50 dark:text-muted-foreground font-mono text-[0.65rem] tracking-wide"
+    >
       Bengaluru · Remote-friendly
     </span>
   </div>

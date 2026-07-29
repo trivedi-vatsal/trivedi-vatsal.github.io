@@ -85,7 +85,8 @@ export function filterPosts(
   return posts.filter((post) => {
     if (tagFilter) {
       const matchesTag = post.tags.some(
-        (tag) => tag.toLowerCase() === tagFilter || slugifyTag(tag) === tagFilter,
+        (tag) =>
+          tag.toLowerCase() === tagFilter || slugifyTag(tag) === tagFilter,
       )
       if (!matchesTag) return false
     }

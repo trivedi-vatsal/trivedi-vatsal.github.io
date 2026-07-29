@@ -3,11 +3,7 @@ import { render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BlogPageLayout from './BlogPageLayout.astro'
 import { SITE } from '../lib/constants'
-import {
-  formatReadingTime,
-  getReadingTime,
-  slugifyTag,
-} from '../lib/blog'
+import { formatReadingTime, getReadingTime, slugifyTag } from '../lib/blog'
 
 interface Props {
   post: CollectionEntry<'blog'>

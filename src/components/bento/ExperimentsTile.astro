@@ -16,13 +16,13 @@ import { EXPERIMENTS } from '../../lib/portfolio'
       {
         EXPERIMENTS.map((item, i) => (
           <li
-            class="border-border/70 flex items-baseline justify-between gap-3 border-b py-2.5 last:border-b-0 transition-colors group-hover:border-foreground/15"
+            class="border-border/70 group-hover:border-foreground/15 flex items-baseline justify-between gap-3 border-b py-2.5 transition-colors last:border-b-0"
             style={`transition-delay: ${i * 40}ms`}
           >
             <span class="text-sm font-medium tracking-tight sm:text-base">
               {item.title}
             </span>
-            <span class="font-mono text-[0.6rem] text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">
+            <span class="text-muted-foreground font-mono text-[0.6rem] opacity-0 transition-opacity group-hover:opacity-100">
               {item.external ? '↗' : '→'}
             </span>
           </li>
@@ -30,7 +30,7 @@ import { EXPERIMENTS } from '../../lib/portfolio'
       }
     </ul>
   </div>
-  <span class="bento-arrow mt-4 text-foreground">
+  <span class="bento-arrow text-foreground mt-4">
     Browse experiments
     <span aria-hidden="true">→</span>
   </span>

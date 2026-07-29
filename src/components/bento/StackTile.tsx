@@ -56,12 +56,12 @@ export function StackTile({ items, className }: Props) {
       </div>
 
       <div
-        className="mt-5 min-h-[4.5rem] border-t border-border/80 pt-4"
+        className="border-border/80 mt-5 min-h-[4.5rem] border-t pt-4"
         aria-live="polite"
       >
         {current ? (
           <div>
-            <p className="font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground uppercase">
+            <p className="text-muted-foreground font-mono text-[0.65rem] tracking-[0.12em] uppercase">
               Used in
             </p>
             <ul className="mt-2 space-y-1">

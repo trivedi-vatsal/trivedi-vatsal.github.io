@@ -10,11 +10,7 @@ import {
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { BlogSwimLane } from './BlogSwimLane'
-import {
-  BlogToolbar,
-  type BlogLayout,
-  type BlogView,
-} from './BlogToolbar'
+import { BlogToolbar, type BlogLayout, type BlogView } from './BlogToolbar'
 
 type Props = {
   posts: BlogPostSummary[]
@@ -85,7 +81,8 @@ export function BlogExplorer({
   )
 
   const lanes = useMemo(
-    () => (view === 'date' ? buildDateLanes(filtered) : buildLabelLanes(filtered)),
+    () =>
+      view === 'date' ? buildDateLanes(filtered) : buildLabelLanes(filtered),
     [filtered, view],
   )
 
@@ -111,7 +108,11 @@ export function BlogExplorer({
       />
 
       {!initialTag && tags.length > 0 && (
-        <div className="flex flex-wrap gap-2" role="list" aria-label="Filter by tag">
+        <div
+          className="flex flex-wrap gap-2"
+          role="list"
+          aria-label="Filter by tag"
+        >
           {visibleTags.map(({ tag, slug, count }) => {
             const isActive = activeTag === slug || activeTag === tag
             return (
@@ -125,7 +126,10 @@ export function BlogExplorer({
                   )
                 }
                 className={cn(
-                  buttonVariants({ variant: isActive ? 'default' : 'outline', size: 'sm' }),
+                  buttonVariants({
+                    variant: isActive ? 'default' : 'outline',
+                    size: 'sm',
+                  }),
                   'h-8 rounded-md text-xs',
                 )}
               >
@@ -180,8 +184,8 @@ export function BlogExplorer({
             href={`/blog/tags/${slugifyTag(activeTag)}/`}
             className="text-primary hover:underline"
           >
-            {tags.find((t) => t.slug === activeTag || t.tag === activeTag)?.tag ??
-              activeTag}
+            {tags.find((t) => t.slug === activeTag || t.tag === activeTag)
+              ?.tag ?? activeTag}
           </a>
           .{' '}
           <button

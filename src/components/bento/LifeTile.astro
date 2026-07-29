@@ -23,7 +23,9 @@ import { LIFE } from '../../lib/portfolio'
             >
               {interest.label}
               {interest.external && (
-                <span class="ml-1 font-mono text-xs text-muted-foreground">↗</span>
+                <span class="text-muted-foreground ml-1 font-mono text-xs">
+                  ↗
+                </span>
               )}
             </a>
           </li>
@@ -33,7 +35,7 @@ import { LIFE } from '../../lib/portfolio'
   </div>
 
   <div
-    class="pointer-events-none absolute -right-6 -bottom-10 h-40 w-40 rounded-full bg-primary/10 blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-60"
+    class="bg-primary/10 pointer-events-none absolute -right-6 -bottom-10 h-40 w-40 rounded-full opacity-60 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
     aria-hidden="true"
   >
   </div>

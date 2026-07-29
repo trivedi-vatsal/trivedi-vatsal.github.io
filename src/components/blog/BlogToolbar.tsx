@@ -43,7 +43,7 @@ function ToggleGroup({
             buttonVariants({ variant: 'ghost', size: 'sm' }),
             'h-8 gap-1.5 px-3',
             value === option.value &&
-              'bg-background text-foreground shadow-sm hover:bg-background',
+              'bg-background text-foreground hover:bg-background shadow-sm',
           )}
         >
           {option.icon}
