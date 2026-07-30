@@ -68,39 +68,39 @@ Updated  September 22, 2025 </span>  </div> <div class="mt-3 flex flex-wrap gap-
 <p>Let’s be blunt: using <code>any</code> is like telling the TypeScript compiler to just look the other way. When you type a variable as <code>any</code>, you’re effectively saying, “Disable all type-checking for this. I know what I’m doing.”</p>
 <p>This means you can do literally anything with that variable, and TypeScript won’t stop you until it explodes at runtime.</p>
 <p><strong>Here’s a classic example:</strong></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> myData</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> any</span><span style="color:#E1E4E8">;</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> myData</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> any</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#E1E4E8">myData </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;This is a string&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">myData </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &#39;This is a string&#39;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#6A737D">// TypeScript has no problem with this line...</span></span>
 <span class="line"><span style="color:#6A737D">// but it will crash your app!</span></span>
-<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toFixed</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toFixed</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">))</span></span>
 <span class="line"><span style="color:#6A737D">// Uncaught TypeError: myData.toFixed is not a function</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#6A737D">// The compiler is also perfectly happy with these obvious errors:</span></span>
-<span class="line"><span style="color:#E1E4E8">myData.</span><span style="color:#B392F0">someMethodThatDoesNotExist</span><span style="color:#E1E4E8">();</span></span>
-<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> result</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> myData </span><span style="color:#F97583">*</span><span style="color:#79B8FF"> 10</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<span class="line"><span style="color:#E1E4E8">myData.</span><span style="color:#B392F0">someMethodThatDoesNotExist</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> result</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> myData </span><span style="color:#F97583">*</span><span style="color:#79B8FF"> 10</span></span></code></pre>
 <p>Every <code>any</code> you use punches a hole in the type safety we rely on TypeScript for. It turns potential compile-time catches into frustrating runtime bugs and makes refactoring a dangerous guessing game.</p>
 <h2 id="the-savior-unknown-to-the-rescue">The Savior: <code>unknown</code> to the Rescue</h2>
 <p>This is where <code>unknown</code> comes in and saves the day. Just like <code>any</code>, you can assign any value—a string, a number, an object—to a variable typed as <code>unknown</code>.</p>
 <p>So what’s the big deal? The crucial difference is that <code>unknown</code> won’t let you <em>do anything</em> with the value until you first prove what it is. You are forced to handle the uncertainty before you can use it.</p>
 <p>Think of an <code>unknown</code> variable like a locked box. You know something’s inside, but you have to check what it is before you can safely use it.</p>
 <p><strong>Let’s fix the previous example with <code>unknown</code>:</strong></p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> myData</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> unknown</span><span style="color:#E1E4E8">;</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> myData</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> unknown</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#E1E4E8">myData </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;This is a string&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">myData </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &#39;This is a string&#39;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#6A737D">// The compiler immediately stops you. This is a good thing!</span></span>
 <span class="line"><span style="color:#6A737D">// Error: Object is of type &#39;unknown&#39;.</span></span>
-<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toFixed</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toFixed</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">))</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#6A737D">// Here&#39;s how you work with it safely:</span></span>
 <span class="line"><span style="color:#F97583">if</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> myData </span><span style="color:#F97583">===</span><span style="color:#9ECBFF"> &#39;number&#39;</span><span style="color:#E1E4E8">) {</span></span>
 <span class="line"><span style="color:#6A737D">  // OK, inside this block, TypeScript now knows myData is a number.</span></span>
-<span class="line"><span style="color:#E1E4E8">  console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toFixed</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">  console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toFixed</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">))</span></span>
 <span class="line"><span style="color:#E1E4E8">} </span><span style="color:#F97583">else</span><span style="color:#F97583"> if</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> myData </span><span style="color:#F97583">===</span><span style="color:#9ECBFF"> &#39;string&#39;</span><span style="color:#E1E4E8">) {</span></span>
 <span class="line"><span style="color:#6A737D">  // And in here, it knows it&#39;s a string.</span></span>
-<span class="line"><span style="color:#E1E4E8">  console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toUpperCase</span><span style="color:#E1E4E8">());</span></span>
+<span class="line"><span style="color:#E1E4E8">  console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(myData.</span><span style="color:#B392F0">toUpperCase</span><span style="color:#E1E4E8">())</span></span>
 <span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
 <p>By switching to <code>unknown</code>, you’re prompted to write more defensive, robust code. It makes you handle different cases explicitly with type guards like <code>typeof</code> or <code>instanceof</code>, leading to a much more stable application.</p>
 <h2 id="the-code-reviewers-playbook">The Code Reviewer’s Playbook</h2>
