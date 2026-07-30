@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 export type FluidGradientTextProps = {
   /** Text content rendered inside the SVG. */
@@ -26,13 +26,13 @@ export function FluidGradientText({
     {
       stiffness: 150,
       damping: 25,
-    }
+    },
   )
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const containerRect = event.currentTarget.getBoundingClientRect()
     gradientX1Raw.set(
-      (event.clientX - containerRect.left) / containerRect.width
+      (event.clientX - containerRect.left) / containerRect.width,
     )
   }
 
@@ -62,9 +62,9 @@ export function FluidGradientText({
           strokeWidth="2"
           fill="url(#fluid_gradient_text_linear)"
           style={{
-            fontFamily: "Helvetica",
+            fontFamily: 'Helvetica',
             fontSize: svgViewBoxHeight,
-            fontWeight: "bold",
+            fontWeight: 'bold',
           }}
         >
           {text}

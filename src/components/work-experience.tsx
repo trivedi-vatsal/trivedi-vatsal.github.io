@@ -1,19 +1,19 @@
-"use client"
+'use client'
 
-import { useCallback, useRef, type ComponentProps } from "react"
-import { differenceInMonths, parse } from "date-fns"
-import ReactMarkdown from "react-markdown"
+import { useCallback, useRef, type ComponentProps } from 'react'
+import { differenceInMonths, parse } from 'date-fns'
+import ReactMarkdown from 'react-markdown'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { Separator } from "@/components/ui/separator"
-import type { ChevronsUpDownIconHandle } from "@/components/chevrons-up-down-icon"
-import { ChevronsUpDownIcon } from "@/components/chevrons-up-down-icon"
-import { BriefcaseBusinessIcon, InfinityIcon } from "lucide-react"
+} from '@/components/ui/collapsible'
+import { Separator } from '@/components/ui/separator'
+import type { ChevronsUpDownIconHandle } from '@/components/chevrons-up-down-icon'
+import { ChevronsUpDownIcon } from '@/components/chevrons-up-down-icon'
+import { BriefcaseBusinessIcon, InfinityIcon } from 'lucide-react'
 
 export type ExperiencePositionItemType = {
   /** Unique identifier for the position */
@@ -71,7 +71,7 @@ export function WorkExperience({
   experiences,
 }: WorkExperienceProps) {
   return (
-    <div className={cn("bg-background px-4 text-foreground", className)}>
+    <div className={cn('bg-background text-foreground px-4', className)}>
       {experiences.map((experience) => (
         <ExperienceItem key={experience.id} experience={experience} />
       ))}
@@ -126,7 +126,7 @@ export function ExperienceItem({ experience }: ExperienceItemProps) {
         )}
       </div>
 
-      <div className="relative space-y-4 before:absolute before:left-3 before:h-full before:w-px before:bg-border">
+      <div className="before:bg-border relative space-y-4 before:absolute before:left-3 before:h-full before:w-px">
         {experience.positions.map((position) => (
           <ExperiencePositionItem key={position.id} position={position} />
         ))}
@@ -166,39 +166,36 @@ export function ExperiencePositionItem({
       disabled={!position.description}
       asChild
     >
-      <div className="relative last:before:absolute last:before:h-full last:before:w-4 last:before:bg-background">
+      <div className="last:before:bg-background relative last:before:absolute last:before:h-full last:before:w-4">
         <CollapsibleTrigger
           className={cn(
-            "group/experience-position not-prose block w-full text-left select-none",
-            "relative before:absolute before:-top-1 before:-right-1 before:-bottom-1.5 before:left-7 before:rounded-lg hover:before:bg-muted/30",
-            "data-disabled:before:content-none"
+            'group/experience-position not-prose block w-full text-left select-none',
+            'hover:before:bg-muted/30 relative before:absolute before:-top-1 before:-right-1 before:-bottom-1.5 before:left-7 before:rounded-lg',
+            'data-disabled:before:content-none',
           )}
         >
           <div className="relative z-1 mb-1 flex items-start gap-3 text-base">
             <div
               className={cn(
-                "flex size-6 shrink-0 items-center justify-center rounded-lg",
-                "bg-muted text-muted-foreground",
-                "border border-muted-foreground/15 ring-1 ring-line ring-offset-1 ring-offset-background",
-                "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                'flex size-6 shrink-0 items-center justify-center rounded-lg',
+                'bg-muted text-muted-foreground',
+                'border-muted-foreground/15 ring-line ring-offset-background border ring-1 ring-offset-1',
+                "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
               )}
             >
-              {position.icon ?? (
-                <BriefcaseBusinessIcon
-                />
-              )}
+              {position.icon ?? <BriefcaseBusinessIcon />}
             </div>
 
-            <h4 className="flex-1 font-medium text-balance text-foreground">
+            <h4 className="text-foreground flex-1 font-medium text-balance">
               {position.title}
             </h4>
 
-            <div className="shrink-0 text-muted-foreground group-disabled/experience-position:hidden [&_svg]:h-lh [&_svg]:w-4">
+            <div className="text-muted-foreground shrink-0 group-disabled/experience-position:hidden [&_svg]:h-lh [&_svg]:w-4">
               <ChevronsUpDownIcon ref={chevronsUpDownIconRef} duration={0.15} />
             </div>
           </div>
 
-          <dl className="relative z-1 flex items-center gap-2 pl-9 text-sm text-muted-foreground">
+          <dl className="text-muted-foreground relative z-1 flex items-center gap-2 pl-9 text-sm">
             {position.employmentType && (
               <>
                 <div>
@@ -219,7 +216,10 @@ export function ExperiencePositionItem({
                 <span>{start}</span>
                 <span className="font-mono">—</span>
                 {isOngoing ? (
-                  <InfinityIcon className="size-4.5 translate-y-[0.5px]" aria-label="Present" />
+                  <InfinityIcon
+                    className="size-4.5 translate-y-[0.5px]"
+                    aria-label="Present"
+                  />
                 ) : (
                   <span>{end}</span>
                 )}
@@ -263,24 +263,24 @@ export function ExperiencePositionItem({
   )
 }
 
-function Prose({ className, ...props }: ComponentProps<"div">) {
+function Prose({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn(
-        "prose max-w-none prose-ncdai prose-zinc dark:prose-invert",
-        className
+        'prose prose-ncdai prose-zinc dark:prose-invert max-w-none',
+        className,
       )}
       {...props}
     />
   )
 }
 
-function Skill({ className, ...props }: ComponentProps<"span">) {
+function Skill({ className, ...props }: ComponentProps<'span'>) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-md border bg-muted/50 px-1.5 py-0.5 font-mono text-xs text-muted-foreground",
-        className
+        'bg-muted/50 text-muted-foreground inline-flex items-center rounded-md border px-1.5 py-0.5 font-mono text-xs',
+        className,
       )}
       {...props}
     />
@@ -288,25 +288,25 @@ function Skill({ className, ...props }: ComponentProps<"span">) {
 }
 
 function formatDuration(start: string, end?: string): string {
-  const startHasMonth = start.includes(".")
-  const endHasMonth = end ? end.includes(".") : true
+  const startHasMonth = start.includes('.')
+  const endHasMonth = end ? end.includes('.') : true
 
   // Both year-only: granularity is years, no month arithmetic needed.
   if (!startHasMonth && end && !endHasMonth) {
     const years = parseInt(end, 10) - parseInt(start, 10)
     if (years <= 0) {
-      return ""
+      return ''
     }
     return `${years}y`
   }
 
-  const startDate = parsePeriodDate(start, "first")
-  const endDate = end ? parsePeriodDate(end, "last") : new Date()
+  const startDate = parsePeriodDate(start, 'first')
+  const endDate = end ? parsePeriodDate(end, 'last') : new Date()
 
   // +1 to count both the start and end months inclusively.
   const totalMonths = differenceInMonths(endDate, startDate) + 1
   if (totalMonths <= 0) {
-    return ""
+    return ''
   }
 
   if (totalMonths < 12) {
@@ -321,13 +321,13 @@ function formatDuration(start: string, end?: string): string {
   return `${years}y ${months}m`
 }
 
-function parsePeriodDate(str: string, fallbackMonth: "first" | "last"): Date {
-  if (str.includes(".")) {
-    return parse(str, "MM.yyyy", new Date())
+function parsePeriodDate(str: string, fallbackMonth: 'first' | 'last'): Date {
+  if (str.includes('.')) {
+    return parse(str, 'MM.yyyy', new Date())
   }
   return parse(
-    `${fallbackMonth === "last" ? "12" : "01"}.${str}`,
-    "MM.yyyy",
-    new Date()
+    `${fallbackMonth === 'last' ? '12' : '01'}.${str}`,
+    'MM.yyyy',
+    new Date(),
   )
 }

@@ -1,10 +1,13 @@
 import { EXPERIENCE, LINKS } from './constants'
+import { STACK as RESUME_STACK } from './resume'
+
+export { RESUME_STACK as STACK }
 
 export const IDENTITY = {
   name: 'Vatsal Trivedi',
-  roleLine: 'AI × ENGINEERING × DESIGN',
+  roleLine: 'AI PLATFORMS × ENTERPRISE INTEGRATIONS',
   statement:
-    'I build intelligent products, developer tools, and digital experiences.',
+    'I embed with the problem, ship into production, and own the integrations that make AI useful in real enterprises.',
   meta: [
     { label: '8+ YEARS', value: 'Experience' },
     { label: 'AI / FULL STACK', value: 'Focus' },
@@ -14,9 +17,9 @@ export const IDENTITY = {
 
 export const NOW = {
   building:
-    'An AI-powered platform for pharmaceutical content creation and workflow automation.',
-  exploring: ['Agentic AI', 'LLM orchestration', 'Enterprise AI systems'],
-  role: 'Principal Engineer · AI Platform for Pharma',
+    'Ariya at Phamax: an AI platform for pharmaceutical content, research, analytics, and engagement.',
+  exploring: ['Agentic AI', 'LLM orchestration', 'Enterprise integrations'],
+  role: 'Principal Engineer · Phamax (Ariya)',
   updatedLabel: 'July 2026',
 }
 
@@ -25,9 +28,9 @@ export const FEATURED = {
   name: EXPERIENCE[0].company,
   position: EXPERIENCE[0].position,
   description: EXPERIENCE[0].tasks[0],
-  tags: ['AI', 'Content Systems', 'Enterprise', 'Veeva'],
+  tags: ['AI', 'Pharma', 'LLM', 'Veeva', 'SFMC'],
   href: '/work/',
-  period: `${EXPERIENCE[0].start} — ${EXPERIENCE[0].end}`,
+  period: `${EXPERIENCE[0].start} to ${EXPERIENCE[0].end}`,
 }
 
 export const SELECTED_WORK = {
@@ -36,12 +39,12 @@ export const SELECTED_WORK = {
 }
 
 export const CURRENTLY_BUILDING = {
-  title: 'AI Content Wizard',
+  title: 'AI tooling experiments',
   summary:
-    'End-to-end pharmaceutical workflow automation with brand-compliant content generation.',
-  tags: ['AI', 'Agents', 'Enterprise'],
-  status: 'In progress',
-  href: '/work/',
+    'Agent skills, inbox automation, and small developer tools that make LLM assistants useful in day-to-day workflows.',
+  tags: ['Agent Skills', 'MCP', 'Tooling', 'LLMs'],
+  status: 'Exploring',
+  href: '/experiments/',
 }
 
 /**
@@ -50,9 +53,31 @@ export const CURRENTLY_BUILDING = {
  */
 export const EXPERIMENTS = [
   {
-    title: 'Open Source',
-    blurb: 'Code, tools, and contributions on GitHub.',
-    href: LINKS.github,
+    title: 'InboxCraft',
+    blurb:
+      'Client-side PowerShell generation for Microsoft 365 Outlook inbox rules. Also shipped as an Agent Skills pack.',
+    href: 'https://github.com/trivedi-vatsal/inboxcraft',
+    external: true,
+  },
+  {
+    title: 'StaleGuard',
+    blurb:
+      'Silent SPA stale-deploy detector using ETag and Last-Modified on tab focus. No polling, no banners.',
+    href: 'https://github.com/trivedi-vatsal/StaleGuard',
+    external: true,
+  },
+  {
+    title: 'PySecRecipes',
+    blurb:
+      'GitHub Actions recipes for Python dependency security audits with automated issue lifecycle.',
+    href: 'https://github.com/trivedi-vatsal/pysec-recipes',
+    external: true,
+  },
+  {
+    title: 'PyImportSync',
+    blurb:
+      'AST-based check that every Python import is declared in requirements.txt. Action and pre-commit hook.',
+    href: 'https://github.com/trivedi-vatsal/PyImportSync',
     external: true,
   },
   {
@@ -105,9 +130,9 @@ export const LIFE = {
 export const ABOUT_INTRO = {
   greeting: "Hey, I'm Vatsal!",
   paragraphs: [
-    "I'm an AI engineer and full-stack builder with 8+ years of experience, focused on intelligent products and enterprise systems. What I enjoy most is owning a product problem end to end: finding the gap worth solving, shaping the architecture, shipping the craft, and watching whether it actually worked. I do my best work close to product, design, and business — with enough trust and context to help define the problem.",
-    "Lately I've been building an AI platform for pharmaceutical content — taking brand-compliant generation from early sketches to production workflows under real regulatory constraints.",
-    "Outside of work, I'm usually somewhere with a camera — travel, frames, and visual craft — or tinkering in open source and interface experiments.",
+    "I'm a Full Spectrum Engineer with 8+ years of experience building AI platforms, multi-tenant SaaS, and enterprise integrations. What I enjoy most is owning a product problem end to end: finding the gap worth solving, shaping the architecture, shipping the craft, and watching whether it actually worked. I do my best work close to product, design, and business, with enough trust and context to help define the problem.",
+    'At Phamax I lead engineering for Ariya, an AI platform for pharmaceutical content. Brand-compliant generation from early sketches to production workflows under real regulatory constraints, wired into systems like Veeva CRM and Salesforce Marketing Cloud.',
+    "Outside of work, I'm usually somewhere with a camera (travel, frames, visual craft) or tinkering in open source and interface experiments.",
   ],
 }
 
@@ -135,6 +160,10 @@ export const ABOUT_STACK_FOLDERS = [
   },
 ]
 
+function staticMapUrl(lat: number, lon: number, zoom = 12): string {
+  return `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lon}&zoom=${zoom}&size=1200x600&maptype=transport&markers=${lat},${lon},lightblue1`
+}
+
 export const ABOUT_LOCATION = {
   places: [
     {
@@ -145,8 +174,7 @@ export const ABOUT_LOCATION = {
       region: 'India',
       note: 'Now enjoying Bengaluru, India.',
       coords: '12.9716° N, 77.5946° E',
-      embed:
-        'https://www.openstreetmap.org/export/embed.html?bbox=77.5346%2C12.9416%2C77.6546%2C13.0016&layer=mapnik&marker=12.9716%2C77.5946',
+      image: staticMapUrl(12.9716, 77.5946, 12),
       link: 'https://www.openstreetmap.org/?mlat=12.9716&mlon=77.5946#map=13/12.9716/77.5946',
     },
     {
@@ -157,8 +185,7 @@ export const ABOUT_LOCATION = {
       region: 'Gujarat, India',
       note: 'Studied in Vallabh Vidyanagar, Gujarat.',
       coords: '22.5485° N, 72.9250° E',
-      embed:
-        'https://www.openstreetmap.org/export/embed.html?bbox=72.8850%2C22.5185%2C72.9650%2C22.5785&layer=mapnik&marker=22.5485%2C72.9250',
+      image: staticMapUrl(22.5485, 72.9250, 13),
       link: 'https://www.openstreetmap.org/?mlat=22.5485&mlon=72.9250#map=14/22.5485/72.9250',
     },
   ],
@@ -229,45 +256,6 @@ export const ABOUT_PHOTO_CATEGORIES = [
   { label: 'Travel', href: LINKS.instagram },
   { label: 'Design', href: LINKS.behance },
 ] as const
-
-/**
- * Technologies mentioned across real experience + site copy,
- * mapped only to companies/roles that exist in EXPERIENCE.
- */
-export const STACK = [
-  {
-    name: 'TypeScript',
-    projects: ['Comviva', 'AI Platform for Pharma'],
-  },
-  {
-    name: 'React',
-    projects: ['AI Platform for Pharma', 'Comviva', 'TCS'],
-  },
-  {
-    name: 'Node',
-    projects: ['Comviva', 'TCS'],
-  },
-  {
-    name: 'Postgres',
-    projects: ['Comviva'],
-  },
-  {
-    name: 'Astro',
-    projects: ['vatsal.xyz'],
-  },
-  {
-    name: 'AI / LLMs',
-    projects: ['AI Platform for Pharma', 'Comviva'],
-  },
-  {
-    name: 'Cloud / SaaS',
-    projects: ['Comviva'],
-  },
-  {
-    name: 'Integrations',
-    projects: ['Comviva'],
-  },
-]
 
 /**
  * Build log from dated, verifiable activity only

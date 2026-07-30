@@ -28,7 +28,7 @@ export function TOCInline({
       )}
       {...props}
     >
-      <CollapsibleTrigger className="hover:bg-muted/50 inline-flex w-full items-center gap-2 rounded-xl py-2.5 pr-2 pl-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring/50 group-data-[state=open]/inline-toc:rounded-b-none [&_svg]:size-4">
+      <CollapsibleTrigger className="hover:bg-muted/50 focus-visible:ring-ring/50 inline-flex w-full items-center gap-2 rounded-xl py-2.5 pr-2 pl-4 text-sm font-medium transition-colors outline-none group-data-[state=open]/inline-toc:rounded-b-none focus-visible:ring-2 [&_svg]:size-4">
         <TextIcon className="-translate-x-0.5" />
         {children ?? 'On this page'}
         <div className="text-muted-foreground ml-auto shrink-0">

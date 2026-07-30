@@ -6,7 +6,7 @@ import { SELECTED_WORK } from '../../lib/portfolio'
 <BentoTile
   href={SELECTED_WORK.href}
   class="order-9 col-span-1 flex min-h-[200px] flex-col justify-between p-5 sm:p-6 lg:order-3 lg:col-span-3"
-  radius="default"
+  radius="soft"
   delay={100}
   ariaLabel="Selected work"
 >
@@ -24,7 +24,9 @@ import { SELECTED_WORK } from '../../lib/portfolio'
       <ul class="anim-marquee-y space-y-2">
         {
           [...SELECTED_WORK.themes, ...SELECTED_WORK.themes].map((theme) => (
-            <li class="text-lg font-medium tracking-tight sm:text-xl">{theme}</li>
+            <li class="text-lg font-medium tracking-tight sm:text-xl">
+              {theme}
+            </li>
           ))
         }
       </ul>

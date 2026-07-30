@@ -56,7 +56,7 @@ export function BlogPostCard({ post, layout, className }: Props) {
     return (
       <article
         className={cn(
-          'border-border/60 group border-b py-5 transition-colors last:border-b-0 hover:border-foreground/18',
+          'border-border/60 group hover:border-foreground/18 border-b py-5 transition-colors last:border-b-0',
           className,
         )}
       >
@@ -96,10 +96,7 @@ export function BlogPostCard({ post, layout, className }: Props) {
 
   return (
     <article
-      className={cn(
-        'bento-tile group flex h-full flex-col p-4',
-        className,
-      )}
+      className={cn('bento-tile group flex h-full flex-col p-4', className)}
     >
       <CoverMedia post={post} className="mb-3" />
       <h3 className="text-base font-semibold tracking-tight">

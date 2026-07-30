@@ -11,9 +11,7 @@ const { size } = Astro.props
 <div
   class={cn(
     'mx-auto h-full w-full',
-    size === 'site'
-      ? 'max-w-6xl px-3 sm:px-4 md:px-6'
-      : 'px-5',
+    size === 'site' ? 'max-w-6xl px-3 sm:px-4 md:px-6' : 'px-5',
     size === 'sm' && 'max-w-screen-sm',
     size === 'md' && 'max-w-screen-md',
     size === 'lg' && 'max-w-screen-lg',

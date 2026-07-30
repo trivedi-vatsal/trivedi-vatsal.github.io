@@ -22,7 +22,9 @@ export function StackFolders({ folders, className }: Props) {
           Stack / {String(folders.length).padStart(2, '0')} folders
         </p>
         <p className="text-muted-foreground font-mono text-[0.65rem] tracking-[0.14em] uppercase">
-          <span className="hidden sm:inline">Hover a folder to peek inside</span>
+          <span className="hidden sm:inline">
+            Hover a folder to peek inside
+          </span>
           <span className="sm:hidden">Tap a folder to peek inside</span>
         </p>
       </div>

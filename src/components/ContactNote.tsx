@@ -8,11 +8,7 @@ type Props = {
   label?: string
 }
 
-export function ContactNote({
-  email,
-  className,
-  label = 'Contact',
-}: Props) {
+export function ContactNote({ email, className, label = 'Contact' }: Props) {
   const [open, setOpen] = useState(false)
   const titleId = useId()
   const mail = email.replace(/^mailto:/, '')
@@ -58,7 +54,7 @@ export function ContactNote({
         <>
           <button
             type="button"
-            className="fixed inset-0 z-40 bg-background/50 backdrop-blur-[2px]"
+            className="bg-background/50 fixed inset-0 z-40 backdrop-blur-[2px]"
             aria-label="Close contact"
             onClick={() => setOpen(false)}
           />
@@ -69,7 +65,10 @@ export function ContactNote({
             className="border-border bg-background fixed top-0 right-0 z-50 flex h-full w-full max-w-md flex-col border-l p-6 sm:p-8"
           >
             <div className="flex items-start justify-between gap-3">
-              <h2 id={titleId} className="text-2xl font-semibold tracking-tight">
+              <h2
+                id={titleId}
+                className="text-2xl font-semibold tracking-tight"
+              >
                 Send a note
               </h2>
               <button
@@ -82,7 +81,10 @@ export function ContactNote({
               </button>
             </div>
 
-            <form className="mt-10 flex flex-1 flex-col gap-5" onSubmit={onSubmit}>
+            <form
+              className="mt-10 flex flex-1 flex-col gap-5"
+              onSubmit={onSubmit}
+            >
               <label className="block space-y-2">
                 <span className="text-muted-foreground font-mono text-[0.65rem] tracking-wide uppercase">
                   Name
@@ -130,7 +132,7 @@ export function ContactNote({
               Rather write directly?{' '}
               <a
                 href={`mailto:${mail}`}
-                className="text-foreground underline decoration-foreground/25 underline-offset-4 hover:decoration-foreground"
+                className="text-foreground decoration-foreground/25 hover:decoration-foreground underline underline-offset-4"
               >
                 {mail}
               </a>

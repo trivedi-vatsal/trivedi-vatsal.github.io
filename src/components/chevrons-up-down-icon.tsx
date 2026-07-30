@@ -1,12 +1,12 @@
-import { useImperativeHandle } from "react"
-import { motion, useAnimation } from "framer-motion"
+import { useImperativeHandle } from 'react'
+import { motion, useAnimation } from 'framer-motion'
 
 export type ChevronsUpDownIconHandle = {
   startAnimation: () => void
   stopAnimation: () => void
 }
 
-export type ChevronsUpDownIconProps = React.ComponentPropsWithoutRef<"svg"> & {
+export type ChevronsUpDownIconProps = React.ComponentPropsWithoutRef<'svg'> & {
   ref?: React.Ref<ChevronsUpDownIconHandle>
   duration?: number
 }
@@ -20,8 +20,8 @@ export function ChevronsUpDownIcon({
 
   useImperativeHandle(ref, () => {
     return {
-      startAnimation: () => controls.start("animate"),
-      stopAnimation: () => controls.start("normal"),
+      startAnimation: () => controls.start('animate'),
+      stopAnimation: () => controls.start('normal'),
     }
   })
 
@@ -43,10 +43,10 @@ export function ChevronsUpDownIcon({
         d="M7 15L12 20L17 15"
         variants={{
           normal: {
-            d: "M7 15L12 20L17 15",
+            d: 'M7 15L12 20L17 15',
           },
           animate: {
-            d: "M7 20L12 15L17 20",
+            d: 'M7 20L12 15L17 20',
           },
         }}
         initial="normal"
@@ -59,10 +59,10 @@ export function ChevronsUpDownIcon({
         d="M7 9L12 4L17 9"
         variants={{
           normal: {
-            d: "M7 9L12 4L17 9",
+            d: 'M7 9L12 4L17 9',
           },
           animate: {
-            d: "M7 4L12 9L17 4",
+            d: 'M7 4L12 9L17 4',
           },
         }}
         initial="normal"

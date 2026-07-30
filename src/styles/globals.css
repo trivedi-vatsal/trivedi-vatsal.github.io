@@ -346,16 +346,10 @@
     transform: translateY(-2px);
   }
 
-  .bento-tile--flat {
-    border-radius: 0.25rem;
-  }
-
-  .bento-tile--soft {
-    border-radius: 1rem;
-  }
-
+  .bento-tile--flat,
+  .bento-tile--soft,
   .bento-tile--sharp {
-    border-radius: 0;
+    border-radius: 1rem;
   }
 
   .bento-label {
@@ -451,7 +445,8 @@
   }
 
   .dark .portrait-ink {
-    filter: brightness(0) invert(0.82) sepia(0.4) saturate(0.55) hue-rotate(8deg);
+    filter: brightness(0) invert(0.82) sepia(0.4) saturate(0.55)
+      hue-rotate(8deg);
     opacity: 0.92;
   }
 
@@ -463,11 +458,7 @@
   }
 
   .dark .portrait-frame {
-    background: linear-gradient(
-      165deg,
-      hsl(24 8% 11%) 0%,
-      hsl(24 10% 7%) 100%
-    );
+    background: linear-gradient(165deg, hsl(24 8% 11%) 0%, hsl(24 10% 7%) 100%);
     box-shadow:
       inset 0 0 0 1px hsl(36 15% 94% / 0.08),
       0 24px 48px -32px hsl(0 0% 0% / 0.65);
@@ -641,25 +632,23 @@
 }
 
 @custom-variant retina {
-
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2x) {
-
-@slot ;
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2x) {
+    @slot;
   }
 }
 
 @utility link {
-    @apply decoration-1 underline-offset-3 hover:underline;
+  @apply decoration-1 underline-offset-3 hover:underline;
 }
 
 @utility link-underline {
-    @apply underline decoration-current/30 decoration-1 underline-offset-3 transition-colors hover:decoration-current;
+  @apply underline decoration-current/30 decoration-1 underline-offset-3 transition-colors hover:decoration-current;
 }
 
 @utility prose-ncdai {
-    @apply prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-pretty md:prose-headings:text-balance;
-    @apply prose-a:font-normal prose-a:wrap-break-word prose-a:text-foreground prose-a:link-underline;
-    @apply prose-code:rounded-md prose-code:border prose-code:bg-muted/50 prose-code:px-1 prose-code:py-px prose-code:text-sm prose-code:font-normal prose-code:before:content-none prose-code:after:content-none retina:prose-code:border-[0.5px];
-    @apply prose-strong:font-medium;
-    @apply prose-blockquote:border-l prose-blockquote:font-normal prose-blockquote:text-muted-foreground prose-blockquote:not-italic prose-blockquote:[&_p:first-of-type]:before:content-none prose-blockquote:[&_p:last-of-type]:after:content-none;
+  @apply prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-pretty md:prose-headings:text-balance;
+  @apply prose-a:font-normal prose-a:wrap-break-word prose-a:text-foreground prose-a:link-underline;
+  @apply prose-code:rounded-md prose-code:border prose-code:bg-muted/50 prose-code:px-1 prose-code:py-px prose-code:text-sm prose-code:font-normal prose-code:before:content-none prose-code:after:content-none retina:prose-code:border-[0.5px];
+  @apply prose-strong:font-medium;
+  @apply prose-blockquote:border-l prose-blockquote:font-normal prose-blockquote:text-muted-foreground prose-blockquote:not-italic prose-blockquote:[&_p:first-of-type]:before:content-none prose-blockquote:[&_p:last-of-type]:after:content-none;
 }

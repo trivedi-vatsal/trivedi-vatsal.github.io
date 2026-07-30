@@ -71,7 +71,9 @@ export function AboutShelf({ items, className }: Props) {
   const [filter, setFilter] = useState<Filter>('all')
   const visible = useMemo(
     () =>
-      filter === 'all' ? items : items.filter((item) => item.category === filter),
+      filter === 'all'
+        ? items
+        : items.filter((item) => item.category === filter),
     [filter, items],
   )
 
@@ -82,7 +84,10 @@ export function AboutShelf({ items, className }: Props) {
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             Shelf
           </h2>
-          <span className="text-muted-foreground font-mono text-xs" aria-hidden="true">
+          <span
+            className="text-muted-foreground font-mono text-xs"
+            aria-hidden="true"
+          >
             →
           </span>
         </div>
@@ -141,14 +146,17 @@ export function AboutShelf({ items, className }: Props) {
                     )}
                   >
                     <span
-                      className={cn('absolute inset-x-0 top-0 h-1', cover.stripe)}
+                      className={cn(
+                        'absolute inset-x-0 top-0 h-1',
+                        cover.stripe,
+                      )}
                       aria-hidden="true"
                     />
                     <span className="font-mono text-[0.55rem] tracking-[0.14em] uppercase opacity-60">
                       {item.category}
                     </span>
                     <span className="mt-auto min-w-0 space-y-1 overflow-hidden">
-                      <span className="line-clamp-4 block break-words text-[0.72rem] leading-[1.15] font-semibold tracking-tight hyphens-auto sm:text-[0.8rem]">
+                      <span className="line-clamp-4 block text-[0.72rem] leading-[1.15] font-semibold tracking-tight break-words hyphens-auto sm:text-[0.8rem]">
                         {item.title}
                       </span>
                       <span className="line-clamp-1 block truncate text-[0.6rem] leading-snug opacity-70">

@@ -12,15 +12,6 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 
 <BlogPageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
   <Fragment slot="header">
-    <nav aria-label="Breadcrumb" class="text-muted-foreground mb-4 text-sm">
-      <ol class="flex flex-wrap items-center gap-2">
-        <li>
-          <a href="/" class="hover:text-primary transition-colors">Home</a>
-        </li>
-        <li aria-hidden="true">›</li>
-        <li class="text-foreground" aria-current="page">Journal</li>
-      </ol>
-    </nav>
     <h1
       class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
     >

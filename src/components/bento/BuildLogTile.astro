@@ -11,7 +11,7 @@ const { entries } = Astro.props
 
 <BentoTile
   class="order-10 col-span-1 flex min-h-[220px] flex-col p-5 sm:p-6 lg:order-10 lg:col-span-3"
-  radius="sharp"
+  radius="soft"
   delay={240}
   ariaLabel="Build log"
 >
@@ -21,7 +21,7 @@ const { entries } = Astro.props
       <p class="text-muted-foreground mt-4 text-sm">No dated entries yet.</p>
     ) : (
       <ol class="mt-4 space-y-3">
-          {entries.map((entry, i) => (
+        {entries.map((entry, i) => (
           <li
             class="anim-timeline-dot border-border flex flex-col gap-0.5 border-l-2 pl-3"
             style={`--pulse-delay: ${i * 0.5}s`}
