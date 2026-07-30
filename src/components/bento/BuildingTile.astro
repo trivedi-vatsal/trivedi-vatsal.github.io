@@ -14,7 +14,7 @@ import { CURRENTLY_BUILDING } from '../../lib/portfolio'
     <div class="flex items-center justify-between gap-2">
       <p class="bento-label">Currently building</p>
       <span
-        class="font-mono text-[0.6rem] tracking-[0.12em] text-emerald-600 uppercase dark:text-emerald-400"
+        class="status-dot--label font-mono text-[0.6rem] tracking-[0.12em] text-emerald-600 uppercase dark:text-emerald-400"
       >
         {CURRENTLY_BUILDING.status}
       </span>
@@ -48,7 +48,7 @@ import { CURRENTLY_BUILDING } from '../../lib/portfolio'
         width="70"
         height="44"
         rx="4"
-        class="stroke-foreground/20"
+        class="anim-node stroke-foreground/20"
         stroke-width="1"></rect>
       <rect
         x="120"
@@ -56,7 +56,7 @@ import { CURRENTLY_BUILDING } from '../../lib/portfolio'
         width="90"
         height="60"
         rx="4"
-        class="stroke-primary/50"
+        class="anim-node anim-node-delay-1 stroke-primary/50"
         stroke-width="1.5"></rect>
       <rect
         x="240"
@@ -64,7 +64,7 @@ import { CURRENTLY_BUILDING } from '../../lib/portfolio'
         width="70"
         height="48"
         rx="4"
-        class="stroke-foreground/20"
+        class="anim-node anim-node-delay-2 stroke-foreground/20"
         stroke-width="1"></rect>
       <rect
         x="330"
@@ -72,14 +72,17 @@ import { CURRENTLY_BUILDING } from '../../lib/portfolio'
         width="50"
         height="36"
         rx="4"
-        class="stroke-foreground/15"
+        class="anim-node anim-node-delay-3 stroke-foreground/15"
         stroke-width="1"></rect>
       <path
         d="M94 62 H120 M210 54 H240 M310 60 H330"
-        class="stroke-primary/40"
-        stroke-width="1"
-        stroke-dasharray="3 3"></path>
-      <circle cx="165" cy="54" r="3" class="fill-primary"></circle>
+        class="anim-dash stroke-primary/40"
+        stroke-width="1"></path>
+      <circle
+        cx="165"
+        cy="54"
+        r="3"
+        class="anim-signal fill-primary"></circle>
     </svg>
   </div>
 </BentoTile>

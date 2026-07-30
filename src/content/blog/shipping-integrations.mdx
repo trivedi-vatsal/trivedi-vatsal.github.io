@@ -5,6 +5,10 @@ pubDate: 2026-07-20
 tags: ['integrations', 'engineering']
 ---
 
+## Expect failure
+
 Third-party APIs fail in boring ways: timeouts, partial writes, duplicate webhooks. Treat every call as unreliable and design for that from day one.
+
+## Design for recovery
 
 Use idempotency keys on writes, bound retries with jitter, and surface failure states the UI can explain. Logs should answer what happened without opening a debugger.

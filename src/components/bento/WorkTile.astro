@@ -12,13 +12,23 @@ import { SELECTED_WORK } from '../../lib/portfolio'
 >
   <div>
     <p class="bento-label">Selected work</p>
-    <ul class="mt-4 space-y-2">
-      {
-        SELECTED_WORK.themes.map((theme) => (
-          <li class="text-lg font-medium tracking-tight sm:text-xl">{theme}</li>
-        ))
-      }
-    </ul>
+    <div class="relative mt-4 h-[7.5rem] overflow-hidden">
+      <div
+        class="from-card pointer-events-none absolute inset-x-0 top-0 z-10 h-3 bg-gradient-to-b to-transparent"
+      >
+      </div>
+      <div
+        class="from-card pointer-events-none absolute inset-x-0 bottom-0 z-10 h-3 bg-gradient-to-t to-transparent"
+      >
+      </div>
+      <ul class="anim-marquee-y space-y-2">
+        {
+          [...SELECTED_WORK.themes, ...SELECTED_WORK.themes].map((theme) => (
+            <li class="text-lg font-medium tracking-tight sm:text-xl">{theme}</li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
   <span class="bento-arrow text-foreground mt-6">
     View work

@@ -41,7 +41,7 @@ function ToggleGroup({
           aria-pressed={value === option.value}
           className={cn(
             buttonVariants({ variant: 'ghost', size: 'sm' }),
-            'h-8 gap-1.5 px-3',
+            'h-9 gap-1.5 px-3',
             value === option.value &&
               'bg-background text-foreground hover:bg-background shadow-sm',
           )}

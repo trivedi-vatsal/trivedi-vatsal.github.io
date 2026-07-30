@@ -34,8 +34,14 @@ import { NOW } from '../../lib/portfolio'
       </p>
       <ul class="mt-2 flex flex-wrap gap-2">
         {
-          NOW.exploring.map((item) => (
-            <li class="border-border bg-secondary/60 rounded-sm border px-2 py-1 font-mono text-[0.65rem] tracking-wide">
+          NOW.exploring.map((item, i) => (
+            <li
+              class:list={[
+                'anim-tag rounded-sm border px-2 py-1 font-mono text-[0.65rem] tracking-wide',
+                i === 1 && 'anim-tag-delay-1',
+                i === 2 && 'anim-tag-delay-2',
+              ]}
+            >
               {item}
             </li>
           ))

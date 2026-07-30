@@ -14,26 +14,34 @@ import { FEATURED } from '../../lib/portfolio'
   <div
     class="bg-foreground/[0.03] dark:bg-foreground/[0.05] relative min-h-[180px] flex-1 overflow-hidden"
   >
-    <div class="generative-grid absolute inset-0"></div>
+    <div class="generative-grid anim-grid-drift absolute inset-0"></div>
     <div
-      class="from-primary/15 absolute inset-0 bg-gradient-to-br via-transparent to-transparent transition-transform duration-700 group-hover:scale-105"
+      class="from-primary/15 anim-breathe absolute inset-0 origin-center bg-gradient-to-br via-transparent to-transparent"
     >
     </div>
     <div
-      class="border-primary/30 absolute top-1/2 -right-10 h-56 w-56 -translate-y-1/2 rounded-full border transition-transform duration-700 group-hover:scale-110"
+      class="absolute top-1/2 -right-10 -translate-y-1/2 transition-transform duration-700 group-hover:scale-110"
       aria-hidden="true"
     >
+      <div
+        class="border-primary/30 anim-spin-slow h-56 w-56 rounded-full border"
+      >
+      </div>
     </div>
     <div
-      class="border-foreground/20 absolute top-1/2 right-8 h-36 w-36 -translate-y-1/2 rounded-full border border-dashed"
+      class="absolute top-1/2 right-8 -translate-y-1/2"
       aria-hidden="true"
     >
+      <div
+        class="border-foreground/20 anim-spin-slower h-36 w-36 rounded-full border border-dashed"
+      >
+      </div>
     </div>
     <div class="absolute inset-0 flex items-end p-6 sm:p-8">
       <div>
         <p class="bento-label text-foreground/60">Featured project</p>
         <h2
-          class="mt-2 max-w-lg text-3xl font-semibold tracking-tight sm:text-4xl"
+          class="anim-shimmer-text mt-2 max-w-lg text-3xl font-semibold tracking-tight sm:text-4xl"
         >
           {FEATURED.name}
         </h2>

@@ -2,6 +2,10 @@
 import { render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BlogPageLayout from './BlogPageLayout.astro'
+import { ShareMenu } from '../components/share-menu'
+import { TOCInline } from '../components/toc-inline'
+import { TOCMinimap } from '../components/toc-minimap'
+import { Toaster } from '../components/ui/sonner'
 import { SITE } from '../lib/constants'
 import { formatReadingTime, getReadingTime, slugifyTag } from '../lib/blog'
 
@@ -10,10 +14,18 @@ interface Props {
 }
 
 const { post } = Astro.props
-const { Content } = await render(post)
+const { Content, headings } = await render(post)
 const author = post.data.author ?? SITE.AUTHOR
 const modifiedDate = post.data.updatedDate ?? post.data.pubDate
 const readingTime = getReadingTime(post.body)
+const shareUrl = new URL(`/blog/${post.id}/`, Astro.site).href
+const toc = headings
+  .filter((heading) => heading.depth >= 2 && heading.depth <= 4)
+  .map((heading) => ({
+    title: heading.text,
+    url: `#${heading.slug}`,
+    depth: heading.depth,
+  }))
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -60,11 +72,14 @@ const jsonLd = {
         <li class="text-foreground" aria-current="page">{post.data.title}</li>
       </ol>
     </nav>
-    <h1
-      class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
-    >
-      {post.data.title}
-    </h1>
+    <div class="flex items-start justify-between gap-4 border-b pb-2">
+      <h1 class="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
+        {post.data.title}
+      </h1>
+      <div class="shrink-0 pt-1">
+        <ShareMenu client:load title={post.data.title} url={shareUrl} />
+      </div>
+    </div>
     <div
       class="text-muted-foreground mt-4 flex flex-wrap items-center gap-3 text-sm"
     >
@@ -112,7 +127,27 @@ const jsonLd = {
       )
     }
   </Fragment>
+  {
+    toc.length > 0 && (
+      <div class="mb-8 lg:hidden">
+        <TOCInline client:load items={toc} />
+      </div>
+    )
+  }
   <article class="prose dark:prose-invert max-w-none">
     <Content />
   </article>
+  {
+    toc.length > 0 && (
+      <aside
+        class="pointer-events-none fixed inset-y-0 right-3 z-40 hidden items-center sm:right-6 lg:flex xl:right-10"
+        aria-label="Table of contents"
+      >
+        <div class="pointer-events-auto">
+          <TOCMinimap client:load items={toc} />
+        </div>
+      </aside>
+    )
+  }
+  <Toaster client:load />
 </BlogPageLayout>

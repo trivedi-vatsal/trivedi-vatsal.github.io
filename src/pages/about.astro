@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { ABOUT, LINKS } from '../lib/constants'
+import {
+  ABOUT_INTRO,
+  ABOUT_LOCATION,
+  ABOUT_PHOTO_CATEGORIES,
+  ABOUT_SHELF,
+  ABOUT_STACK_FOLDERS,
+} from '../lib/portfolio'
+import { StackFolders } from '../components/about/StackFolders'
+import { AboutShelf } from '../components/about/AboutShelf'
+import { LocationMap } from '../components/about/LocationMap'
+---
+
+<BaseLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
+  <main class="about-page relative w-full" transition:animate="fade">
+    {/* Bio — two columns: portrait + reading */}
+    <section
+      class="mx-auto w-full max-w-6xl px-5 pt-16 pb-16 sm:pt-24 sm:pb-20"
+      aria-labelledby="about-heading"
+    >
+      <div
+        class="grid items-start gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:gap-16 lg:gap-24"
+      >
+        <div class="mx-auto w-full max-w-[420px] md:mx-0 md:sticky md:top-24 md:max-w-none">
+          <figure class="portrait-frame">
+            <img
+              src="/me.svg"
+              alt="Line portrait of Vatsal Trivedi"
+              width={560}
+              height={650}
+              loading="eager"
+              decoding="async"
+              class="portrait-ink anim-float w-full"
+            />
+          </figure>
+        </div>
+
+        <div>
+          <h1
+            id="about-heading"
+            class="text-[2.75rem] leading-[1.05] font-semibold tracking-[-0.03em] sm:text-6xl"
+          >
+            {ABOUT_INTRO.greeting}
+          </h1>
+
+          <div class="mt-10 space-y-7 sm:mt-12">
+            {
+              ABOUT_INTRO.paragraphs.map((paragraph) => (
+                <p class="text-foreground/70 text-[1.0625rem] leading-[1.8] sm:text-lg sm:leading-[1.85]">
+                  {paragraph}
+                </p>
+              ))
+            }
+          </div>
+
+          <p
+            class="text-muted-foreground mt-10 font-mono text-[0.65rem] tracking-[0.14em] uppercase"
+          >
+            Work history lives on{' '}
+            <a
+              href="/work/"
+              class="text-foreground underline-offset-4 hover:underline"
+            >
+              /work
+            </a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* Stack folders — primary interactive beat */}
+    <section class="mx-auto w-full max-w-4xl px-5 py-10 sm:py-14">
+      <StackFolders client:visible folders={ABOUT_STACK_FOLDERS} />
+    </section>
+
+    {/* Place / map */}
+    <LocationMap client:visible places={ABOUT_LOCATION.places} />
+
+    {/* Shelf */}
+    <section id="shelf" class="mx-auto w-full max-w-4xl px-5 py-16 sm:py-20">
+      <AboutShelf client:visible items={ABOUT_SHELF} />
+    </section>
+
+    {/* Photos — text + link, no marketing tile */}
+    <section
+      class="mx-auto w-full max-w-4xl px-5 pt-4 pb-24 sm:pb-32"
+      aria-labelledby="photos-heading"
+    >
+      <div class="flex items-baseline justify-between gap-4">
+        <h2
+          id="photos-heading"
+          class="text-2xl font-semibold tracking-tight sm:text-3xl"
+        >
+          Recent photos
+        </h2>
+        <a
+          href={LINKS.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted-foreground hover:text-foreground font-mono text-xs tracking-wide transition-colors"
+        >
+          Instagram ↗
+        </a>
+      </div>
+
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+        {
+          ABOUT_PHOTO_CATEGORIES.map((cat) => (
+            <li>
+              <a
+                href={cat.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-muted-foreground hover:text-foreground font-mono text-sm tracking-[0.08em] uppercase transition-colors"
+              >
+                {cat.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="text-foreground/65 mt-8 max-w-md text-base leading-relaxed">
+        Travel frames and visual notes live on Instagram — landscapes, streets,
+        and whatever small detail caught the lens.
+      </p>
+    </section>
+  </main>
+</BaseLayout>

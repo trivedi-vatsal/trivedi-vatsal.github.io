@@ -1,3 +1,4 @@
+import type { ExperienceItemType } from '@/components/work-experience'
 import type { Site, Page } from './types'
 
 export const googleAnalyticsDestinationId = 'G-S5L9LJDESQ'
@@ -14,6 +15,7 @@ export const LINKS = {
 }
 
 export const NAV_LINKS = [
+  { label: 'About', href: '/about/' },
   { label: 'Work', href: '/work/' },
   { label: 'Experiments', href: '/experiments/' },
   { label: 'Journal', href: '/blog/' },
@@ -30,6 +32,12 @@ export const SITE: Site = {
 export const EXPERIMENTS_PAGE: Page = {
   TITLE: 'Experiments',
   DESCRIPTION: 'Design studies, open source, writing, and creative outlets.',
+}
+
+export const ABOUT: Page = {
+  TITLE: 'About',
+  DESCRIPTION:
+    'AI engineer, full-stack builder, and designer in Bengaluru — bio, experience, stack, and life outside code.',
 }
 
 // Work Page
@@ -55,6 +63,7 @@ export const STUDIES = [
   },
 ]
 
+/** Flat role rows — used by homepage / portfolio derived content. */
 export const EXPERIENCE = [
   {
     company: 'AI Platform for Pharma',
@@ -135,6 +144,97 @@ export const EXPERIENCE = [
       'Enable collaboration with SharePoint, Teams, Power Automate, and Power BI.',
       'Stand up GA360 analytics with Tag Manager and Data Studio.',
       'Ship digital solutions that feed data-driven decisions.',
+    ],
+  },
+]
+
+/** Company-grouped experience for the Work Experience component. */
+export const WORK_EXPERIENCES: ExperienceItemType[] = [
+  {
+    id: 'ai-platform-for-pharma',
+    companyName: 'AI Platform for Pharma',
+    isCurrentEmployer: true,
+    positions: [
+      {
+        id: 'ai-platform-principal',
+        title: 'Principal Engineer',
+        employmentPeriod: { start: '05.2025' },
+        employmentType: 'Full-time',
+        isExpanded: true,
+        description: [
+          '- Ship an AI platform that automates pharma content creation and workflows.',
+          '- Build Content Wizard with Veeva CRM for brand-compliant end-to-end production.',
+          '- Cut content timelines with generation pipelines under regulatory constraints.',
+          '- Stand up shared engineering practices and a unified content lifecycle.',
+        ].join('\n'),
+        skills: ['TypeScript', 'React', 'LLM', 'Veeva CRM', 'Python', 'Postgres'],
+      },
+    ],
+  },
+  {
+    id: 'comviva',
+    companyName: 'Comviva',
+    companyWebsite: 'https://www.comviva.com/',
+    positions: [
+      {
+        id: 'comviva-tech-lead',
+        title: 'Technical Lead',
+        employmentPeriod: { start: '12.2021', end: '03.2025' },
+        employmentType: 'Full-time',
+        description: [
+          '- Modernize MR into a cloud-agnostic SaaS with AI/ML baked in.',
+          '- Own architecture across TypeScript, React, FeatherJS, Delta Lake, and vectors.',
+          '- Lift scale, performance, and engagement with data-driven personalization.',
+        ].join('\n'),
+        skills: [
+          'TypeScript',
+          'React',
+          'FeatherJS',
+          'Delta Lake',
+          'Postgres',
+          'Vector DB',
+        ],
+      },
+      {
+        id: 'comviva-senior',
+        title: 'Senior Engineer',
+        employmentPeriod: { start: '06.2020', end: '11.2021' },
+        employmentType: 'Full-time',
+        description: [
+          '- Ship 14+ integrations across commerce, CRM, analytics, and editors.',
+          '- Drive campaign personalization with BigQuery and GoodData ML insights.',
+          '- Raise performance via query tuning, caching, and CDN.',
+          '- Unblock hard integration work on scale, security, and latency.',
+        ].join('\n'),
+        skills: ['Shopify', 'HubSpot', 'BigQuery', 'GoodData', 'AWS', 'CDN'],
+      },
+    ],
+  },
+  {
+    id: 'tcs',
+    companyName: 'Tata Consultancy Services (TCS)',
+    companyWebsite: 'https://www.tcs.com/',
+    positions: [
+      {
+        id: 'tcs-ase',
+        title: 'Assistant System Engineer',
+        employmentPeriod: { start: '09.2018', end: '05.2020' },
+        employmentType: 'Full-time',
+        description: [
+          '- Deliver full-stack apps in React, Angular, Node, and Express.',
+          '- Enable collaboration with SharePoint, Teams, Power Automate, and Power BI.',
+          '- Stand up GA360 analytics with Tag Manager and Data Studio.',
+          '- Ship digital solutions that feed data-driven decisions.',
+        ].join('\n'),
+        skills: [
+          'React',
+          'Angular',
+          'Node.js',
+          'Express',
+          'Microsoft 365',
+          'GA360',
+        ],
+      },
     ],
   },
 ]

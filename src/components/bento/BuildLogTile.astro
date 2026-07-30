@@ -21,8 +21,11 @@ const { entries } = Astro.props
       <p class="text-muted-foreground mt-4 text-sm">No dated entries yet.</p>
     ) : (
       <ol class="mt-4 space-y-3">
-        {entries.map((entry) => (
-          <li class="border-border flex flex-col gap-0.5 border-l-2 pl-3">
+          {entries.map((entry, i) => (
+          <li
+            class="anim-timeline-dot border-border flex flex-col gap-0.5 border-l-2 pl-3"
+            style={`--pulse-delay: ${i * 0.5}s`}
+          >
             <time class="text-muted-foreground font-mono text-[0.65rem] tracking-wide">
               {entry.date}
             </time>

@@ -101,6 +101,135 @@ export const LIFE = {
   ],
 }
 
+/** About page — longer narrative, stack folders, place. */
+export const ABOUT_INTRO = {
+  greeting: "Hey, I'm Vatsal!",
+  paragraphs: [
+    "I'm an AI engineer and full-stack builder with 8+ years of experience, focused on intelligent products and enterprise systems. What I enjoy most is owning a product problem end to end: finding the gap worth solving, shaping the architecture, shipping the craft, and watching whether it actually worked. I do my best work close to product, design, and business — with enough trust and context to help define the problem.",
+    "Lately I've been building an AI platform for pharmaceutical content — taking brand-compliant generation from early sketches to production workflows under real regulatory constraints.",
+    "Outside of work, I'm usually somewhere with a camera — travel, frames, and visual craft — or tinkering in open source and interface experiments.",
+  ],
+}
+
+/** Folder peek lines: tools · tools · category */
+export const ABOUT_STACK_FOLDERS = [
+  {
+    id: '01',
+    category: 'build',
+    tools: ['typescript', 'react', 'node'],
+  },
+  {
+    id: '02',
+    category: 'data',
+    tools: ['postgres', 'delta', 'vectors'],
+  },
+  {
+    id: '03',
+    category: 'ai',
+    tools: ['llms', 'agents', 'orchestration'],
+  },
+  {
+    id: '04',
+    category: 'ship',
+    tools: ['astro', 'cloud', 'integrations'],
+  },
+]
+
+export const ABOUT_LOCATION = {
+  places: [
+    {
+      id: 'current' as const,
+      code: 'IN',
+      label: 'Current',
+      city: 'Bengaluru',
+      region: 'India',
+      note: 'Now enjoying Bengaluru, India.',
+      coords: '12.9716° N, 77.5946° E',
+      embed:
+        'https://www.openstreetmap.org/export/embed.html?bbox=77.5346%2C12.9416%2C77.6546%2C13.0016&layer=mapnik&marker=12.9716%2C77.5946',
+      link: 'https://www.openstreetmap.org/?mlat=12.9716&mlon=77.5946#map=13/12.9716/77.5946',
+    },
+    {
+      id: 'studied' as const,
+      code: 'GJ',
+      label: 'Studied',
+      city: 'Vallabh Vidyanagar',
+      region: 'Gujarat, India',
+      note: 'Studied in Vallabh Vidyanagar, Gujarat.',
+      coords: '22.5485° N, 72.9250° E',
+      embed:
+        'https://www.openstreetmap.org/export/embed.html?bbox=72.8850%2C22.5185%2C72.9650%2C22.5785&layer=mapnik&marker=22.5485%2C72.9250',
+      link: 'https://www.openstreetmap.org/?mlat=22.5485&mlon=72.9250#map=14/22.5485/72.9250',
+    },
+  ],
+}
+
+export const ABOUT_SHELF = [
+  {
+    title: 'Open Source',
+    author: 'GitHub',
+    category: 'build' as const,
+    href: LINKS.github,
+    external: true,
+  },
+  {
+    title: 'UI Experiments',
+    author: 'Dribbble',
+    category: 'craft' as const,
+    href: LINKS.dribbble,
+    external: true,
+  },
+  {
+    title: 'Design Work',
+    author: 'Behance',
+    category: 'craft' as const,
+    href: LINKS.behance,
+    external: true,
+  },
+  {
+    title: 'Writing',
+    author: 'DEV',
+    category: 'build' as const,
+    href: LINKS.devto,
+    external: true,
+  },
+  {
+    title: 'Photography',
+    author: 'Instagram',
+    category: 'life' as const,
+    href: LINKS.instagram,
+    external: true,
+  },
+  {
+    title: 'Travel',
+    author: 'Instagram',
+    category: 'life' as const,
+    href: LINKS.instagram,
+    external: true,
+  },
+  {
+    title: 'Resume',
+    author: 'vatsal.xyz',
+    category: 'build' as const,
+    href: LINKS.resume,
+    external: true,
+  },
+  {
+    title: 'Journal',
+    author: 'This site',
+    category: 'build' as const,
+    href: '/blog/',
+    external: false,
+  },
+]
+
+export const ABOUT_PHOTO_CATEGORIES = [
+  { label: 'All', href: LINKS.instagram },
+  { label: 'Photography', href: LINKS.instagram },
+  { label: 'Travel', href: LINKS.instagram },
+  { label: 'Design', href: LINKS.behance },
+] as const
+
 /**
  * Technologies mentioned across real experience + site copy,
  * mapped only to companies/roles that exist in EXPERIENCE.
