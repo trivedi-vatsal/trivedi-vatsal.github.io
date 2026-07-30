@@ -24,7 +24,7 @@ Our component only needed `data` and `isLoading`. The dev's solution was to just
 // The code I was reviewing
 const MyComponent = ({ data, isLoading, error, refetch }) => {
   // ...logic using data and isLoading
-};
+}
 ```
 
 The PR description simply said, "Linter warnings are expected." That was a red flag. It wasn't just about messy code; it was about a mindset. It communicated a willingness to fight the tools instead of working with them.
@@ -37,7 +37,7 @@ The revised code came back minutes later:
 // The clean, intentional version
 const MyComponent = ({ data, isLoading, _error, _refetch }) => {
   // ...logic using data and isLoading
-};
+}
 ```
 
 No more warnings. No more excuses in the PR description. It was a small change that reflected a much bigger principle: we write code for humans first, machines second. It clearly communicated intent, and that's the hallmark of a seasoned developer.
@@ -48,7 +48,7 @@ Using an underscore prefix for unused variables isn't a hack. It's a widely acce
 
 1. **It Screams Intent:** An underscore tells every developer who reads your code, "I acknowledge this variable's existence, and I have deliberately chosen not to use it." It's the difference between a potential bug (`user` that was forgotten) and a clear choice (`_user` which is intentionally ignored).
 
-2. **It Works *With* Your Linter:** Instead of disabling the incredibly useful `@typescript-eslint/no-unused-vars` rule, you configure it to respect this convention. You get the best of both worlds: you still catch *truly* unused variables (like typos or leftovers from a refactor) while allowing the intentionally unused ones to pass.
+2. **It Works _With_ Your Linter:** Instead of disabling the incredibly useful `@typescript-eslint/no-unused-vars` rule, you configure it to respect this convention. You get the best of both worlds: you still catch _truly_ unused variables (like typos or leftovers from a refactor) while allowing the intentionally unused ones to pass.
 
 3. **It's a Cross-Ecosystem Language:** This pattern isn't unique to TypeScript. You'll see it in Python, C#, and many other languages. Adopting it makes your code more accessible and demonstrates a breadth of experience.
 
@@ -79,7 +79,7 @@ const UserProfile = ({ name, ..._rest }: UserProfileProps) => <h2>{name}</h2>;
 Or when working with hooks like `useState` where you only need the setter:
 
 ```typescript
-const [_, setSomeValue] = useState(initialValue);
+const [_, setSomeValue] = useState(initialValue)
 ```
 
 ### 2. Callback Parameters
@@ -87,12 +87,12 @@ const [_, setSomeValue] = useState(initialValue);
 The classic use case. You often need the `index` but not the `item`, or vice versa.
 
 ```typescript
-const items = ['a', 'b', 'c'];
+const items = ['a', 'b', 'c']
 
 // I only need the index here.
 items.forEach((_item, index) => {
-  console.log('Index:', index);
-});
+  console.log('Index:', index)
+})
 ```
 
 ### 3. Object Destructuring
@@ -100,9 +100,9 @@ items.forEach((_item, index) => {
 Ever needed to pull just one or two properties from a large API response object? The underscore is perfect for signaling which fields you're intentionally discarding.
 
 ```typescript
-const { usefulField, _unusedField, _anotherUnused } = apiResponse;
+const { usefulField, _unusedField, _anotherUnused } = apiResponse
 
-console.log(usefulField);
+console.log(usefulField)
 ```
 
 ## The One-Time Setup: Configure ESLint

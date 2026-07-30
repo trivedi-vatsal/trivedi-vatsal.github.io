@@ -198,7 +198,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 2 * * 1'  # Monday 2am
+    - cron: '0 2 * * 1' # Monday 2am
 
 jobs:
   sonarqube:
@@ -206,7 +206,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # full history = better analysis
+          fetch-depth: 0 # full history = better analysis
 
       - uses: SonarSource/sonarqube-scan-action@master
         env:
@@ -237,12 +237,12 @@ The first scan will surface a lot. Don't try to fix everything at once — you'l
 
 The priority order that works for us:
 
-| Severity | What we do |
-| --- | --- |
-| Critical | Don't merge. Fix it now. |
-| High | Fix it this sprint. |
-| Medium | Goes on the backlog. |
-| Low | Fix it when you're touching that code anyway. |
+| Severity | What we do                                    |
+| -------- | --------------------------------------------- |
+| Critical | Don't merge. Fix it now.                      |
+| High     | Fix it this sprint.                           |
+| Medium   | Goes on the backlog.                          |
+| Low      | Fix it when you're touching that code anyway. |
 
 For SonarQube false positives — and there will be some — mark them as "Won't Fix" and add a comment explaining why. Dismissing without a comment just creates confusion later.
 

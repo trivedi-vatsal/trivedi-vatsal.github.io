@@ -19,18 +19,18 @@ This means you can do literally anything with that variable, and TypeScript won'
 **Here's a classic example:**
 
 ```typescript
-let myData: any;
+let myData: any
 
-myData = "This is a string";
+myData = 'This is a string'
 
 // TypeScript has no problem with this line...
 // but it will crash your app!
-console.log(myData.toFixed(2));
+console.log(myData.toFixed(2))
 // Uncaught TypeError: myData.toFixed is not a function
 
 // The compiler is also perfectly happy with these obvious errors:
-myData.someMethodThatDoesNotExist();
-const result = myData * 10;
+myData.someMethodThatDoesNotExist()
+const result = myData * 10
 ```
 
 Every `any` you use punches a hole in the type safety we rely on TypeScript for. It turns potential compile-time catches into frustrating runtime bugs and makes refactoring a dangerous guessing game.
@@ -39,28 +39,28 @@ Every `any` you use punches a hole in the type safety we rely on TypeScript for.
 
 This is where `unknown` comes in and saves the day. Just like `any`, you can assign any value—a string, a number, an object—to a variable typed as `unknown`.
 
-So what's the big deal? The crucial difference is that `unknown` won't let you *do anything* with the value until you first prove what it is. You are forced to handle the uncertainty before you can use it.
+So what's the big deal? The crucial difference is that `unknown` won't let you _do anything_ with the value until you first prove what it is. You are forced to handle the uncertainty before you can use it.
 
 Think of an `unknown` variable like a locked box. You know something's inside, but you have to check what it is before you can safely use it.
 
 **Let's fix the previous example with `unknown`:**
 
 ```typescript
-let myData: unknown;
+let myData: unknown
 
-myData = "This is a string";
+myData = 'This is a string'
 
 // The compiler immediately stops you. This is a good thing!
 // Error: Object is of type 'unknown'.
-console.log(myData.toFixed(2));
+console.log(myData.toFixed(2))
 
 // Here's how you work with it safely:
 if (typeof myData === 'number') {
   // OK, inside this block, TypeScript now knows myData is a number.
-  console.log(myData.toFixed(2));
+  console.log(myData.toFixed(2))
 } else if (typeof myData === 'string') {
   // And in here, it knows it's a string.
-  console.log(myData.toUpperCase());
+  console.log(myData.toUpperCase())
 }
 ```
 
