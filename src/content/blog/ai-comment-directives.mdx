@@ -1,0 +1,64 @@
+---
+title: 'Leaving Breadcrumbs for Your AI: The Hansel and Gretel Approach'
+description: "Instead of giant terminal prompts, leave @implement and @docs comment directives in your code—breadcrumbs your AI can follow right where the work lives."
+pubDate: 2025-09-30
+updatedDate: 2025-09-30
+tags: ['ai', 'engineering', 'productivity']
+---
+
+I recently discovered a game-changing technique from Giuseppe Gurgone's article: **comment directives**. It's fundamentally simplified how I work with AI coding assistants. I call it "leaving breadcrumbs" for my AI, much like **Hansel and Gretel** guiding their way through the woods.
+
+Instead of writing massive, detailed prompts in my terminal, I now embed instructions directly into my code using special comments. The context stays exactly where it's needed, which is a huge win for efficiency.
+
+## My Go-To: The `@implement` Directive
+
+The core of this workflow is the `@implement` directive.
+
+When I plan an enhancement, but don't want to implement it yet, I drop a directive like this right into the file:
+
+**Example Directive:**
+
+```typescript
+class UserService {
+  /* @implement
+   * Add a caching layer for user data:
+   * - Cache user objects by ID in a Map
+   * - Expire entries after 5 minutes
+   * - Return cached data if available and fresh
+   */
+  async getUser(id: string): Promise<User> {
+    // Current implementation...
+  }
+}
+```
+
+Later, I just tell my AI (like Claude Code): "Implement all the `@implement` directives."
+
+**Why I Love It:**
+
+1. **Context is Local:** The AI has all the specific instructions right next to the code signature it needs to change.
+2. **Instant Documentation:** The AI doesn't just write the code; it converts the directive into proper JSDoc (or similar documentation), ensuring the code is clean and explained immediately.
+
+## Beyond Implementation: `@docs`
+
+The pattern is flexible. I use the `@docs` directive to provide external context for the AI:
+
+```typescript
+/*
+ * This component renders a list of products using suspense.
+ * @docs https://react.dev/reference/react/Suspense
+ */
+function ProductList() {
+  // ...
+}
+```
+
+This ensures the AI is aware of the necessary technical background without me needing to manually fetch and paste links.
+
+## Conclusion
+
+I highly recommend trying this. It moves instructions out of a separate task list and directly into your source code, creating a much smoother, human-centered development experience with AI.
+
+I found this method from here: [Comment Directives for Claude Code](https://giuseppegurgone.com/comment-directives-claude-code)
+
+*Note: The AI-assisted coding space is changing fast. Always validate techniques for your specific use case.*

@@ -1,0 +1,135 @@
+---
+title: 'The Cleanest Way to Handle Unused Variables in TypeScript'
+description: "Don't disable the linter or ignore yellow squiggles. The humble underscore `_` signals intentional unused vars—and keeps `@typescript-eslint/no-unused-vars` earning its keep."
+pubDate: 2025-09-29
+updatedDate: 2025-09-29
+tags: ['typescript', 'javascript', 'codereview']
+---
+
+We've all been there. You're deep in the zone, maybe mapping over an array, setting up an Express middleware, or defining a React component. You're required to accept a parameter you don't actually need, and like clockwork, your linter starts complaining:
+
+`'props' is declared but its value is never read. @typescript-eslint/no-unused-vars`
+
+What's your gut reaction? Do you litter the code with `// eslint-disable-next-line` comments, creating technical debt? Do you surrender and weaken a valuable rule in your config? Or do you just learn to ignore the yellow squiggly lines that silently judge your work?
+
+There's a much cleaner, more professional solution, and it's been hiding in plain sight: the humble underscore `_`.
+
+## A Quick Story
+
+I remember the exact moment this convention went from a "nice-to-have" to a "must-enforce" on my team. I was doing a code review on a new feature. A mid-level dev had implemented a component that was connected to a third-party library. The library's `withProvider` HOC passed down a bunch of props—`data`, `isLoading`, `error`, and `refetch`.
+
+Our component only needed `data` and `isLoading`. The dev's solution was to just destructure all of them and let the linter scream about `error` and `refetch` being unused.
+
+```typescript
+// The code I was reviewing
+const MyComponent = ({ data, isLoading, error, refetch }) => {
+  // ...logic using data and isLoading
+};
+```
+
+The PR description simply said, "Linter warnings are expected." That was a red flag. It wasn't just about messy code; it was about a mindset. It communicated a willingness to fight the tools instead of working with them.
+
+I left a simple comment: "Let's signal that `error` and `refetch` are intentionally unused. Prefix them with an underscore."
+
+The revised code came back minutes later:
+
+```typescript
+// The clean, intentional version
+const MyComponent = ({ data, isLoading, _error, _refetch }) => {
+  // ...logic using data and isLoading
+};
+```
+
+No more warnings. No more excuses in the PR description. It was a small change that reflected a much bigger principle: we write code for humans first, machines second. It clearly communicated intent, and that's the hallmark of a seasoned developer.
+
+## Why the Underscore Is So Powerful
+
+Using an underscore prefix for unused variables isn't a hack. It's a widely accepted convention that signals professionalism and brings tangible benefits.
+
+1. **It Screams Intent:** An underscore tells every developer who reads your code, "I acknowledge this variable's existence, and I have deliberately chosen not to use it." It's the difference between a potential bug (`user` that was forgotten) and a clear choice (`_user` which is intentionally ignored).
+
+2. **It Works *With* Your Linter:** Instead of disabling the incredibly useful `@typescript-eslint/no-unused-vars` rule, you configure it to respect this convention. You get the best of both worlds: you still catch *truly* unused variables (like typos or leftovers from a refactor) while allowing the intentionally unused ones to pass.
+
+3. **It's a Cross-Ecosystem Language:** This pattern isn't unique to TypeScript. You'll see it in Python, C#, and many other languages. Adopting it makes your code more accessible and demonstrates a breadth of experience.
+
+## Putting It into Practice: Common Examples
+
+So, where can you use this simple trick? Pretty much anywhere an unused variable shows up.
+
+### 1. React Props and Hooks
+
+This is a daily occurrence in React development. A component might receive props it only passes down, or a custom hook might return a value you don't need in a specific instance.
+
+```typescript
+// Example: A component that doesn't use all its props
+interface UserProfileProps {
+  userId: string;
+  name: string;
+  // This prop is required by the parent, but not used here
+  onSelect: (id: string) => void;
+}
+
+// Don't do this:
+// const UserProfile = (props: UserProfileProps) => <h2>{props.name}</h2>;
+
+// Do this:
+const UserProfile = ({ name, ..._rest }: UserProfileProps) => <h2>{name}</h2>;
+```
+
+Or when working with hooks like `useState` where you only need the setter:
+
+```typescript
+const [_, setSomeValue] = useState(initialValue);
+```
+
+### 2. Callback Parameters
+
+The classic use case. You often need the `index` but not the `item`, or vice versa.
+
+```typescript
+const items = ['a', 'b', 'c'];
+
+// I only need the index here.
+items.forEach((_item, index) => {
+  console.log('Index:', index);
+});
+```
+
+### 3. Object Destructuring
+
+Ever needed to pull just one or two properties from a large API response object? The underscore is perfect for signaling which fields you're intentionally discarding.
+
+```typescript
+const { usefulField, _unusedField, _anotherUnused } = apiResponse;
+
+console.log(usefulField);
+```
+
+## The One-Time Setup: Configure ESLint
+
+To make this convention seamless, you need to tell ESLint about it. It's a simple, one-time change to your `.eslintrc` file.
+
+```json
+{
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
+  }
+}
+```
+
+- `argsIgnorePattern: "^_"`: Ignores function arguments that start with an underscore.
+- `varsIgnorePattern: "^_"`: Does the same for all other variables.
+- `caughtErrorsIgnorePattern: "^_"`: Ignores error variables in `try...catch` blocks.
+
+## A Small Habit with a Big Impact
+
+Adopting the underscore prefix is one of those small disciplines that separates good code from great code. It demonstrates foresight, cleanliness, and a respect for your teammates who will read and maintain your work. It silences unnecessary noise, signals your intent clearly, and keeps your entire codebase looking sharp and professional.
+
+The next time you see that `no-unused-vars` warning, don't write an excuse. Just add an underscore.

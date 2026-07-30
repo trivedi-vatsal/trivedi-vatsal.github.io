@@ -1,0 +1,144 @@
+---
+title: 'My SonarQube Scans Were Crawling; Turns Out Docker on WSL 2 Only Had 1 CPU and 1 GB of RAM'
+description: "A short, practical walkthrough of diagnosing slow SonarQube scans on Docker Desktop for Windows, fixing it with a .wslconfig file, and validating the change against Microsoft's official spec."
+pubDate: 2026-05-11
+tags: ['wsl', 'docker', 'sonarqube', 'windows']
+---
+
+If you're running SonarQube (or anything CPU- and memory-hungry) inside Docker Desktop on Windows and the scans feel like they're running through molasses, your `.wslconfig` is probably the first place to look. That was my story this week, and the fix was satisfyingly small.
+
+Here's the whole journey, end to end, including the gotchas.
+
+## Symptom: scans stall, fans spin, nothing finishes
+
+I was running a SonarQube scan on a mid-sized codebase inside a Docker container on Windows. The scan would chug along for a few minutes, then either crawl or stall outright. Nothing in the SonarQube logs screamed "out of memory" but the host felt fine, so it wasn't a Windows-side resource problem.
+
+## Diagnosis: ask Docker what it actually has
+
+Docker Desktop on Windows runs everything inside a WSL 2 VM called `docker-desktop`. Whatever resources you've given that VM is the ceiling for every container you run. You can ask it directly:
+
+```powershell
+wsl -d docker-desktop -- nproc
+wsl -d docker-desktop -- free -h
+```
+
+The output I got:
+
+```console
+1
+              total        used        free      shared  buff/cache   available
+Mem:           907M       ...
+Swap:          4.0G        ...
+```
+
+**One CPU. Less than 1 GB of RAM.** No wonder. SonarQube's analyzer plus the Java heap alone wants more than that. Anything that hit a swap-heavy phase was going to thrash.
+
+## Fix: `.wslconfig`
+
+WSL 2 reads global VM settings from a single file at `%UserProfile%\.wslconfig`. It doesn't exist by default — you create it. Mine ended up looking like this:
+
+```ini
+[wsl2]
+memory=8GB
+processors=4
+swap=8GB
+```
+
+Three lines. That's the whole fix.
+
+A few notes on syntax that tripped me up briefly:
+
+- The section header must be `[wsl2]` — lowercase, exact.
+- `memory` and `swap` are "size" values. **You must include the unit** (`GB` or `MB`). Per Microsoft's spec: "Entries with the size value default to B (bytes), and the unit is omissible." Which is a polite way of saying that `swap=4` means 4 bytes, not 4 GB. Don't do what I almost did.
+- No spaces around the `=`.
+- `processors` is an integer.
+
+## Apply it
+
+Save the file to `C:\Users\<you>\.wslconfig`, then in PowerShell:
+
+```powershell
+wsl --shutdown
+```
+
+Quit Docker Desktop from the tray icon and start it again. That's it.
+
+**The 8-second rule.** Microsoft's docs are explicit about this: even after `wsl --shutdown`, give it a moment for the VM to fully stop before relaunching. You can verify with:
+
+```powershell
+wsl --list --running
+```
+
+If nothing's listed, you're safe to start back up.
+
+## Verify
+
+After Docker came back up:
+
+```powershell
+PS> wsl -d docker-desktop -- nproc
+4
+
+PS> wsl -d docker-desktop -- free -h
+              total        used        free      shared  buff/cache   available
+Mem:           7.8G      485.8M        6.6G        3.1M      697.7M        7.1G
+Swap:          8.0G           0        8.0G
+```
+
+4 CPUs, 7.8 GB RAM (the 8 GB cap, minus a sliver of overhead), 8 GB of swap. Exactly what the config asked for.
+
+The SonarQube scan that had been crawling finished in a sensible amount of time on the next run.
+
+## Optional extras worth knowing about
+
+If you want to go further, the `[wsl2]` section supports a bunch of other documented keys. The two I'd actually consider for a SonarQube-style workload:
+
+```ini
+[wsl2]
+memory=8GB
+processors=4
+swap=8GB
+vmIdleTimeout=60000
+
+[experimental]
+autoMemoryReclaim=gradual
+sparseVhd=true
+```
+
+- `vmIdleTimeout` shuts the VM down after 60 s of idle, so it's not hoarding 8 GB while you're not using Docker.
+- `autoMemoryReclaim=gradual` returns idle memory back to Windows slowly instead of dropping caches abruptly — nicer for scans that have memory spikes.
+- `sparseVhd=true` makes new WSL VHDs sparse, so disk usage actually shrinks when you free space inside the VM.
+
+## Gotchas I want to save you from
+
+A few things I learned the hard way or almost did:
+
+**Don't allocate everything.** Setting `memory` to your entire physical RAM, or `processors` to your full core count, will starve Windows itself. Aim for roughly 75% of physical RAM and leave a couple of cores for the host.
+
+**`pageReporting` isn't a real key.** I saw it referenced in older blog posts. It's not in the current Microsoft spec — WSL silently ignores unknown keys, so the file looks valid but the setting does nothing. Stick to the documented list.
+
+**Path values need escaped backslashes.** If you set `swapFile` or `kernel`, write it as `C:\\Temp\\swap.vhdx`, not `C:\Temp\swap.vhdx`.
+
+**Docker Desktop's `docker-desktop` VM is what you care about, not a user distro.** When validating, run `wsl -d docker-desktop -- free -h`, not `wsl -- free -h`. The latter checks whatever default distro you have installed (Ubuntu or similar), which is a separate VM.
+
+## TL;DR
+
+If Docker on Windows feels sluggish, check what WSL 2 is actually giving it:
+
+```powershell
+wsl -d docker-desktop -- nproc
+wsl -d docker-desktop -- free -h
+```
+
+If those numbers are tiny, drop a `.wslconfig` at `%UserProfile%\.wslconfig`:
+
+```ini
+[wsl2]
+memory=8GB
+processors=4
+swap=8GB
+```
+
+`wsl --shutdown`, restart Docker Desktop, verify, and get on with your day.
+
+*Reference: [Microsoft's advanced settings configuration in WSL](https://learn.microsoft.com/en-us/windows/wsl/wsl-config).*

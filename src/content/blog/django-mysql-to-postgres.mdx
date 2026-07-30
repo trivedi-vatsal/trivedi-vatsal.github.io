@@ -1,0 +1,41 @@
+---
+title: 'From MySQL to PostgreSQL: My Django Migration Story (and a Tool to Help)'
+description: 'How I moved a Django app from MySQL to PostgreSQL safely—and the open-source toolkit I built with dry-run, connection checks, and type mapping.'
+pubDate: 2025-10-07
+updatedDate: 2025-10-07
+tags: ['django', 'postgresql', 'engineering']
+---
+
+Every project grows over time. You start with tools that work great in the beginning, but as your app and data grow, your needs change. That's what happened to me. My Django app was built on MySQL, and it worked well for a long time. But as things scaled up, I realized I needed something more powerful and flexible.
+
+So, I decided to move to PostgreSQL—a database known for better performance, advanced features, and scalability. But database migration is not an easy task. I had to make sure the data stayed safe, handle different data types between MySQL and PostgreSQL, and make the whole process repeatable and reliable.
+
+Doing this manually with commands and scripts felt messy and risky. So, I decided to create a clean and reusable solution.
+
+## My Solution: A Toolkit for Django Migrations
+
+To make the migration process easier, I built a small toolkit and wrote a step-by-step guide. I've open-sourced everything so that others can use it too.
+
+**GitHub Repository:** [https://github.com/trivedi-vatsal/django-mysql-to-postgres](https://github.com/trivedi-vatsal/django-mysql-to-postgres)
+
+The toolkit automates most of the hard work. The main script transfers your database schema and data from MySQL to PostgreSQL and maps the data types correctly.
+
+I also added a few helper tools:
+
+- A **connection tester** to check your new database settings before starting.
+- A **`--dry-run`** option to test the migration safely without changing real data.
+- A **cleanup script** to remove old migration files after switching over.
+
+## My Approach
+
+My main goal was safety and confidence. I made sure the process included steps like taking backups, testing connections, and running a dry run first. That way, you can migrate without worrying about data loss or downtime.
+
+The guide in the repository explains everything—the commands, the scripts, and how to fix common issues. It's based on my own migration experience, turned into a simple plan you can follow.
+
+## Why I'm Sharing This
+
+Switching from MySQL to PostgreSQL was a big improvement for my project. It helped me scale faster and manage data more effectively.
+
+If you're planning to move your Django project to PostgreSQL, check out the repo. I'd love to hear your feedback or how it works for you.
+
+Happy coding!

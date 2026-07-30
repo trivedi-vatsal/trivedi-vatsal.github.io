@@ -1,0 +1,81 @@
+---
+title: "Let's Be Real: It's Time to Ditch `any` for `unknown` in TypeScript"
+description: "We've all reached for `any` as a quick fix, but it comes at a steep cost. Discover why `unknown` is the safer, smarter alternative that will save you from future headaches."
+pubDate: 2025-09-22
+updatedDate: 2025-09-22
+tags: ['engineering']
+---
+
+We've all seen it in a pull request. A developer hits a snag with a tricky data type, and to get things working, they reach for the easiest tool available: `any`. It gets the job done and silences the compiler, but it comes at a hidden cost.
+
+Our team has a Husky pre-commit hook set up to flag `any`, which is a great first step. But we all know that in a pinch, the `--no-verify` flag is an easy out. This makes the code review our most important line of defense. When you spot an `any` that has slipped through, it's the perfect opportunity to advocate for its safer, smarter alternative: `unknown`.
+
+## The Danger of `any`: A "Trust Me" Promise to the Compiler
+
+Let's be blunt: using `any` is like telling the TypeScript compiler to just look the other way. When you type a variable as `any`, you're effectively saying, "Disable all type-checking for this. I know what I'm doing."
+
+This means you can do literally anything with that variable, and TypeScript won't stop you until it explodes at runtime.
+
+**Here's a classic example:**
+
+```typescript
+let myData: any;
+
+myData = "This is a string";
+
+// TypeScript has no problem with this line...
+// but it will crash your app!
+console.log(myData.toFixed(2));
+// Uncaught TypeError: myData.toFixed is not a function
+
+// The compiler is also perfectly happy with these obvious errors:
+myData.someMethodThatDoesNotExist();
+const result = myData * 10;
+```
+
+Every `any` you use punches a hole in the type safety we rely on TypeScript for. It turns potential compile-time catches into frustrating runtime bugs and makes refactoring a dangerous guessing game.
+
+## The Savior: `unknown` to the Rescue
+
+This is where `unknown` comes in and saves the day. Just like `any`, you can assign any value—a string, a number, an object—to a variable typed as `unknown`.
+
+So what's the big deal? The crucial difference is that `unknown` won't let you *do anything* with the value until you first prove what it is. You are forced to handle the uncertainty before you can use it.
+
+Think of an `unknown` variable like a locked box. You know something's inside, but you have to check what it is before you can safely use it.
+
+**Let's fix the previous example with `unknown`:**
+
+```typescript
+let myData: unknown;
+
+myData = "This is a string";
+
+// The compiler immediately stops you. This is a good thing!
+// Error: Object is of type 'unknown'.
+console.log(myData.toFixed(2));
+
+// Here's how you work with it safely:
+if (typeof myData === 'number') {
+  // OK, inside this block, TypeScript now knows myData is a number.
+  console.log(myData.toFixed(2));
+} else if (typeof myData === 'string') {
+  // And in here, it knows it's a string.
+  console.log(myData.toUpperCase());
+}
+```
+
+By switching to `unknown`, you're prompted to write more defensive, robust code. It makes you handle different cases explicitly with type guards like `typeof` or `instanceof`, leading to a much more stable application.
+
+## The Code Reviewer's Playbook
+
+Spotting an `any` during a code review is a great teaching moment. Here's how to approach it constructively:
+
+1. **Understand the "Why":** The developer was likely just trying to solve a typing problem quickly. No need to be critical.
+2. **Explain the Risk:** Briefly mention that `any` bypasses type safety and can hide bugs that will only show up at runtime.
+3. **Offer the Solution:** Suggest replacing `any` with `unknown`. Then, guide them to add the necessary type check (e.g., an `if` block) to safely access the variable. This not only resolves the immediate risk but also makes the code's intent clearer for everyone.
+
+## The Bottom Line
+
+While `any` is a tempting shortcut, it undermines the very reason we use TypeScript. **`unknown` gives you the same flexibility to accept any type of value but without sacrificing type safety.**
+
+By encouraging the use of `unknown` in our code reviews, we're fostering a habit of writing more deliberate, predictable, and robust code. It forces us to confront uncertainty head-on, resulting in fewer bugs and a healthier codebase. So next time you're tempted to use `any`, pause and reach for `unknown` instead. Your future self—and your teammates—will be grateful.

@@ -1,0 +1,278 @@
+---
+title: 'I Got Tired of Manual Code Reviews So I Built a Free Automated Security Pipeline'
+description: 'Pre-commit hooks, GitHub Actions, and SonarQube—three free layers that catch secrets, CVEs, and Django footguns without a sales call.'
+pubDate: 2026-03-23
+updatedDate: 2026-03-23
+tags: ['security', 'devops', 'engineering']
+---
+
+Let me be upfront about something. For a while, our security process was basically vibes. Someone would glance over a PR, maybe catch an obvious thing, and we'd ship it. No linting enforcement. No dependency scanning. No idea if someone accidentally committed a database password six months ago.
+
+It wasn't negligence exactly, it was the usual small team problem. Everyone's busy, security tooling feels like a rabbit hole, and the good stuff costs money we didn't want to spend.
+
+Then I spent an afternoon looking into it properly and realised the entire thing was solvable for free, in a weekend. This is what I set up.
+
+## The constraints I was working with
+
+- Python (Django) backend, JavaScript/Node.js frontend
+- Everything lives on GitHub
+- Small team — I'd be the one maintaining this
+- Not willing to pay for tooling, at least not yet
+
+The last point mattered a lot. Most "enterprise" security tools have pricing pages that just say "contact sales." Hard pass.
+
+## The approach: three layers, not one big tool
+
+The mistake I almost made was looking for a single tool that does everything. That tool either doesn't exist or costs a lot. Instead, I split the problem into three layers based on how fast feedback needs to be:
+
+**Layer 1 — Before the code even leaves my machine.** Pre-commit hooks. Fast, local, blocks commits instantly if something looks wrong.
+
+**Layer 2 — Before the code gets merged.** GitHub Actions on every PR. Takes a few minutes, catches deeper security issues.
+
+**Layer 3 — The full picture.** A proper dashboard showing the health of the entire codebase. Runs weekly and after every merge to main.
+
+Each layer has a different job. Trying to do everything in one place means either slow commit times or shallow analysis. Keeping them separate means you get both speed and depth.
+
+## Layer 1: Pre-commit hooks
+
+Install the framework once:
+
+```bash
+pip install pre-commit
+```
+
+Then drop this `.pre-commit-config.yaml` in your project root:
+
+```yaml
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.57.0
+    hooks:
+      - id: eslint
+        files: \.(js|jsx|ts|tsx)$
+        additional_dependencies:
+          - eslint@8.57.0
+          - eslint-plugin-security@1.7.1
+```
+
+And activate it:
+
+```bash
+pre-commit install
+```
+
+That's the whole setup. Every developer runs `pre-commit install` once and then forgets about it.
+
+### What's actually running here
+
+**Gitleaks** scans every commit for secrets — API keys, database URLs, tokens, anything that looks like a credential. If it finds one, the commit gets blocked before it goes anywhere:
+
+```python
+# This commit will NOT go through
+STRIPE_SECRET = "sk_live_abc123xyz"
+DATABASE_URL = "postgres://user:password@prod-host/db"
+```
+
+I've seen codebases where dev credentials had been sitting in git history for years. This stops that from happening in the first place.
+
+**Ruff** handles Python linting and formatting. It's genuinely fast — replaces flake8, black, and isort in one tool. The `--fix` flag means it auto-corrects most things silently. You barely notice it running.
+
+**ESLint with the security plugin** catches JavaScript issues that normal linting misses, like using `eval()` with dynamic input or building RegEx from user-supplied strings (a classic ReDoS vector).
+
+## Layer 2: GitHub Actions on pull requests
+
+Every PR against `main` or `develop` triggers two scanners automatically. The results show up directly in the GitHub Security tab on the PR — no context switching, no separate dashboard to check.
+
+Create `.github/workflows/security-scan.yml`:
+
+```yaml
+name: Security Scan
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  trivy:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          format: sarif
+          output: trivy-results.sarif
+
+      - name: Upload to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+
+  bandit:
+    name: Python Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install and run Bandit
+        run: |
+          pip install bandit[toml]
+          bandit -r . \
+            -x ./node_modules,./venv,./.venv,./tests \
+            -f json \
+            -o bandit-report.json || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bandit-security-report
+          path: bandit-report.json
+```
+
+### Why these two tools specifically
+
+**Trivy** scans `requirements.txt` and `package.json` against known CVE databases. When it finds something, it tells you the exact version you have, the CVE ID, the severity, and what version fixes it:
+
+```plaintext
+CRITICAL  CVE-2023-1234  cryptography 3.4.6 → upgrade to 41.0.0
+HIGH      CVE-2023-5678  Pillow 9.0.0 → upgrade to 10.0.0
+```
+
+That's actionable. No digging through changelogs to figure out if you're affected.
+
+**Bandit** understands Python and Django patterns specifically. It catches the stuff that generic linters miss — things like Django views doing raw SQL string concatenation, `DEBUG = True` making it into a non-dev file, or `subprocess` calls using `shell=True`. If you've worked on a Django codebase for a while you've probably seen all of these in the wild.
+
+## Layer 3: SonarQube for the full codebase picture
+
+This is where it gets interesting. The previous two layers are reactive — they catch issues in code you're actively changing. SonarQube gives you a view of the entire codebase, including the stuff nobody's touched in two years.
+
+One thing worth knowing before you go down the Semgrep route for this: Semgrep's free (Community) edition only analyzes code within a single function or file. It can't follow data across your application. SonarQube's community build does full cross-file analysis, which is what you actually want for a codebase-wide report.
+
+### Spin it up locally first
+
+```bash
+docker run -d --name sonarqube -p 9000:9000 sonarqube:community
+```
+
+Go to `http://localhost:9000`, log in with `admin`/`admin`, and immediately change the password. Create a project, grab a token, and add `sonar-project.properties` to your repo:
+
+```properties
+sonar.projectKey=your-project-name
+sonar.projectName=Your Project Name
+sonar.projectVersion=1.0
+
+sonar.sources=.
+sonar.exclusions=**/node_modules/**,**/venv/**,**/.venv/**,**/migrations/**,**/*.min.js
+
+sonar.python.version=3.11
+```
+
+### Then automate it
+
+Create `.github/workflows/sonarqube.yml`:
+
+```yaml
+name: SonarQube Full Scan
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 1'  # Monday 2am
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history = better analysis
+
+      - uses: SonarSource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+```
+
+Add both secrets under **Settings → Secrets → Actions** in your GitHub repo.
+
+Now it runs automatically every Monday and every time something merges to main. You just check the dashboard.
+
+## What the first scan actually found
+
+I want to be honest about this because I've read too many posts that describe a perfect greenfield setup. This was a real codebase that had been built by humans under time pressure.
+
+The first SonarQube scan came back with:
+
+- Hardcoded dev credentials that had been in the repo for months. Not production secrets, but still — they had no business being there.
+- A couple of Django views building SQL with string formatting instead of parameterized queries. Classic, boring, dangerous.
+- Several npm packages flagged by Trivy with HIGH severity CVEs, all with fixes available. Literally just needed version bumps.
+- A significant chunk of duplicated logic copied between files that had clearly diverged over time.
+
+None of it was a disaster. But any of it could have become one. The SQL stuff in particular — that's the kind of thing that sits quietly in a codebase until someone thinks to try it.
+
+## Handling the noise
+
+The first scan will surface a lot. Don't try to fix everything at once — you'll burn out and give up on the tooling entirely.
+
+The priority order that works for us:
+
+| Severity | What we do |
+| --- | --- |
+| Critical | Don't merge. Fix it now. |
+| High | Fix it this sprint. |
+| Medium | Goes on the backlog. |
+| Low | Fix it when you're touching that code anyway. |
+
+For SonarQube false positives — and there will be some — mark them as "Won't Fix" and add a comment explaining why. Dismissing without a comment just creates confusion later.
+
+## The ongoing cost
+
+Once this is set up, the maintenance is genuinely minimal:
+
+- Pre-commit hooks run themselves. Zero maintenance.
+- GitHub Actions trigger themselves. Zero maintenance.
+- SonarQube dashboard — I spend maybe 20-30 minutes a week looking at it.
+- Once a month, run `pre-commit autoupdate` to pull in newer tool versions.
+
+That's it. The pipeline runs whether I'm thinking about it or not, which is exactly the point.
+
+## Where to start if this seems like a lot
+
+You don't need to do all of this at once. The pre-commit hooks alone are worth doing today — `pip install pre-commit`, drop in the config, run `pre-commit install`, and Gitleaks starts protecting your commits immediately. Takes maybe 20 minutes.
+
+The GitHub Actions workflow is the next step, and it's mostly copy-paste. SonarQube requires the most setup but gives the most visibility.
+
+Each layer is independent. Pick the one that solves your most pressing problem first and add the others when you're ready.
+
+## Resources
+
+- [SonarQube Community Build](https://www.sonarsource.com/open-source-editions/sonarqube-community-edition/)
+- [Trivy](https://trivy.dev/)
+- [Bandit](https://bandit.readthedocs.io/)
+- [Gitleaks](https://gitleaks.io/)
+- [Ruff](https://docs.astral.sh/ruff/)
+- [eslint-plugin-security](https://github.com/eslint-community/eslint-plugin-security)
+- [pre-commit](https://pre-commit.com/)
+
+Everything here is free. Nothing leaves your infrastructure. If you set this up and find something interesting on the first scan, I'd be curious to hear about it.

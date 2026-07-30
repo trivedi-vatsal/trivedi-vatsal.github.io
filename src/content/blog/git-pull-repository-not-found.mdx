@@ -1,0 +1,96 @@
+---
+title: 'Why `git pull` Says "Repository Not Found" (When the Repo Exists)'
+description: "On a machine with more than one GitHub account, \"Repository not found\" usually means the wrong identity is cached—not a bad remote URL."
+pubDate: 2026-07-14
+updatedDate: 2026-07-14
+tags: ['git', 'github', 'cli', 'productivity']
+---
+
+The error looks like a typo in the remote URL. Usually it isn't. On a machine with more than one GitHub account signed in, this message is GitHub's way of saying wrong identity, not wrong address.
+
+## The symptom
+
+A repo clone that has worked for months suddenly can't fetch or pull. The remote URL hasn't changed. The repo hasn't been renamed or deleted; you can open it in the browser just fine. Yet the command line insists otherwise:
+
+```console
+$ git pull
+remote: Repository not found.
+fatal: repository 'https://github.com/<org>/<repo>.git/' not found
+```
+
+## Why GitHub's error is misleading
+
+For a private repository, GitHub won't confirm or deny that the repo exists to a caller who isn't authorized to see it. Confirming would leak information about private repos to anyone probing URLs. So instead of a clear `403 Forbidden`, an unauthorized request gets treated the same as a repo that truly doesn't exist: a `404`, which git renders as `Repository not found`.
+
+"Repository not found" on a private repo almost always means the credential attached to this request can't see it. It's rarely a wrong URL.
+
+## The usual cause: two accounts, one keychain
+
+This shows up most on machines used for both personal and organization-owned work: a personal GitHub account for side projects, and a separate account (or SSO identity) that actually holds access to the org's private repos. Credential helpers cache one token per host. If the cached token belongs to the personal account, every git operation silently authenticates as that account, including ones against the org repo it has no rights to.
+
+```plaintext
+personal-account  --(switch)-->  org-account
+Active, no repo access           Has repo access
+```
+
+## Diagnose it
+
+First, confirm the remote itself is fine.
+
+```console
+$ git remote -v
+```
+
+If the URL opens in a browser while logged into the right account, the remote isn't the problem.
+
+Next, check which credential is actually cached. On macOS with the default helper:
+
+```console
+$ git credential-osxkeychain get <<< $'protocol=https\nhost=github.com'
+username=personal-account
+password=gho_...
+```
+
+If `username` isn't the account that has access to the repo, that's the fault isolated.
+
+Finally, check the CLI's active identity. If commits and pulls go through `gh` or its credential helper:
+
+```console
+$ gh auth status
+github.com
+  ✓ Logged in as personal-account (active: true)
+  ✓ Logged in as org-account (active: false)
+```
+
+Multiple logged-in accounts with the wrong one marked `active: true` is the exact failure mode above.
+
+## Fix it
+
+If `gh` already knows about the correct account, this is a one-line switch:
+
+```console
+$ gh auth switch --user org-account
+✓ Switched active account for github.com to org-account
+$ gh auth setup-git
+$ git pull
+Already up to date.
+```
+
+`gh auth switch` makes the target account the active one for the host. `gh auth setup-git` re-points git's credential helper at the CLI's stored tokens, so the fix applies to plain `git` commands too, not just `gh` ones.
+
+If the correct account was never added to `gh`, add it first, then switch:
+
+```console
+$ gh auth login
+```
+
+Without `gh`, the equivalent is deleting the stale entry from the OS credential store (Keychain Access on macOS, Credential Manager on Windows, `libsecret` on Linux) and letting the next `git pull` prompt for fresh credentials.
+
+## Confirm, and avoid the repeat
+
+- `gh auth status` shows the intended account marked `active: true`
+- `git fetch` / `git pull` complete without the 404
+- Local repo config, not global, holds the identity for org work (`git config --local user.name` / `user.email`), so switching directories doesn't carry the wrong identity along
+- Name accounts memorably in `gh auth status` output, since they're listed by GitHub username, so the active one is obvious at a glance next time
+
+Applies to any host with more than one authenticated GitHub identity. The same diagnosis holds regardless of which two accounts are involved.

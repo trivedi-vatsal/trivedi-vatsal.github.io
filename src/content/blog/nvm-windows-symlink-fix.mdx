@@ -1,0 +1,145 @@
+---
+title: 'How to Fix the NVM for Windows `NVM_SYMLINK` Activation Error'
+description: 'NVM_SYMLINK fails when C:\\Program Files\\nodejs is a real folder, not a symlink. Here is a guaranteed step-by-step fix for the activation error.'
+pubDate: 2026-03-04
+updatedDate: 2026-03-04
+tags: ['nodejs', 'windows', 'engineering']
+---
+
+If you're using **NVM for Windows** and see the following error:
+
+```text
+nvm enabled activation error:
+NVM_SYMLINK is set to a physical file/directory at C:\Program Files\nodejs
+Please remove the location and try again,
+or select a different location for NVM_SYMLINK.
+```
+
+You're not alone. This is a common issue when switching from a traditional Node.js installation to NVM.
+
+This guide explains the root cause and provides a guaranteed step-by-step fix.
+
+## Why This Error Happens
+
+When Node.js is installed using the official Windows installer, it creates this directory:
+
+```
+C:\Program Files\nodejs
+```
+
+However, **NVM for Windows** uses this same path as a symbolic link (`NVM_SYMLINK`) to dynamically switch between Node versions.
+
+If a physical directory already exists there, NVM cannot override it — and activation fails.
+
+## Step-by-Step Fix (Guaranteed Method)
+
+### Step 1: Close All Node-Related Applications
+
+Before making changes:
+
+- Close all terminal windows
+- Close VS Code or any IDE
+- Stop any running Node.js applications
+
+This prevents file locking issues.
+
+### Step 2: Open Command Prompt as Administrator
+
+1. Press **Start**
+2. Type `cmd`
+3. Right-click → **Run as Administrator**
+
+Administrator privileges are required because we are modifying `Program Files`.
+
+### Step 3: Take Ownership of the Directory
+
+Windows may block deletion due to TrustedInstaller permissions.
+
+Run:
+
+```cmd
+takeown /f "C:\Program Files\nodejs" /r /d y
+```
+
+Then grant full permissions:
+
+```cmd
+icacls "C:\Program Files\nodejs" /grant %username%:F /t
+```
+
+### Step 4: Kill Any Running Node Processes
+
+```cmd
+taskkill /f /im node.exe
+taskkill /f /im npm.exe
+```
+
+This ensures no processes are locking files.
+
+### Step 5: Delete the Existing Node Directory
+
+```cmd
+rmdir /s /q "C:\Program Files\nodejs"
+```
+
+**Command flags explained:**
+
+- `/s` → Deletes all subdirectories and files
+- `/q` → Suppresses confirmation prompts
+
+## Still Getting "Access is Denied"?
+
+Open **PowerShell as Administrator** and run:
+
+```powershell
+Remove-Item "C:\Program Files\nodejs" -Recurse -Force
+```
+
+## Fallback Method (If Files Are Locked)
+
+If the directory still refuses to delete:
+
+1. Restart your system
+2. Do not open any applications
+3. Immediately open Command Prompt as Administrator
+4. Run:
+
+```cmd
+rmdir /s /q "C:\Program Files\nodejs"
+```
+
+This resolves most background file lock issues.
+
+## Re-Enable NVM
+
+Once the directory is removed:
+
+```cmd
+nvm on
+```
+
+Then install and activate a Node version:
+
+```cmd
+nvm install 18
+nvm use 18
+node -v
+```
+
+You should now see the installed Node version.
+
+## Best Practice When Migrating to NVM
+
+If you're switching from a direct Node installation to NVM:
+
+1. Uninstall Node.js from Control Panel first
+2. Manually verify that `C:\Program Files\nodejs` is deleted
+3. Then install and configure NVM
+
+This prevents activation conflicts entirely.
+
+## Final Thoughts
+
+This error occurs because NVM relies on symbolic linking, and Windows does not allow it to overwrite an existing physical directory.
+
+Following the above steps will completely resolve the `NVM_SYMLINK` activation error in most Windows environments.
