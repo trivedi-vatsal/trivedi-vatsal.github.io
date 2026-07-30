@@ -151,8 +151,7 @@ export const WORK_EXPERIENCES: ExperienceItemType[] = (() => {
 
     if (existing) {
       existing.positions.push(position)
-      existing.isCurrentEmployer =
-        existing.isCurrentEmployer || !job.endDate
+      existing.isCurrentEmployer = existing.isCurrentEmployer || !job.endDate
       if (!existing.companyWebsite && job.url) {
         existing.companyWebsite = companyWebsite(job.url)
       }
@@ -219,9 +218,10 @@ function companiesForSkill(match: string[]): string[] {
       .toLowerCase()
 
     if (
-      match.some((token) =>
-        skills.some((s) => s.toLowerCase() === token.toLowerCase()) ||
-        haystack.includes(token.toLowerCase()),
+      match.some(
+        (token) =>
+          skills.some((s) => s.toLowerCase() === token.toLowerCase()) ||
+          haystack.includes(token.toLowerCase()),
       )
     ) {
       found.add(job.name)

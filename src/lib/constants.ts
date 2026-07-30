@@ -33,7 +33,8 @@ export const SITE: Site = {
 
 export const EXPERIMENTS_PAGE: Page = {
   TITLE: 'Experiments',
-  DESCRIPTION: 'Open source tools, design studies, writing, and creative outlets.',
+  DESCRIPTION:
+    'Open source tools, design studies, writing, and creative outlets.',
 }
 
 export const ABOUT: Page = {

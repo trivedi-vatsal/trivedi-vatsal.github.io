@@ -1,4 +1,4 @@
-import { useImperativeHandle } from 'react'
+import { forwardRef, useImperativeHandle } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 
 export type ChevronsUpDownIconHandle = {
@@ -7,15 +7,13 @@ export type ChevronsUpDownIconHandle = {
 }
 
 export type ChevronsUpDownIconProps = React.ComponentPropsWithoutRef<'svg'> & {
-  ref?: React.Ref<ChevronsUpDownIconHandle>
   duration?: number
 }
 
-export function ChevronsUpDownIcon({
-  ref,
-  duration = 0.3,
-  ...props
-}: ChevronsUpDownIconProps) {
+export const ChevronsUpDownIcon = forwardRef<
+  ChevronsUpDownIconHandle,
+  ChevronsUpDownIconProps
+>(function ChevronsUpDownIcon({ duration = 0.3, ...props }, ref) {
   const controls = useAnimation()
 
   useImperativeHandle(ref, () => {
@@ -73,4 +71,4 @@ export function ChevronsUpDownIcon({
       />
     </svg>
   )
-}
+})

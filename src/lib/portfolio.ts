@@ -160,10 +160,6 @@ export const ABOUT_STACK_FOLDERS = [
   },
 ]
 
-function staticMapUrl(lat: number, lon: number, zoom = 12): string {
-  return `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lon}&zoom=${zoom}&size=1200x600&maptype=transport&markers=${lat},${lon},lightblue1`
-}
-
 export const ABOUT_LOCATION = {
   places: [
     {
@@ -174,7 +170,8 @@ export const ABOUT_LOCATION = {
       region: 'India',
       note: 'Now enjoying Bengaluru, India.',
       coords: '12.9716° N, 77.5946° E',
-      image: staticMapUrl(12.9716, 77.5946, 12),
+      embed:
+        'https://www.openstreetmap.org/export/embed.html?bbox=77.5346%2C12.9416%2C77.6546%2C13.0016&layer=mapnik&marker=12.9716%2C77.5946',
       link: 'https://www.openstreetmap.org/?mlat=12.9716&mlon=77.5946#map=13/12.9716/77.5946',
     },
     {
@@ -185,7 +182,8 @@ export const ABOUT_LOCATION = {
       region: 'Gujarat, India',
       note: 'Studied in Vallabh Vidyanagar, Gujarat.',
       coords: '22.5485° N, 72.9250° E',
-      image: staticMapUrl(22.5485, 72.9250, 13),
+      embed:
+        'https://www.openstreetmap.org/export/embed.html?bbox=72.8850%2C22.5185%2C72.9650%2C22.5785&layer=mapnik&marker=22.5485%2C72.9250',
       link: 'https://www.openstreetmap.org/?mlat=22.5485&mlon=72.9250#map=14/22.5485/72.9250',
     },
   ],

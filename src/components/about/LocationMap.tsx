@@ -9,8 +9,7 @@ export type LocationPlace = {
   region: string
   note: string
   coords: string
-  /** Static map image URL (non-interactive). */
-  image: string
+  embed: string
   link: string
 }
 
@@ -30,14 +29,17 @@ export function LocationMap({ places, className }: Props) {
       className={cn('mt-6 w-full', className)}
       aria-labelledby="place-heading"
     >
-      <div className="bg-muted relative h-[min(52vh,420px)] w-full overflow-hidden rounded-xl border">
-        <img
+      <div className="bg-muted relative h-[min(52vh,420px)] w-full overflow-hidden">
+        {/* pointer-events-none blocks zoom, pan, and other iframe interaction */}
+        <iframe
           key={active.id}
-          src={active.image}
-          alt={`Map of ${active.city}, ${active.region}`}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90 contrast-[1.08] grayscale"
+          title={`Map of ${active.city}`}
+          src={active.embed}
+          className="pointer-events-none absolute inset-0 h-full w-full scale-[1.02] opacity-90 contrast-[1.15] grayscale"
           loading="lazy"
-          draggable={false}
+          tabIndex={-1}
+          aria-hidden="true"
+          referrerPolicy="no-referrer-when-downgrade"
         />
 
         <div className="absolute top-5 left-5 z-10 flex flex-col gap-2 sm:flex-row sm:gap-3">
@@ -50,7 +52,7 @@ export function LocationMap({ places, className }: Props) {
                 onClick={() => setActiveId(place.id)}
                 aria-pressed={selected}
                 className={cn(
-                  'inline-flex items-center gap-2 rounded-md px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.12em] uppercase transition-colors',
+                  'inline-flex items-center gap-2 px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.12em] uppercase transition-colors',
                   'focus-visible:ring-foreground/40 focus-visible:ring-2 focus-visible:outline-none',
                   selected
                     ? 'bg-background text-foreground shadow-sm'
