@@ -30,7 +30,8 @@ function parseView(value: string | null): BlogView {
 }
 
 function parseLayout(value: string | null): BlogLayout {
-  return value === 'grid' ? 'grid' : 'list'
+  if (value === 'grid' || value === 'compact') return value
+  return 'list'
 }
 
 export function BlogExplorer({

@@ -2,7 +2,7 @@ import type { BlogLane } from '@/lib/blog'
 import { cn } from '@/lib/utils'
 import { BlogPostCard } from './BlogPostCard'
 
-type Layout = 'list' | 'grid'
+type Layout = 'list' | 'grid' | 'compact'
 
 type Props = {
   lane: BlogLane
@@ -13,13 +13,19 @@ export function BlogSwimLane({ lane, layout }: Props) {
   return (
     <section
       aria-labelledby={`lane-${lane.key}`}
-      className="border-border/50 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 border-b py-6 duration-300 last:border-b-0"
+      className={cn(
+        'border-border/50 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 border-b duration-300 last:border-b-0',
+        layout === 'compact' ? 'py-4' : 'py-6',
+      )}
     >
       <div className="md:grid md:grid-cols-[11rem_minmax(0,1fr)] md:gap-8">
         <header className="mb-4 md:sticky md:top-24 md:mb-0 md:self-start">
           <h2
             id={`lane-${lane.key}`}
-            className="text-foreground text-lg font-semibold tracking-tight"
+            className={cn(
+              'text-foreground font-semibold tracking-tight',
+              layout === 'compact' ? 'text-base' : 'text-lg',
+            )}
           >
             {lane.label}
             <span className="text-muted-foreground ml-2 text-sm font-normal">

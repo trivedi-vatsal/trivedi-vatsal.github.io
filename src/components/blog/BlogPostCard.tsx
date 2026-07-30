@@ -6,7 +6,7 @@ import {
 } from '@/lib/blog'
 import { cn } from '@/lib/utils'
 
-type Layout = 'list' | 'grid'
+type Layout = 'list' | 'grid' | 'compact'
 
 type Props = {
   post: BlogPostSummary
@@ -52,6 +52,32 @@ function CoverMedia({
 }
 
 export function BlogPostCard({ post, layout, className }: Props) {
+  if (layout === 'compact') {
+    return (
+      <article
+        className={cn(
+          'border-border/40 group hover:border-foreground/15 grid grid-cols-[6.5rem_minmax(0,1fr)] items-baseline gap-3 border-b py-2.5 transition-colors last:border-b-0 sm:grid-cols-[7.5rem_minmax(0,1fr)]',
+          className,
+        )}
+      >
+        <time
+          dateTime={post.pubDate}
+          className="text-muted-foreground font-mono text-xs tabular-nums"
+        >
+          {formatPostDate(post.pubDate)}
+        </time>
+        <h3 className="text-sm font-medium tracking-tight">
+          <a
+            href={post.href}
+            className="group-hover:text-primary transition-colors"
+          >
+            {post.title}
+          </a>
+        </h3>
+      </article>
+    )
+  }
+
   if (layout === 'list') {
     return (
       <article

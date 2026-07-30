@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { LayoutGrid, List, Search } from 'lucide-react'
+import { LayoutGrid, List, Rows3, Search } from 'lucide-react'
 
 export type BlogView = 'category' | 'date'
-export type BlogLayout = 'list' | 'grid'
+export type BlogLayout = 'list' | 'grid' | 'compact'
 
 type Props = {
   view: BlogView
@@ -91,6 +91,11 @@ export function BlogToolbar({
               value: 'grid',
               label: 'Grid',
               icon: <LayoutGrid className="size-3.5" aria-hidden="true" />,
+            },
+            {
+              value: 'compact',
+              label: 'Compact',
+              icon: <Rows3 className="size-3.5" aria-hidden="true" />,
             },
           ]}
         />
