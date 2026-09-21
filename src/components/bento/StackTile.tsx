@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 
 export type StackItem = {
   name: string
-  projects: string[]
+  useCases: string[]
 }
 
 type Props = {
@@ -139,14 +139,14 @@ export function StackTile({ items, className }: Props) {
               {current.name}
             </p>
             <p className="text-muted-foreground mt-0.5 font-mono text-[0.65rem] tracking-wide">
-              {current.projects.length > 0
-                ? current.projects.join(' · ')
-                : 'From resume skills'}
+              {current.useCases.length > 0
+                ? current.useCases.join(' · ')
+                : 'Part of my everyday toolkit'}
             </p>
           </div>
         ) : (
           <p className="text-muted-foreground text-sm">
-            Hover a tool to see where it shows up.
+            The tools I know and reach for when I build.
           </p>
         )}
       </div>

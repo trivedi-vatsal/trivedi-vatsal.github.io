@@ -24,7 +24,7 @@ const socials = [
       aria-label="Footer links"
       class="flex flex-col items-center gap-2 md:items-start"
     >
-      <ContactNote client:load email={LINKS.mail} label="Send a note" />
+      <ContactNote client:visible email={LINKS.mail} label="Send a note" />
       {
         socials.map(({ href, label }) => (
           <a

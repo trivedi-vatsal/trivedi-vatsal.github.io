@@ -18,8 +18,8 @@ import { EXPERIMENTS } from '../lib/portfolio'
         {EXPERIMENTS_PAGE.TITLE}
       </h1>
       <p class="text-muted-foreground mt-3 max-w-2xl text-base">
-        Open source tools, design studies, writing, and visual craft. Linked to
-        real work elsewhere.
+        A small collection of tools and studies. Each one has its own page with
+        a quick explanation of what it does and how to use it.
       </p>
     </TopLayout>
     <BottomLayout>
@@ -28,13 +28,11 @@ import { EXPERIMENTS } from '../lib/portfolio'
           EXPERIMENTS.map((item) => (
             <li>
               <a
-                href={item.href}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
+                href={`/experiments/${item.slug}/`}
                 class="bento-tile group hover:border-foreground/20 flex h-full flex-col justify-between p-6 transition-colors"
               >
                 <div>
-                  <p class="bento-label">Experiment</p>
+                  <p class="bento-label">{item.kind}</p>
                   <h2 class="mt-3 text-2xl font-semibold tracking-tight">
                     {item.title}
                   </h2>
@@ -43,8 +41,7 @@ import { EXPERIMENTS } from '../lib/portfolio'
                   </p>
                 </div>
                 <span class="bento-arrow text-foreground mt-6">
-                  {item.external ? 'Open' : 'View'}
-                  <span aria-hidden="true">{item.external ? '↗' : '→'}</span>
+                  Explore experiment <span aria-hidden="true">→</span>
                 </span>
               </a>
             </li>

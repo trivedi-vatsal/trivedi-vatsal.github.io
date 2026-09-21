@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets'
 import { render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BlogPageLayout from './BlogPageLayout.astro'
@@ -6,8 +7,10 @@ import { ShareMenu } from '../components/share-menu'
 import { TOCInline } from '../components/toc-inline'
 import { TOCMinimap } from '../components/toc-minimap'
 import { Toaster } from '../components/ui/sonner'
+import defaultOgImage from '../assets/images/View1.png'
 import { SITE } from '../lib/constants'
 import { formatReadingTime, getReadingTime, slugifyTag } from '../lib/blog'
+import { blogPostingJsonLd } from '../lib/seo'
 
 interface Props {
   post: CollectionEntry<'blog'>
@@ -18,7 +21,8 @@ const { Content, headings } = await render(post)
 const author = post.data.author ?? SITE.AUTHOR
 const modifiedDate = post.data.updatedDate ?? post.data.pubDate
 const readingTime = getReadingTime(post.body)
-const shareUrl = new URL(`/blog/${post.id}/`, Astro.site).href
+const site = Astro.site ?? 'https://vatsal.xyz'
+const shareUrl = new URL(`/blog/${post.id}/`, site).href
 const toc = headings
   .filter((heading) => heading.depth >= 2 && heading.depth <= 4)
   .map((heading) => ({
@@ -27,27 +31,32 @@ const toc = headings
     depth: heading.depth,
   }))
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: post.data.title,
+const optimizedOg = await getImage({
+  src: defaultOgImage,
+  width: 1200,
+  height: 630,
+  format: 'webp',
+})
+const ogImage = post.data.heroImage
+  ? new URL(post.data.heroImage, site).href
+  : new URL(optimizedOg.src, site).href
+
+const jsonLd = blogPostingJsonLd({
+  siteUrl: site,
+  title: post.data.title,
   description: post.data.description,
-  datePublished: post.data.pubDate.toISOString(),
-  dateModified: modifiedDate.toISOString(),
-  author: {
-    '@type': 'Person',
-    name: author,
-  },
-  mainEntityOfPage: {
-    '@type': 'WebPage',
-    '@id': new URL(`/blog/${post.id}/`, Astro.site).href,
-  },
-}
+  url: shareUrl,
+  datePublished: post.data.pubDate,
+  dateModified: modifiedDate,
+  author,
+  image: ogImage,
+})
 ---
 
 <BlogPageLayout
   title={post.data.title}
   description={post.data.description}
+  ogImage={ogImage}
   ogType="article"
   publishedTime={post.data.pubDate}
   modifiedTime={modifiedDate}
@@ -79,7 +88,7 @@ const jsonLd = {
         {post.data.title}
       </h1>
       <div class="shrink-0 pt-1">
-        <ShareMenu client:load title={post.data.title} url={shareUrl} />
+        <ShareMenu client:idle title={post.data.title} url={shareUrl} />
       </div>
     </div>
     <div
@@ -132,7 +141,7 @@ const jsonLd = {
   {
     toc.length > 0 && (
       <div class="mb-8 lg:hidden">
-        <TOCInline client:load items={toc} />
+        <TOCInline client:visible items={toc} />
       </div>
     )
   }
@@ -146,10 +155,10 @@ const jsonLd = {
         aria-label="Table of contents"
       >
         <div class="pointer-events-auto">
-          <TOCMinimap client:load items={toc} />
+          <TOCMinimap client:idle items={toc} />
         </div>
       </aside>
     )
   }
-  <Toaster client:load />
+  <Toaster client:idle />
 </BlogPageLayout>

@@ -11,7 +11,7 @@ Personal portfolio and blog built with Astro. Live at [vatsal.xyz](https://vatsa
 
 ## Requirements
 
-- Node.js 20+
+- Node.js 20+ (see `.nvmrc`)
 - [pnpm](https://pnpm.io/) 9+
 
 ## Getting started
@@ -21,7 +21,7 @@ pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:4321](http://localhost:4321).
+Open [http://localhost:4321](http://localhost:4321). Dev still runs locally; canonical, sitemap, RSS, and OG URLs always use `https://vatsal.xyz`.
 
 ## Scripts
 
@@ -34,24 +34,24 @@ Open [http://localhost:4321](http://localhost:4321).
 | `pnpm format`       | Format with Prettier             |
 | `pnpm format:check` | Check formatting without writing |
 
-## Project structure
+## Preview a production build
 
-```
-public/          Static assets (images, CNAME)
-src/
-  components/    Astro sections and shadcn UI
-  content/       Blog MDX posts and content config
-  layouts/       Page layouts
-  lib/           Constants and utilities
-  pages/         Routes (/, /work, /blog)
-  styles/        Global CSS
-astro.config.ts
-src/styles/globals.css   Tailwind theme + base styles
+```bash
+pnpm build
+pnpm preview
 ```
 
-## Deployment
+This is the way to check canonical URLs, sitemap, and RSS against `https://vatsal.xyz`. Analytics stay off unless `PUBLIC_GOOGLE_ANALYTICS_ID` is set (see below).
 
-The site deploys to GitHub Pages on push to `main` via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). The custom domain is configured in [`public/CNAME`](public/CNAME).
+## Analytics
+
+Google Analytics is omitted unless `PUBLIC_GOOGLE_ANALYTICS_ID` is present at build time. Copy `.env.example` to `.env` only if you need it locally:
+
+```bash
+PUBLIC_GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+```
+
+The GitHub Pages deploy workflow sets this for production. There is no cookie consent banner; add one if your audience or jurisdiction requires it.
 
 ## Blog
 
@@ -68,6 +68,45 @@ draft: false
 ```
 
 The blog index is at `/blog/`. RSS is available at `/rss.xml`. A sitemap is generated at build time.
+
+### Drafts
+
+- `draft: true` posts appear in `pnpm dev` so you can preview them.
+- Production builds, RSS, and `pnpm preview` omit drafts. Flip `draft` to `false` to publish.
+
+## Deployment
+
+The site deploys to GitHub Pages on push to `main` via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). The custom domain is configured in [`public/CNAME`](public/CNAME).
+
+### One-time GitHub Pages settings
+
+1. Repo **Settings → Pages**.
+2. Set **Source** to **GitHub Actions** (not the `gh-pages` branch).
+3. Keep the custom domain `vatsal.xyz`. Enforce HTTPS.
+
+### DNS
+
+Point the domain at GitHub Pages:
+
+- Apex `A` records to GitHub Pages IPs, or
+- `CNAME` for `www` to `trivedi-vatsal.github.io`
+
+GitHub’s [custom domain docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site) have the current IPs.
+
+## Project structure
+
+```
+public/          Static assets (images, CNAME)
+src/
+  components/    Astro sections and shadcn UI
+  content/       Blog MDX posts and content config
+  layouts/       Page layouts
+  lib/           Constants and utilities
+  pages/         Routes (/, /work, /blog)
+  styles/        Global CSS
+astro.config.ts
+src/styles/globals.css   Tailwind theme + base styles
+```
 
 ## Credits
 

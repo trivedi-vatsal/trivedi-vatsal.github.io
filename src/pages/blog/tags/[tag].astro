@@ -2,10 +2,15 @@
 import { getCollection } from 'astro:content'
 import BlogPageLayout from '../../../layouts/BlogPageLayout.astro'
 import { BlogExplorer } from '../../../components/blog/BlogExplorer'
-import { getAllTags, slugifyTag, toBlogPostSummary } from '../../../lib/blog'
+import {
+  getAllTags,
+  isListedPost,
+  slugifyTag,
+  toBlogPostSummary,
+} from '../../../lib/blog'
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft)
+  const posts = await getCollection('blog', isListedPost)
   const summaries = posts.map(toBlogPostSummary)
   const tags = getAllTags(summaries)
 
@@ -22,7 +27,7 @@ interface Props {
 
 const { tag, slug } = Astro.props
 
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+const allPosts = (await getCollection('blog', isListedPost))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .map(toBlogPostSummary)
 
@@ -61,5 +66,5 @@ const description = `Articles about ${tag}`
     <p class="text-muted-foreground mt-4">{description}</p>
   </Fragment>
 
-  <BlogExplorer client:load posts={posts} initialTag={slug} hideViewToggle />
+  <BlogExplorer client:visible posts={posts} initialTag={slug} hideViewToggle />
 </BlogPageLayout>

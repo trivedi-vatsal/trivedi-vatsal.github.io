@@ -20,12 +20,9 @@ const { entries } = Astro.props
     entries.length === 0 ? (
       <p class="text-muted-foreground mt-4 text-sm">No dated entries yet.</p>
     ) : (
-      <ol class="mt-4 space-y-3">
-        {entries.map((entry, i) => (
-          <li
-            class="anim-timeline-dot border-border flex flex-col gap-0.5 border-l-2 pl-3"
-            style={`--pulse-delay: ${i * 0.5}s`}
-          >
+      <ol class="build-timeline mt-4">
+        {entries.map((entry) => (
+          <li class="build-entry">
             <time class="text-muted-foreground font-mono text-[0.65rem] tracking-wide">
               {entry.date}
             </time>
@@ -45,3 +42,45 @@ const { entries } = Astro.props
     )
   }
 </BentoTile>
+
+<style>
+  .build-entry {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 0 20px 22px;
+  }
+  .build-entry::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    bottom: -8px;
+    width: 1px;
+    background: hsl(var(--border));
+  }
+  .build-entry::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 5px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+  }
+  .build-entry:last-child {
+    padding-bottom: 0;
+  }
+  .build-entry:last-child::before {
+    display: none;
+  }
+  .build-entry time {
+    line-height: 16px;
+  }
+  .build-entry a,
+  .build-entry > span {
+    line-height: 1.5;
+  }
+</style>

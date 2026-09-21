@@ -1,0 +1,165 @@
+---
+import type { GetStaticPaths } from 'astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import TopLayout from '../../layouts/TopLayout.astro'
+import BottomLayout from '../../layouts/BottomLayout.astro'
+import { EXPERIMENTS } from '../../lib/portfolio'
+
+export const getStaticPaths = (() =>
+  EXPERIMENTS.map((experiment, index) => ({
+    params: { slug: experiment.slug },
+    props: { experiment, index },
+  }))) satisfies GetStaticPaths
+
+const { experiment, index } = Astro.props
+const projectNumber = String(index + 1).padStart(2, '0')
+---
+
+<BaseLayout title={experiment.title} description={experiment.blurb}>
+  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
+    <TopLayout>
+      <nav aria-label="Breadcrumb" class="text-muted-foreground mb-4 text-sm">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li>
+            <a href="/" class="hover:text-primary transition-colors">Home</a>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li>
+            <a href="/experiments/" class="hover:text-primary transition-colors"
+              >Experiments</a
+            >
+          </li>
+          <li aria-hidden="true">›</li>
+          <li class="text-foreground" aria-current="page">
+            {experiment.title}
+          </li>
+        </ol>
+      </nav>
+      <div class="flex items-center gap-3">
+        <span class="text-primary font-mono text-sm">/{projectNumber}</span>
+        <span class="bento-label">{experiment.kind}</span>
+      </div>
+      <h1
+        class="mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.035em] sm:text-6xl"
+      >
+        {experiment.title}
+      </h1>
+      <p
+        class="text-muted-foreground mt-5 max-w-2xl text-base leading-relaxed sm:text-lg"
+      >
+        {experiment.blurb}
+      </p>
+    </TopLayout>
+
+    <BottomLayout>
+      <div
+        class="grid max-w-5xl gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(17rem,0.75fr)]"
+      >
+        <section
+          class="border-border/70 bg-card relative overflow-hidden rounded-xl border p-6 sm:p-8"
+          aria-labelledby="overview-heading"
+        >
+          <span
+            class="text-primary/15 pointer-events-none absolute -top-9 -right-3 font-mono text-9xl font-semibold"
+            aria-hidden="true"
+          >
+            {projectNumber}
+          </span>
+          <p class="bento-label relative">The overview</p>
+          <p
+            id="overview-heading"
+            class="text-muted-foreground relative mt-5 max-w-xl leading-relaxed"
+          >
+            {experiment.overview}
+          </p>
+        </section>
+
+        <aside class="border-border/70 rounded-xl border p-6 sm:p-8">
+          <p class="bento-label">Built for</p>
+          <ul class="mt-5 space-y-3">
+            {
+              experiment.builtFor.map((audience) => (
+                <li class="border-border/60 border-b pb-3 text-sm font-medium last:border-0 last:pb-0">
+                  {audience}
+                </li>
+              ))
+            }
+          </ul>
+          <a
+            href={experiment.href}
+            target={experiment.external ? '_blank' : undefined}
+            rel={experiment.external ? 'noopener noreferrer' : undefined}
+            class="bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring mt-8 inline-flex w-full items-center justify-between rounded-md px-4 py-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
+          >
+            {experiment.action}
+            <span aria-hidden="true">{experiment.external ? '↗' : '→'}</span>
+          </a>
+        </aside>
+      </div>
+
+      <section
+        class="border-border/70 bg-secondary/30 mt-5 max-w-5xl rounded-xl border p-6 sm:p-8"
+        aria-labelledby="built-heading"
+      >
+        <div class="grid gap-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-10">
+          <div>
+            <p class="bento-label">What I built</p>
+            <span
+              class="text-primary mt-4 block font-mono text-sm"
+              aria-hidden="true"
+            >
+              // {projectNumber}
+            </span>
+          </div>
+          <p
+            id="built-heading"
+            class="max-w-3xl text-lg leading-relaxed font-medium tracking-tight sm:text-xl"
+          >
+            {experiment.whatIBuilt}
+          </p>
+        </div>
+      </section>
+
+      <section class="mt-12 max-w-5xl" aria-labelledby="capabilities-heading">
+        <div class="flex items-baseline justify-between gap-4">
+          <div>
+            <p class="bento-label">In practice</p>
+            <h2
+              id="capabilities-heading"
+              class="mt-2 text-2xl font-semibold tracking-tight"
+            >
+              What you can do with it
+            </h2>
+          </div>
+          <span class="text-muted-foreground font-mono text-xs">
+            {experiment.capabilities.length} capabilities
+          </span>
+        </div>
+        <ol class="mt-6 grid gap-3 md:grid-cols-3">
+          {
+            experiment.capabilities.map((capability, capabilityIndex) => (
+              <li class="border-border/70 bg-card rounded-lg border p-5">
+                <span class="text-primary font-mono text-xs">
+                  {String(capabilityIndex + 1).padStart(2, '0')}
+                </span>
+                <p class="mt-5 text-sm leading-relaxed">{capability}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <nav
+        class="mt-12 max-w-5xl border-t pt-6"
+        aria-label="Experiments navigation"
+      >
+        <a
+          href="/experiments/"
+          class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
+        >
+          <span aria-hidden="true">←</span> All experiments
+        </a>
+      </nav>
+    </BottomLayout>
+  </main>
+</BaseLayout>

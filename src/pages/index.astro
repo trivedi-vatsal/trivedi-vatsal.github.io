@@ -7,16 +7,17 @@ import WorkTile from '../components/bento/WorkTile.astro'
 import BuildingTile from '../components/bento/BuildingTile.astro'
 import ExperimentsTile from '../components/bento/ExperimentsTile.astro'
 import FeaturedTile from '../components/bento/FeaturedTile.astro'
+import AISuiteTile from '../components/bento/AISuiteTile.astro'
 import NotesTile from '../components/bento/NotesTile.astro'
 import LifeTile from '../components/bento/LifeTile.astro'
 import BuildLogTile from '../components/bento/BuildLogTile.astro'
 import ContactTile from '../components/bento/ContactTile.astro'
 import { StackTile } from '../components/bento/StackTile'
 import { STACK, buildLogFromContent } from '../lib/portfolio'
-import { toBlogPostSummary } from '../lib/blog'
+import { isListedPost, toBlogPostSummary } from '../lib/blog'
 import { SITE } from '../lib/constants'
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
+const posts = (await getCollection('blog', isListedPost))
   .map(toBlogPostSummary)
   .sort((a, b) => new Date(b.pubDate).valueOf() - new Date(a.pubDate).valueOf())
 
@@ -32,13 +33,14 @@ const buildLog = buildLogFromContent(posts)
   <main
     class="relative mx-auto w-full max-w-6xl px-3 py-4 sm:px-4 sm:py-6 md:px-6 lg:py-8"
   >
-    <div class="bento-grid">
+    <div class="bento-grid home-bento">
       <IdentityTile />
       <NowTile />
       <FeaturedTile />
       <BuildingTile />
       <ExperimentsTile />
       <StackTile client:visible items={STACK} />
+      <AISuiteTile />
       {
         latest ? (
           <NotesTile
@@ -67,3 +69,109 @@ const buildLog = buildLogFromContent(posts)
     </div>
   </main>
 </BaseLayout>
+
+<style>
+  .home-bento {
+    gap: 16px;
+  }
+  .home-bento :global(.bento-tile) {
+    border-radius: 20px;
+    box-shadow: 0 3px 8px hsl(var(--foreground) / 0.015);
+  }
+  .home-bento :global(.bento-tile:hover) {
+    transform: none;
+    box-shadow: 0 6px 24px hsl(var(--foreground) / 0.045);
+  }
+  .home-bento :global(.identity-tile) {
+    background: hsl(var(--card));
+  }
+  .home-bento :global(.now-tile) {
+    background: hsl(var(--secondary) / 0.55);
+    padding: 30px;
+  }
+  .home-bento :global(.featured-tile) {
+    background: #232e20;
+    color: #f2f5ed;
+    border-color: #425039;
+  }
+  .home-bento :global(.anim-shimmer-text) {
+    animation: none;
+    background: none;
+    color: inherit;
+  }
+  .home-bento :global(.anim-tag),
+  .home-bento :global(.status-dot--label) {
+    animation: none;
+  }
+  .home-bento :global(#contact) {
+    background: #fb813e;
+    color: #241b13;
+    border-color: transparent;
+    min-height: 240px;
+  }
+  .home-bento :global(#contact p),
+  .home-bento :global(#contact span) {
+    color: #422a1c !important;
+  }
+  .home-bento :global(#contact h2) {
+    color: #241b13;
+    font-size: clamp(32px, 4vw, 48px);
+  }
+  .home-bento :global(#contact .my-8) {
+    margin-block: 20px;
+  }
+  @media (min-width: 1024px) {
+    .home-bento :global(.featured-tile) {
+      order: 3;
+      grid-column: span 7;
+    }
+    .home-bento :global([aria-label='Currently building']) {
+      order: 4;
+      grid-column: span 5;
+      padding-bottom: 110px;
+    }
+    .home-bento :global([aria-label='Experiments']) {
+      order: 5;
+      grid-column: span 3;
+    }
+    .home-bento :global([aria-label='My stack']) {
+      order: 6;
+      grid-column: span 3;
+    }
+    .home-bento :global([aria-label='Selected work']) {
+      order: 7;
+      grid-column: span 3;
+    }
+    .home-bento :global([aria-label='AI subscription suite']) {
+      order: 8;
+      grid-column: span 3;
+    }
+    .home-bento :global([aria-label^='Journal:']) {
+      order: 9;
+      grid-column: span 7;
+    }
+    .home-bento :global([aria-label='Life outside code']) {
+      order: 10;
+      grid-column: span 5;
+    }
+    .home-bento :global([aria-label='Build log']) {
+      order: 11;
+      grid-column: span 6;
+    }
+    .home-bento :global(#contact) {
+      order: 12;
+      grid-column: span 6;
+    }
+  }
+  @media (max-width: 639px) {
+    .home-bento {
+      gap: 12px;
+    }
+    .home-bento :global(.bento-tile) {
+      border-radius: 16px;
+    }
+    .home-bento :global([aria-label='Currently building']) {
+      padding-bottom: 110px;
+    }
+  }
+</style>

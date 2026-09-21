@@ -5,72 +5,150 @@ import { FEATURED } from '../../lib/portfolio'
 
 <BentoTile
   href={FEATURED.href}
-  class="order-3 col-span-1 flex min-h-[320px] flex-col overflow-hidden sm:col-span-2 lg:order-6 lg:col-span-8 lg:min-h-[380px]"
+  external={FEATURED.external}
+  class="featured-tile order-3 col-span-1 sm:col-span-2 lg:col-span-7"
   radius="soft"
-  delay={160}
-  ariaLabel={`Featured project: ${FEATURED.name}`}
+  delay={100}
+  ariaLabel={`Featured project: ${FEATURED.name} (opens in a new tab)`}
 >
-  <!-- Dominant visual plane -->
-  <div
-    class="bg-foreground/[0.03] dark:bg-foreground/[0.05] relative min-h-[180px] flex-1 overflow-hidden"
-  >
-    <div class="generative-grid anim-grid-drift absolute inset-0"></div>
-    <div
-      class="from-primary/15 anim-breathe absolute inset-0 origin-center bg-gradient-to-br via-transparent to-transparent"
+  <div class="featured-content">
+    <p class="bento-label">Featured project / Self-hosted CI</p><h2>
+      {FEATURED.name}<span aria-hidden="true">↗</span>
+    </h2><p class="featured-description">{FEATURED.description}</p><ul>
+      {FEATURED.tags.map((tag) => <li>{tag}</li>)}
+    </ul><span class="featured-role"
+      >{FEATURED.position}<span aria-hidden="true">↗</span></span
     >
-    </div>
-    <div
-      class="absolute top-1/2 -right-10 -translate-y-1/2 transition-transform duration-700 group-hover:scale-110"
-      aria-hidden="true"
-    >
-      <div
-        class="border-primary/30 anim-spin-slow h-56 w-56 rounded-full border"
-      >
-      </div>
-    </div>
-    <div class="absolute top-1/2 right-8 -translate-y-1/2" aria-hidden="true">
-      <div
-        class="border-foreground/20 anim-spin-slower h-36 w-36 rounded-full border border-dashed"
-      >
-      </div>
-    </div>
-    <div class="absolute inset-0 flex items-end p-6 sm:p-8">
-      <div>
-        <p class="bento-label text-foreground/60">Featured project</p>
-        <h2
-          class="anim-shimmer-text mt-2 max-w-lg text-3xl font-semibold tracking-tight sm:text-4xl"
-        >
-          {FEATURED.name}
-        </h2>
-        <p
-          class="text-muted-foreground mt-1 font-mono text-[0.65rem] tracking-[0.12em] uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        >
-          {FEATURED.position} · {FEATURED.period}
-        </p>
-      </div>
-    </div>
   </div>
-
-  <div
-    class="flex flex-col gap-4 border-t p-5 sm:flex-row sm:items-end sm:justify-between sm:p-6"
-  >
-    <div class="max-w-xl">
-      <p class="text-muted-foreground text-sm leading-relaxed">
-        {FEATURED.description}
-      </p>
-      <ul class="mt-3 flex flex-wrap gap-2">
-        {
-          FEATURED.tags.map((tag) => (
-            <li class="border-border rounded-sm border px-2 py-0.5 font-mono text-[0.65rem] tracking-wide">
-              {tag}
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-    <span class="bento-arrow text-foreground shrink-0">
-      Explore
-      <span aria-hidden="true">→</span>
-    </span>
+  <div class="project-art" aria-hidden="true">
+    <div class="orbit"></div><div class="orbit inner"></div><div class="core">
+      <span class="check-mark">✓</span>
+    </div><span class="node top">GitHub</span><span class="node bottom"
+      >Checks</span
+    >
   </div>
 </BentoTile>
+<style>
+  .featured-content {
+    position: relative;
+    z-index: 1;
+    padding: 30px;
+    width: 72%;
+  }
+  .featured-content .bento-label {
+    color: #b8c7b0;
+  }
+  h2 {
+    font-size: clamp(30px, 3.5vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.06em;
+    margin: 28px 0 16px;
+    font-weight: 500;
+  }
+  h2 > span {
+    font-size: 30px;
+    color: #fd8e51;
+    margin-left: 12px;
+  }
+  .featured-description {
+    color: #c0caba;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 22px;
+  }
+  li {
+    border: 1px solid #596550;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+  .featured-role {
+    border-top: 1px solid #4b5745;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 16px;
+    font-size: 10px;
+    color: #c0caba;
+  }
+  .featured-role > span {
+    font-size: 20px;
+  }
+  .project-art {
+    position: absolute;
+    right: -110px;
+    top: 50%;
+    width: 310px;
+    height: 310px;
+    transform: translateY(-50%);
+  }
+  .orbit {
+    position: absolute;
+    inset: 0;
+    border: 1px dashed #788a6060;
+    border-radius: 50%;
+  }
+  .orbit.inner {
+    inset: 35px;
+    border-style: solid;
+  }
+  .core {
+    position: absolute;
+    inset: 98px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #39492e;
+    border: 1px solid #71845c;
+    border-radius: 25px;
+    font-size: 80px;
+    line-height: 1;
+    box-shadow: 0 0 60px #9bb68015;
+  }
+  .core > span {
+    font-size: 54px;
+    align-self: center;
+    color: #bed39f;
+  }
+  .node {
+    position: absolute;
+    background: #303e28;
+    border: 1px solid #63734f;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #c9d7bb;
+  }
+  .top {
+    top: 25px;
+    left: 65px;
+  }
+  .bottom {
+    bottom: 25px;
+    left: 90px;
+  }
+  @media (max-width: 600px) {
+    .featured-content {
+      width: 100%;
+      padding: 26px;
+    }
+    .project-art {
+      right: -205px;
+      opacity: 0.18;
+    }
+    .featured-description {
+      position: relative;
+    }
+    .featured-role {
+      margin-top: 24px;
+    }
+  }
+</style>

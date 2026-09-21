@@ -1,7 +1,58 @@
 import { EXPERIENCE, LINKS } from './constants'
-import { STACK as RESUME_STACK } from './resume'
 
-export { RESUME_STACK as STACK }
+export const STACK = [
+  {
+    name: 'TypeScript',
+    useCases: ['Product apps', 'API contracts', 'Developer tooling'],
+  },
+  {
+    name: 'React',
+    useCases: ['Interfaces', 'Design systems', 'Interactive workflows'],
+  },
+  {
+    name: 'Node.js',
+    useCases: ['APIs', 'Services', 'Automation'],
+  },
+  {
+    name: 'Python',
+    useCases: ['Data pipelines', 'Security tooling', 'AI workflows'],
+  },
+  {
+    name: 'PostgreSQL',
+    useCases: ['Relational data', 'Product state', 'Analytics backends'],
+  },
+  {
+    name: 'Kafka',
+    useCases: ['Event streams', 'Async systems', 'Integrations'],
+  },
+  {
+    name: 'AI / LLMs',
+    useCases: ['RAG', 'Agents', 'Content generation'],
+  },
+  {
+    name: 'Integrations',
+    useCases: ['CRM', 'Marketing clouds', 'Third-party APIs'],
+  },
+]
+
+export const AI_SUBSCRIPTIONS = [
+  {
+    name: 'Claude',
+    use: 'Deep reasoning',
+  },
+  {
+    name: 'Cursor',
+    use: 'Coding workflow',
+  },
+  {
+    name: 'Gemini',
+    use: 'Research passes',
+  },
+  {
+    name: 'ChatGPT',
+    use: 'Daily assistant',
+  },
+]
 
 export const IDENTITY = {
   name: 'Vatsal Trivedi',
@@ -23,14 +74,15 @@ export const NOW = {
   updatedLabel: 'July 2026',
 }
 
-/** Featured editorial project — sourced from current EXPERIENCE entry */
+/** Featured independent project. */
 export const FEATURED = {
-  name: EXPERIENCE[0].company,
-  position: EXPERIENCE[0].position,
-  description: EXPERIENCE[0].tasks[0],
-  tags: ['AI', 'Pharma', 'LLM', 'Veeva', 'SFMC'],
-  href: '/work/',
-  period: `${EXPERIENCE[0].start} to ${EXPERIENCE[0].end}`,
+  name: 'openpreflight',
+  position: 'GitHub Checks, on your own server',
+  description:
+    'Gate private pull requests with native GitHub Check Runs. One Go binary, one SQLite file, on infrastructure you control.',
+  tags: ['Self-hosted CI', 'Go', 'SQLite', 'GitHub'],
+  href: 'https://openpreflight.xyz',
+  external: true,
 }
 
 export const SELECTED_WORK = {
@@ -53,50 +105,194 @@ export const CURRENTLY_BUILDING = {
  */
 export const EXPERIMENTS = [
   {
+    title: 'openpreflight',
+    slug: 'openpreflight',
+    kind: 'Self-hosted CI',
+    blurb:
+      'Native GitHub Check Runs for private pull requests, operated from one Go binary and one SQLite file on your own server.',
+    overview:
+      'openpreflight gives teams a straightforward way to gate private pull requests without a hosted CI control plane, runner fleet, or Actions-minute bill. The GitHub App, webhook receiver, runner, UI, and local state are designed to be understandable and operated in one place.',
+    whatIBuilt:
+      'A self-hosted CI product that brings GitHub App configuration, webhooks, Check Runs, a local runner, a small UI, and SQLite-backed state into one deployable unit.',
+    builtFor: [
+      'Private repositories',
+      'Self-hosted teams',
+      'Straightforward build gates',
+    ],
+    capabilities: [
+      'Run native GitHub Check Runs against private pull requests',
+      'Keep runner state and logs on infrastructure you control',
+      'Set up with Docker Compose or a Linux release binary',
+    ],
+    href: 'https://openpreflight.xyz',
+    external: true,
+    action: 'Visit openpreflight',
+  },
+  {
+    title: 'Knock',
+    slug: 'knock',
+    kind: 'React component library',
+    blurb:
+      'Copy-paste React components for private previews: access screens, invitations, and draft controls.',
+    overview:
+      'Knock is a focused set of UI building blocks for the awkward middle stage of a product: when a preview is private, invitations need to be managed, and draft controls need to be clear. Components are built for React and Tailwind, with shadcn-friendly installation.',
+    whatIBuilt:
+      'A copy-paste component collection for the private-preview journey, including access screens, invitation UI, and draft-state controls that fit naturally into React and Tailwind projects.',
+    builtFor: [
+      'Product teams',
+      'Private-preview launches',
+      'React and Tailwind projects',
+    ],
+    capabilities: [
+      'Add access screens for private previews',
+      'Use invitation flows and draft controls without starting from scratch',
+      'Copy components directly into a shadcn-based React project',
+    ],
+    href: 'https://knock.codes',
+    external: true,
+    action: 'Visit Knock',
+  },
+  {
     title: 'InboxCraft',
+    slug: 'inboxcraft',
+    kind: 'Developer tool',
     blurb:
       'Client-side PowerShell generation for Microsoft 365 Outlook inbox rules. Also shipped as an Agent Skills pack.',
+    overview:
+      'InboxCraft takes the friction out of setting up repeatable inbox rules. Describe the sorting or routing you need, then use the generated PowerShell as a practical starting point for Outlook on Microsoft 365.',
+    whatIBuilt:
+      'A client-side rule generator and Agent Skills pack that turns everyday inbox-routing needs into PowerShell people can inspect and run themselves.',
+    builtFor: [
+      'Microsoft 365 users',
+      'Inbox organizers',
+      'Agent-assisted workflows',
+    ],
+    capabilities: [
+      'Turn a rule idea into a ready-to-run PowerShell command',
+      'Create Microsoft 365 Outlook inbox rules without sending credentials anywhere',
+      'Use the workflow as an Agent Skills pack',
+    ],
     href: 'https://github.com/trivedi-vatsal/inboxcraft',
     external: true,
+    action: 'View source',
   },
   {
     title: 'StaleGuard',
+    slug: 'staleguard',
+    kind: 'Frontend utility',
     blurb:
       'Silent SPA stale-deploy detector using ETag and Last-Modified on tab focus. No polling, no banners.',
+    overview:
+      'StaleGuard is a small guardrail for single-page apps. It checks whether a newer deployment exists when someone returns to an open tab, keeping users current without adding constant network traffic or disruptive UI.',
+    whatIBuilt:
+      'A focused stale-deployment detector that treats tab focus as the right moment to check headers, keeping the implementation lightweight and the visitor experience calm.',
+    builtFor: ['SPA maintainers', 'Product teams', 'Quiet refresh flows'],
+    capabilities: [
+      'Detect a newer deployment when a visitor returns to a tab',
+      'Use ETag and Last-Modified headers instead of a polling loop',
+      'Keep the refresh experience quiet and unobtrusive',
+    ],
     href: 'https://github.com/trivedi-vatsal/StaleGuard',
     external: true,
+    action: 'View source',
   },
   {
     title: 'PySecRecipes',
+    slug: 'pysec-recipes',
+    kind: 'CI recipes',
     blurb:
       'GitHub Actions recipes for Python dependency security audits with automated issue lifecycle.',
+    overview:
+      'PySecRecipes packages a repeatable dependency-security workflow for Python projects. The recipes help teams surface findings in CI and keep the follow-up work visible instead of letting it disappear in build logs.',
+    whatIBuilt:
+      'Reusable GitHub Actions recipes that combine Python dependency auditing with an issue workflow, so findings can be reviewed and tracked instead of being left as one-off CI output.',
+    builtFor: [
+      'Python teams',
+      'Security-minded maintainers',
+      'GitHub Actions users',
+    ],
+    capabilities: [
+      'Run Python dependency security audits in GitHub Actions',
+      'Open and maintain issues around detected findings',
+      'Reuse the recipes as a starting point for a security pipeline',
+    ],
     href: 'https://github.com/trivedi-vatsal/pysec-recipes',
     external: true,
+    action: 'View recipes',
   },
   {
     title: 'PyImportSync',
+    slug: 'py-import-sync',
+    kind: 'Developer tool',
     blurb:
       'AST-based check that every Python import is declared in requirements.txt. Action and pre-commit hook.',
+    overview:
+      'PyImportSync catches a familiar source of broken environments: imports that never made it into requirements.txt. It inspects Python code structurally, so the same check can run locally and in CI.',
+    whatIBuilt:
+      'An AST-based import-to-requirements check packaged for both GitHub Actions and pre-commit, so dependency drift is caught where teams already work.',
+    builtFor: ['Python maintainers', 'CI pipelines', 'Pre-commit workflows'],
+    capabilities: [
+      'Find imports missing from requirements.txt',
+      'Run the check in CI with a GitHub Action',
+      'Catch dependency drift before commit with a pre-commit hook',
+    ],
     href: 'https://github.com/trivedi-vatsal/PyImportSync',
     external: true,
+    action: 'View source',
   },
   {
     title: 'UI Experiments',
+    slug: 'ui-experiments',
+    kind: 'Visual studies',
     blurb: 'Interface studies and visual explorations.',
+    overview:
+      'A working collection of interface ideas: small explorations of hierarchy, motion, composition, and interaction. These are useful as a window into the visual thinking behind production work.',
+    whatIBuilt:
+      'A living set of visual studies used to test interaction patterns, typography, and layout ideas before they make their way into larger product work.',
+    builtFor: ['Design peers', 'Product builders', 'Interface-curious people'],
+    capabilities: [
+      'Browse interface concepts and interaction studies',
+      'See explorations focused on visual craft',
+    ],
     href: LINKS.dribbble,
     external: true,
+    action: 'Browse studies',
   },
   {
     title: 'Design Work',
+    slug: 'design-work',
+    kind: 'Design portfolio',
     blurb: 'Selected design pieces on Behance.',
+    overview:
+      'A curated view of selected design work, from individual interface pieces to broader visual explorations. It is the right place to look for the craft and decisions behind the final surface.',
+    whatIBuilt:
+      'A curated design portfolio that makes the visual work legible: the surfaces, systems, and explorations behind the final product experience.',
+    builtFor: ['Potential collaborators', 'Design teams', 'Product leaders'],
+    capabilities: [
+      'Browse selected case studies and design pieces',
+      'See the visual side of product and interface work',
+    ],
     href: LINKS.behance,
     external: true,
+    action: 'View portfolio',
   },
   {
     title: 'Writing',
+    slug: 'writing',
+    kind: 'Writing archive',
     blurb: 'Thinking, documented.',
+    overview:
+      'Notes from the work: practical lessons about engineering, AI, integration work, and the craft of building useful software. The archive is meant to be useful whether you are debugging a detail or thinking through a bigger system.',
+    whatIBuilt:
+      'An ongoing writing practice that turns implementation details, lessons, and engineering decisions into short pieces other builders can use.',
+    builtFor: ['Engineers', 'AI practitioners', 'Curious builders'],
+    capabilities: [
+      'Read notes on engineering, AI, and developer craft',
+      'Browse longer-form writing on DEV',
+    ],
     href: LINKS.devto,
     external: true,
+    action: 'Read writing',
   },
 ]
 

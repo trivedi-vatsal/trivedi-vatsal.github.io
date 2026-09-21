@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content'
 import { BLOG } from '../../lib/constants'
-import { toBlogPostSummary } from '../../lib/blog'
+import { isListedPost, toBlogPostSummary } from '../../lib/blog'
 import BlogPageLayout from '../../layouts/BlogPageLayout.astro'
 import { BlogExplorer } from '../../components/blog/BlogExplorer'
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
+const posts = (await getCollection('blog', isListedPost))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .map(toBlogPostSummary)
 ---
@@ -20,5 +20,5 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     <p class="text-muted-foreground mt-4">{BLOG.DESCRIPTION}</p>
   </Fragment>
 
-  <BlogExplorer client:load posts={posts} />
+  <BlogExplorer client:visible posts={posts} />
 </BlogPageLayout>

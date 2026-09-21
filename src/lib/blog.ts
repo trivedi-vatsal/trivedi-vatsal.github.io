@@ -28,6 +28,10 @@ export type TagCount = {
 
 const WORDS_PER_MINUTE = 200
 
+export function isListedPost(entry: { data: { draft: boolean } }): boolean {
+  return import.meta.env.DEV || !entry.data.draft
+}
+
 export function slugifyTag(tag: string): string {
   return tag
     .trim()

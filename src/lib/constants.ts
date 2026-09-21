@@ -3,8 +3,6 @@ import { EXPERIENCE, WORK_EXPERIENCES } from './resume'
 
 export { EXPERIENCE, WORK_EXPERIENCES }
 
-export const googleAnalyticsDestinationId = 'G-S5L9LJDESQ'
-
 export const LINKS = {
   github: 'https://github.com/trivedi-vatsal',
   linkedin: 'https://linkedin.com/in/trivedi-vatsal',

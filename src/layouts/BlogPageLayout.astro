@@ -6,19 +6,28 @@ import BottomLayout from './BottomLayout.astro'
 interface Props {
   title: string
   description?: string
+  ogImage?: URL | string
   ogType?: 'website' | 'article'
   publishedTime?: Date
   modifiedTime?: Date
   author?: string
 }
 
-const { title, description, ogType, publishedTime, modifiedTime, author } =
-  Astro.props
+const {
+  title,
+  description,
+  ogImage,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  author,
+} = Astro.props
 ---
 
 <BaseLayout
   title={title}
   description={description}
+  ogImage={ogImage}
   ogType={ogType}
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}

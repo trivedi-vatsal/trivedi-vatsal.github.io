@@ -3,7 +3,7 @@ import '@/styles/globals.css'
 import { getImage } from 'astro:assets'
 import defaultOgImage from '../assets/images/View1.png'
 import { SITE } from '../lib/constants'
-import { formatPageTitle } from '../lib/seo'
+import { formatPageTitle, siteGraphJsonLd } from '../lib/seo'
 
 interface Props {
   title?: string | undefined
@@ -105,3 +105,8 @@ const ogImage =
 <meta property="twitter:title" content={pageTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImage} />
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(siteGraphJsonLd(Astro.site ?? 'https://vatsal.xyz'))}
+/>
