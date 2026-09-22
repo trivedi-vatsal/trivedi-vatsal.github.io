@@ -11,36 +11,25 @@ import { IDENTITY } from '../../lib/portfolio'
   ariaLabel="Introduction"
 >
   <div class="identity-copy">
-    <p class="bento-label">Engineer. Builder. Curious human.</p>
-    <h1>Vatsal<br />Trivedi<span>.</span></h1>
+    <p class="bento-label bento-wake bento-wake-label">Engineer in Bengaluru</p>
+    <h1 class="bento-wake bento-wake-title">Vatsal<br />Trivedi<span>.</span></h1>
     <p class="identity-description">{IDENTITY.statement}</p>
     <div class="identity-actions">
-      <a class="work-link" href="/work/"
+      <a class="work-link bento-wake bento-wake-up" style="--wake-delay: 40ms" href="/work/"
         >Explore my work <span aria-hidden="true">↗</span></a
-      ><a class="about-link" href="/about/"
+      >
+      <a class="about-link bento-wake bento-wake-x" style="--wake-delay: 80ms" href="/about/"
         >About me <span aria-hidden="true">→</span></a
       >
     </div>
-  </div>
-  <div class="identity-portrait" aria-hidden="true">
-    <div class="portrait-frame-home">
-      <img
-        src="/me.svg"
-        alt=""
-        width="1762"
-        height="2048"
-        fetchpriority="high"
-      />
-    </div><span>Based in Bengaluru, India ↗</span>
+    <a class="identity-location bento-wake bento-wake-fade" style="--wake-delay: 120ms" href="/about/#place">Based in Bengaluru, India</a>
   </div>
   <dl class="identity-meta">
     {
-      IDENTITY.meta.map((item) => (
-        <div>
-          <>
-            <dt>{item.value}</dt>
-            <dd>{item.label}</dd>
-          </>
+      IDENTITY.meta.map((item, i) => (
+        <div class="bento-wake bento-wake-up" style={`--wake-delay: ${i * 50}ms`}>
+          <dt>{item.value}</dt>
+          <dd>{item.label}</dd>
         </div>
       ))
     }
@@ -48,27 +37,38 @@ import { IDENTITY } from '../../lib/portfolio'
 </BentoTile>
 
 <style>
+  :global(.identity-tile) {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: hsl(var(--card));
+  }
   .identity-copy {
-    position: relative;
-    z-index: 1;
-    width: 62%;
-    padding: 34px 0 28px 34px;
+    padding: 34px 34px 28px;
+    min-width: 0;
   }
   h1 {
     font-size: clamp(48px, 5.5vw, 72px);
-    line-height: 0.98;
+    line-height: 1.05;
     letter-spacing: -0.065em;
     font-weight: 600;
-    margin: 25px 0 20px;
+    margin: 20px 0 16px;
+    text-wrap: balance;
   }
-  h1 span {
+  .bento-wake-title {
+    letter-spacing: -0.065em;
+  }
+  :global(.identity-tile:hover) .bento-wake-title {
+    letter-spacing: -0.075em;
+    color: inherit;
+  }
+  :global(.identity-tile:hover) .bento-wake-title span {
     color: hsl(var(--primary));
   }
   .identity-description {
     color: hsl(var(--muted-foreground));
-    font-size: 14px;
-    line-height: 1.8;
-    max-width: 350px;
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 42ch;
   }
   .identity-actions {
     display: flex;
@@ -76,20 +76,35 @@ import { IDENTITY } from '../../lib/portfolio'
     align-items: center;
     gap: 22px;
     margin-top: 24px;
-    font-size: 11px;
+    font-size: 0.8125rem;
   }
   .work-link {
     display: inline-flex;
     align-items: center;
-    gap: 20px;
-    padding: 13px 16px;
-    border-radius: 7px;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 0.5rem;
     background: hsl(var(--foreground));
     color: hsl(var(--background));
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
   }
   .work-link:hover {
     background: hsl(var(--primary));
-    color: #17130f;
+    color: hsl(var(--primary-foreground));
+  }
+  .work-link:active,
+  .about-link:active {
+    transform: scale(0.98);
+  }
+  .about-link {
+    display: inline-flex;
+    align-items: center;
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
   }
   .about-link:hover {
     color: hsl(var(--primary));
@@ -97,35 +112,19 @@ import { IDENTITY } from '../../lib/portfolio'
   .about-link span {
     margin-left: 8px;
   }
-  .identity-portrait {
-    position: absolute;
-    width: 37%;
-    right: 12px;
-    top: 72px;
-    text-align: center;
-  }
-  .portrait-frame-home {
-    background: #edc9a1;
-    border: 1px solid #d7b58f;
-    border-radius: 120px 120px 24px 24px;
-    padding: 18px 12px 0;
-    overflow: hidden;
-  }
-  .identity-portrait img {
-    display: block;
-    width: 100%;
-    height: 262px;
-    object-fit: contain;
-    object-position: center bottom;
-    filter: none;
-    mix-blend-mode: normal;
-  }
-  .identity-portrait > span {
-    display: block;
-    margin-top: 14px;
+  .identity-location {
+    display: inline-block;
+    margin-top: 18px;
     font-family: var(--font-mono);
-    font-size: 8px;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
     color: hsl(var(--muted-foreground));
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+  .identity-location:hover {
+    color: hsl(var(--primary));
+    text-decoration: underline;
   }
   .identity-meta {
     display: flex;
@@ -138,37 +137,31 @@ import { IDENTITY } from '../../lib/portfolio'
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-size: 8px;
+    font-size: 0.7rem;
   }
   dd {
-    font-size: 11px;
+    font-size: 0.875rem;
     font-weight: 500;
     margin-top: 5px;
+    font-variant-numeric: tabular-nums;
   }
   a:focus-visible {
     outline: 2px solid hsl(var(--primary));
     outline-offset: 4px;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     .identity-copy {
       padding: 26px;
-      width: 100%;
     }
     h1 {
-      font-size: 60px;
+      font-size: 2.75rem;
     }
     .identity-description {
       max-width: none;
     }
-    .identity-portrait {
-      display: none;
-    }
     .identity-meta {
       padding: 20px 26px;
       gap: 24px;
-    }
-    dd {
-      font-size: 10px;
     }
   }
 </style>

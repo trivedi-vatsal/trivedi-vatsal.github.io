@@ -26,7 +26,8 @@ export function LocationMap({ places, className }: Props) {
 
   return (
     <section
-      className={cn('mt-6 w-full', className)}
+      id="place"
+      className={cn('mt-6 w-full scroll-mt-24', className)}
       aria-labelledby="place-heading"
     >
       <div className="bg-muted relative h-[min(52vh,420px)] w-full overflow-hidden">

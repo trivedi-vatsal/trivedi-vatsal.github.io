@@ -1,0 +1,109 @@
+---
+import {
+  formatPartIndex,
+  seriesPartTitle,
+  type BlogSeries,
+} from '../../lib/blog'
+
+interface Props {
+  series: BlogSeries
+  currentId: string
+  placement?: 'header' | 'footer'
+}
+
+const { series, currentId, placement = 'header' } = Astro.props
+const index = series.posts.findIndex((post) => post.id === currentId)
+const current = series.posts[index]
+const prev = index > 0 ? series.posts[index - 1] : undefined
+const next =
+  index >= 0 && index < series.posts.length - 1
+    ? series.posts[index + 1]
+    : undefined
+const part = current?.series?.part ?? index + 1
+const padTo = series.totalParts >= 10 ? 2 : 2
+---
+
+{
+  placement === 'header' ? (
+    <nav
+      aria-label={`${series.title} series`}
+      class="border-border/60 mt-6 border-t pt-4"
+    >
+      <p class="text-muted-foreground text-sm">
+        <a
+          href={series.href}
+          class="hover:text-primary text-foreground font-medium transition-colors"
+        >
+          {series.title}
+        </a>
+        <span aria-hidden="true"> · </span>
+        Part {part} of {series.totalParts}
+      </p>
+      <ol class="mt-3 flex flex-wrap gap-1.5">
+        {series.posts.map((post) => {
+          const isCurrent = post.id === currentId
+          const n = post.series?.part ?? 0
+          return (
+            <li>
+              {isCurrent ? (
+                <span
+                  aria-current="page"
+                  class="bg-foreground text-background inline-flex size-8 items-center justify-center rounded-md font-mono text-xs tabular-nums"
+                >
+                  {formatPartIndex(n, padTo)}
+                </span>
+              ) : (
+                <a
+                  href={post.href}
+                  title={seriesPartTitle(post)}
+                  class="border-border hover:border-foreground/40 hover:text-primary inline-flex size-8 items-center justify-center rounded-md border font-mono text-xs tabular-nums transition-colors"
+                >
+                  <span class="sr-only">
+                    Part {n}: {seriesPartTitle(post)}
+                  </span>
+                  <span aria-hidden="true">{formatPartIndex(n, padTo)}</span>
+                </a>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  ) : (
+    <nav
+      aria-label={`${series.title} previous and next`}
+      class="border-border/60 mt-10 grid gap-4 border-t pt-6 sm:grid-cols-2"
+    >
+      {prev ? (
+        <a
+          href={prev.href}
+          class="group hover:border-foreground/20 rounded-md border border-transparent p-3 transition-colors"
+        >
+          <span class="text-muted-foreground text-xs">
+            Previous · Part {prev.series?.part}
+          </span>
+          <span class="group-hover:text-primary mt-1 block text-sm font-medium tracking-tight transition-colors">
+            {seriesPartTitle(prev)}
+          </span>
+        </a>
+      ) : (
+        <div />
+      )}
+      {next ? (
+        <a
+          href={next.href}
+          class="group hover:border-foreground/20 rounded-md border border-transparent p-3 text-right transition-colors sm:ml-auto"
+        >
+          <span class="text-muted-foreground text-xs">
+            Next · Part {next.series?.part}
+          </span>
+          <span class="group-hover:text-primary mt-1 block text-sm font-medium tracking-tight transition-colors">
+            {seriesPartTitle(next)}
+          </span>
+        </a>
+      ) : (
+        <div />
+      )}
+    </nav>
+  )
+}

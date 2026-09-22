@@ -21,43 +21,43 @@ const FILTERS: { id: Filter; label: string }[] = [
 /** Cover treatments — warm / ink / paper, not purple-gradient defaults. */
 const COVERS = [
   {
-    face: 'bg-[#1f1a16] text-[#f3ebe0]',
-    stripe: 'bg-[#e8590c]',
+    face: 'bg-[#1c1814] text-[#f4efe8]',
+    stripe: 'bg-[#c56a32]',
     height: 'h-[11.5rem] sm:h-[13.5rem]',
   },
   {
-    face: 'bg-[#c45c26] text-[#fff7ef]',
-    stripe: 'bg-[#1f1a16]',
+    face: 'bg-[#c56a32] text-[#fff7ef]',
+    stripe: 'bg-[#1c1814]',
     height: 'h-[12.5rem] sm:h-[14.5rem]',
   },
   {
-    face: 'bg-[#f0e6d4] text-[#1f1a16]',
-    stripe: 'bg-[#2f5d50]',
+    face: 'bg-[#efe6da] text-[#1c1814]',
+    stripe: 'bg-[#c56a32]',
     height: 'h-[10.5rem] sm:h-[12.5rem]',
   },
   {
-    face: 'bg-[#2f5d50] text-[#eef6f1]',
-    stripe: 'bg-[#e8c547]',
+    face: 'bg-[#2a221c] text-[#f4efe8]',
+    stripe: 'bg-[#efe6da]',
     height: 'h-[13rem] sm:h-[15rem]',
   },
   {
-    face: 'bg-[#3d4a5c] text-[#eef2f7]',
-    stripe: 'bg-[#c45c26]',
+    face: 'bg-[#d9c4ae] text-[#1c1814]',
+    stripe: 'bg-[#1c1814]',
     height: 'h-[11rem] sm:h-[13rem]',
   },
   {
-    face: 'bg-[#ead7b5] text-[#2a2218]',
-    stripe: 'bg-[#7a3b2e]',
+    face: 'bg-[#c56a32] text-[#fff7ef]',
+    stripe: 'bg-[#efe6da]',
     height: 'h-[12rem] sm:h-[14rem]',
   },
   {
-    face: 'bg-[#7a3b2e] text-[#f8ebe3]',
-    stripe: 'bg-[#ead7b5]',
+    face: 'bg-[#1c1814] text-[#efe6da]',
+    stripe: 'bg-[#c56a32]',
     height: 'h-[10.75rem] sm:h-[12.75rem]',
   },
   {
-    face: 'bg-[#243028] text-[#e8f0ea]',
-    stripe: 'bg-[#c45c26]',
+    face: 'bg-[#efe6da] text-[#1c1814]',
+    stripe: 'bg-[#2a221c]',
     height: 'h-[12.25rem] sm:h-[14.25rem]',
   },
 ]

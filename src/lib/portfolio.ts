@@ -1,4 +1,5 @@
 import { EXPERIENCE, LINKS } from './constants'
+import { yearsExperience } from './resume'
 
 export const STACK = [
   {
@@ -58,9 +59,9 @@ export const IDENTITY = {
   name: 'Vatsal Trivedi',
   roleLine: 'AI PLATFORMS × ENTERPRISE INTEGRATIONS',
   statement:
-    'I embed with the problem, ship into production, and own the integrations that make AI useful in real enterprises.',
+    'I dig into messy integration work, ship to production, and keep AI features working inside real enterprise systems.',
   meta: [
-    { label: '8+ YEARS', value: 'Experience' },
+    { label: `${yearsExperience()} YEARS`, value: 'Experience' },
     { label: 'AI / FULL STACK', value: 'Focus' },
     { label: 'BENGALURU, INDIA', value: 'Based' },
   ],
@@ -93,7 +94,7 @@ export const SELECTED_WORK = {
 export const CURRENTLY_BUILDING = {
   title: 'AI tooling experiments',
   summary:
-    'Agent skills, inbox automation, and small developer tools that make LLM assistants useful in day-to-day workflows.',
+    'Agent skills, inbox automation, and small tools I use with LLMs while coding.',
   tags: ['Agent Skills', 'MCP', 'Tooling', 'LLMs'],
   status: 'Exploring',
   href: '/experiments/',
@@ -102,18 +103,21 @@ export const CURRENTLY_BUILDING = {
 /**
  * Experiments & outlets grounded in real links already on the site.
  * No invented project names.
+ * `cover` maps to `/experiments/{cover}.svg` via EXPERIMENT_COVERS
+ * (swap in real product shots later under public/experiments/).
  */
 export const EXPERIMENTS = [
   {
     title: 'openpreflight',
     slug: 'openpreflight',
+    cover: 'openpreflight',
     kind: 'Self-hosted CI',
     blurb:
       'Native GitHub Check Runs for private pull requests, operated from one Go binary and one SQLite file on your own server.',
     overview:
-      'openpreflight gives teams a straightforward way to gate private pull requests without a hosted CI control plane, runner fleet, or Actions-minute bill. The GitHub App, webhook receiver, runner, UI, and local state are designed to be understandable and operated in one place.',
+      'Self-hosted CI for private PRs: GitHub App, webhooks, runner, UI, and SQLite state in one deploy. No hosted control plane, no Actions-minute bill.',
     whatIBuilt:
-      'A self-hosted CI product that brings GitHub App configuration, webhooks, Check Runs, a local runner, a small UI, and SQLite-backed state into one deployable unit.',
+      'One deployable unit that covers GitHub App setup, webhooks, Check Runs, a local runner, a small UI, and SQLite-backed state.',
     builtFor: [
       'Private repositories',
       'Self-hosted teams',
@@ -131,13 +135,14 @@ export const EXPERIMENTS = [
   {
     title: 'Knock',
     slug: 'knock',
+    cover: 'knock',
     kind: 'React component library',
     blurb:
       'Copy-paste React components for private previews: access screens, invitations, and draft controls.',
     overview:
-      'Knock is a focused set of UI building blocks for the awkward middle stage of a product: when a preview is private, invitations need to be managed, and draft controls need to be clear. Components are built for React and Tailwind, with shadcn-friendly installation.',
+      'UI pieces for private product previews: access screens, invites, and draft controls. React, Tailwind, shadcn-friendly install.',
     whatIBuilt:
-      'A copy-paste component collection for the private-preview journey, including access screens, invitation UI, and draft-state controls that fit naturally into React and Tailwind projects.',
+      'Copy-paste React and Tailwind components for private preview access, invites, and draft controls.',
     builtFor: [
       'Product teams',
       'Private-preview launches',
@@ -155,13 +160,14 @@ export const EXPERIMENTS = [
   {
     title: 'InboxCraft',
     slug: 'inboxcraft',
+    cover: 'inboxcraft',
     kind: 'Developer tool',
     blurb:
       'Client-side PowerShell generation for Microsoft 365 Outlook inbox rules. Also shipped as an Agent Skills pack.',
     overview:
-      'InboxCraft takes the friction out of setting up repeatable inbox rules. Describe the sorting or routing you need, then use the generated PowerShell as a practical starting point for Outlook on Microsoft 365.',
+      'Describe the Outlook rule you want. Get PowerShell for Microsoft 365 you can inspect and run yourself. Nothing leaves the browser.',
     whatIBuilt:
-      'A client-side rule generator and Agent Skills pack that turns everyday inbox-routing needs into PowerShell people can inspect and run themselves.',
+      'A browser-only PowerShell generator for Outlook inbox rules, plus an Agent Skills pack for the same workflow.',
     builtFor: [
       'Microsoft 365 users',
       'Inbox organizers',
@@ -172,40 +178,92 @@ export const EXPERIMENTS = [
       'Create Microsoft 365 Outlook inbox rules without sending credentials anywhere',
       'Use the workflow as an Agent Skills pack',
     ],
-    href: 'https://github.com/trivedi-vatsal/inboxcraft',
+    href: 'https://inboxcraft.app/',
     external: true,
-    action: 'View source',
+    action: 'Open InboxCraft',
+  },
+  {
+    title: 'InboxCraft Skills',
+    slug: 'inboxcraft-skills',
+    cover: 'inboxcraft-skills',
+    kind: 'Agent Skills',
+    blurb:
+      'Agent Skills pack for InboxCraft: nine PowerShell tools so assistants can manage Outlook rules, folders, and categories from a prompt.',
+    overview:
+      'Install once, then ask Claude Code, Cursor, or any npx-skills assistant to create rules, build folder trees, scan large folders, or clean up empty ones.',
+    whatIBuilt:
+      'Nine PowerShell tools for rule creation, folders, categories, large-folder scans, and empty-folder cleanup. Install with the standard skills CLI.',
+    builtFor: [
+      'Claude Code and Cursor users',
+      'Microsoft 365 power users',
+      'Agent-assisted inbox workflows',
+    ],
+    capabilities: [
+      'Install with npx skills add trivedi-vatsal/inboxcraft-skills',
+      'Manage Outlook rules, folders, and categories from a prompt',
+      'Works with assistants that follow the npx skills spec',
+    ],
+    href: 'https://github.com/trivedi-vatsal/inboxcraft-skills',
+    external: true,
+    action: 'View skills pack',
+  },
+  {
+    title: 'audit-plan-tasks',
+    slug: 'audit-plan-tasks',
+    cover: 'audit-plan-tasks',
+    kind: 'Agent Skills',
+    blurb:
+      'Agent Skill that scaffolds AUDIT.md, PLAN.md, and TASKS.md so a plan is based on what you actually checked, not on the request.',
+    overview:
+      'Most AI plans start from the prompt. This skill starts from the code: read it, run the commands, hit the real endpoints, then write AUDIT.md, PLAN.md, and TASKS.md from what you found.',
+    whatIBuilt:
+      'An Agent Skill that scaffolds AUDIT.md, PLAN.md, and TASKS.md after a real audit, not before one.',
+    builtFor: [
+      'Engineers using coding agents',
+      'Complex feature or fix work',
+      'Teams that want plans tied to real checks',
+    ],
+    capabilities: [
+      'Scaffold AUDIT.md, PLAN.md, and TASKS.md from a real audit',
+      'Install with npx skills add trivedi-vatsal/audit-plan-tasks',
+      'Keep plans grounded in code and commands, not wishful prompts',
+    ],
+    href: 'https://github.com/trivedi-vatsal/audit-plan-tasks',
+    external: true,
+    action: 'View skill',
   },
   {
     title: 'StaleGuard',
     slug: 'staleguard',
+    cover: 'staleguard',
     kind: 'Frontend utility',
     blurb:
       'Silent SPA stale-deploy detector using ETag and Last-Modified on tab focus. No polling, no banners.',
     overview:
-      'StaleGuard is a small guardrail for single-page apps. It checks whether a newer deployment exists when someone returns to an open tab, keeping users current without adding constant network traffic or disruptive UI.',
+      'When someone comes back to an open SPA tab, check if a newer deploy exists. No polling, no banner.',
     whatIBuilt:
-      'A focused stale-deployment detector that treats tab focus as the right moment to check headers, keeping the implementation lightweight and the visitor experience calm.',
+      'A small library that checks ETag and Last-Modified on tab focus so SPAs can reload after a deploy.',
     builtFor: ['SPA maintainers', 'Product teams', 'Quiet refresh flows'],
     capabilities: [
       'Detect a newer deployment when a visitor returns to a tab',
       'Use ETag and Last-Modified headers instead of a polling loop',
       'Keep the refresh experience quiet and unobtrusive',
     ],
-    href: 'https://github.com/trivedi-vatsal/StaleGuard',
+    href: 'https://vatsal.xyz/StaleGuard/',
     external: true,
     action: 'View source',
   },
   {
     title: 'PySecRecipes',
     slug: 'pysec-recipes',
+    cover: 'pysec-recipes',
     kind: 'CI recipes',
     blurb:
       'GitHub Actions recipes for Python dependency security audits with automated issue lifecycle.',
     overview:
-      'PySecRecipes packages a repeatable dependency-security workflow for Python projects. The recipes help teams surface findings in CI and keep the follow-up work visible instead of letting it disappear in build logs.',
+      'GitHub Actions recipes that audit Python dependencies and open issues for findings instead of burying them in build logs.',
     whatIBuilt:
-      'Reusable GitHub Actions recipes that combine Python dependency auditing with an issue workflow, so findings can be reviewed and tracked instead of being left as one-off CI output.',
+      'Reusable Actions recipes that run dependency audits and keep findings in GitHub issues as they open and close.',
     builtFor: [
       'Python teams',
       'Security-minded maintainers',
@@ -216,20 +274,21 @@ export const EXPERIMENTS = [
       'Open and maintain issues around detected findings',
       'Reuse the recipes as a starting point for a security pipeline',
     ],
-    href: 'https://github.com/trivedi-vatsal/pysec-recipes',
+    href: 'https://vatsal.xyz/pysec-recipes/',
     external: true,
     action: 'View recipes',
   },
   {
     title: 'PyImportSync',
     slug: 'py-import-sync',
+    cover: 'py-import-sync',
     kind: 'Developer tool',
     blurb:
       'AST-based check that every Python import is declared in requirements.txt. Action and pre-commit hook.',
     overview:
-      'PyImportSync catches a familiar source of broken environments: imports that never made it into requirements.txt. It inspects Python code structurally, so the same check can run locally and in CI.',
+      'Catches imports that never made it into requirements.txt. AST-based, so the same check runs locally and in CI.',
     whatIBuilt:
-      'An AST-based import-to-requirements check packaged for both GitHub Actions and pre-commit, so dependency drift is caught where teams already work.',
+      'An AST check packaged as a GitHub Action and a pre-commit hook.',
     builtFor: ['Python maintainers', 'CI pipelines', 'Pre-commit workflows'],
     capabilities: [
       'Find imports missing from requirements.txt',
@@ -243,12 +302,13 @@ export const EXPERIMENTS = [
   {
     title: 'UI Experiments',
     slug: 'ui-experiments',
+    cover: 'ui-experiments',
     kind: 'Visual studies',
     blurb: 'Interface studies and visual explorations.',
     overview:
-      'A working collection of interface ideas: small explorations of hierarchy, motion, composition, and interaction. These are useful as a window into the visual thinking behind production work.',
+      'Loose interface experiments: hierarchy, motion, composition. Rough drafts, not case studies.',
     whatIBuilt:
-      'A living set of visual studies used to test interaction patterns, typography, and layout ideas before they make their way into larger product work.',
+      'Small UI studies where I try layout, type, and motion before using them in real work.',
     builtFor: ['Design peers', 'Product builders', 'Interface-curious people'],
     capabilities: [
       'Browse interface concepts and interaction studies',
@@ -261,12 +321,13 @@ export const EXPERIMENTS = [
   {
     title: 'Design Work',
     slug: 'design-work',
+    cover: 'design-work',
     kind: 'Design portfolio',
     blurb: 'Selected design pieces on Behance.',
     overview:
-      'A curated view of selected design work, from individual interface pieces to broader visual explorations. It is the right place to look for the craft and decisions behind the final surface.',
+      'Selected design pieces on Behance: interfaces and visual work from past projects.',
     whatIBuilt:
-      'A curated design portfolio that makes the visual work legible: the surfaces, systems, and explorations behind the final product experience.',
+      'A Behance portfolio of interface and visual work from product projects.',
     builtFor: ['Potential collaborators', 'Design teams', 'Product leaders'],
     capabilities: [
       'Browse selected case studies and design pieces',
@@ -279,12 +340,13 @@ export const EXPERIMENTS = [
   {
     title: 'Writing',
     slug: 'writing',
+    cover: 'writing',
     kind: 'Writing archive',
     blurb: 'Thinking, documented.',
     overview:
-      'Notes from the work: practical lessons about engineering, AI, integration work, and the craft of building useful software. The archive is meant to be useful whether you are debugging a detail or thinking through a bigger system.',
+      'Short notes on engineering, AI, and integrations. The stuff I wish I had written down sooner.',
     whatIBuilt:
-      'An ongoing writing practice that turns implementation details, lessons, and engineering decisions into short pieces other builders can use.',
+      'Short posts on DEV about things I learned while building.',
     builtFor: ['Engineers', 'AI practitioners', 'Curious builders'],
     capabilities: [
       'Read notes on engineering, AI, and developer craft',
@@ -322,13 +384,13 @@ export const LIFE = {
   ],
 }
 
-/** About page — longer narrative, stack folders, place. */
+/** About page: longer narrative, stack folders, place. */
 export const ABOUT_INTRO = {
   greeting: "Hey, I'm Vatsal!",
   paragraphs: [
-    "I'm a Full Spectrum Engineer with 8+ years of experience building AI platforms, multi-tenant SaaS, and enterprise integrations. What I enjoy most is owning a product problem end to end: finding the gap worth solving, shaping the architecture, shipping the craft, and watching whether it actually worked. I do my best work close to product, design, and business, with enough trust and context to help define the problem.",
-    'At Phamax I lead engineering for Ariya, an AI platform for pharmaceutical content. Brand-compliant generation from early sketches to production workflows under real regulatory constraints, wired into systems like Veeva CRM and Salesforce Marketing Cloud.',
-    "Outside of work, I'm usually somewhere with a camera (travel, frames, visual craft) or tinkering in open source and interface experiments.",
+    `I'm a Full Spectrum Engineer with ${yearsExperience()} years on AI platforms, multi-tenant SaaS, and enterprise integrations. I like owning a product problem the whole way: figure out what's worth building, design it, ship it, then see if it actually helped. I work best next to product and design, with enough context to help shape the problem.`,
+    'At Phamax I lead engineering for Ariya, an AI platform for pharmaceutical content. Brand-compliant generation under real regulatory constraints, wired into Veeva CRM and Salesforce Marketing Cloud.',
+    "Outside work I'm usually with a camera, or tinkering in open source and small UI experiments.",
   ],
 }
 
@@ -453,7 +515,7 @@ export const ABOUT_PHOTO_CATEGORIES = [
 
 /**
  * Build log from dated, verifiable activity only
- * (role starts + published blog posts — no invented entries).
+ * (role starts + published blog posts; no invented entries).
  */
 export type BuildLogEntry = {
   date: string
@@ -462,7 +524,12 @@ export type BuildLogEntry = {
 }
 
 export function buildLogFromContent(
-  latestPosts: { title: string; href: string; pubDate: string }[],
+  latestPosts: {
+    title: string
+    href: string
+    pubDate: string
+    series?: { slug: string; title: string; part: number }
+  }[],
 ): BuildLogEntry[] {
   const roleStarts: BuildLogEntry[] = EXPERIENCE.map((entry) => ({
     date: formatBuildDate(entry.start),
@@ -470,11 +537,32 @@ export function buildLogFromContent(
     href: '/work/',
   }))
 
-  const posts: BuildLogEntry[] = latestPosts.map((post) => ({
-    date: formatIsoBuildDate(post.pubDate),
-    label: post.title,
-    href: post.href,
-  }))
+  const seenSeries = new Set<string>()
+  const posts: BuildLogEntry[] = []
+
+  for (const post of latestPosts) {
+    const slug = post.series?.slug
+    if (slug) {
+      if (seenSeries.has(slug)) continue
+      seenSeries.add(slug)
+      const parts = latestPosts.filter((entry) => entry.series?.slug === slug)
+      const first = [...parts].sort(
+        (a, b) => (a.series?.part ?? 0) - (b.series?.part ?? 0),
+      )[0]
+      posts.push({
+        date: formatIsoBuildDate(post.pubDate),
+        label: post.series?.title ?? post.title,
+        href: first?.href ?? post.href,
+      })
+      continue
+    }
+
+    posts.push({
+      date: formatIsoBuildDate(post.pubDate),
+      label: post.title,
+      href: post.href,
+    })
+  }
 
   return [...posts, ...roleStarts]
     .sort((a, b) => b.date.localeCompare(a.date))

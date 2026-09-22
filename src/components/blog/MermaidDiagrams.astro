@@ -1,0 +1,391 @@
+<script>
+  const ZOOM_MIN = 0.25
+  const ZOOM_MAX = 4
+  const ZOOM_STEP = 1.25
+  const PAN_STEP = 72
+
+  const icons = {
+    wide: '<path d="M4 12h6"/><path d="M14 12h6"/><path d="M7 9l-3 3 3 3"/><path d="M17 9l3 3-3 3"/>',
+    copy: '<rect x="9" y="9" width="11" height="11" rx="1"/><path d="M5 15V5h10"/>',
+    close: '<path d="M6 6l12 12M18 6L6 18"/>',
+    up: '<path d="M12 5v14M5 12l7-7 7 7"/>',
+    down: '<path d="M12 19V5M5 12l7 7 7-7"/>',
+    left: '<path d="M5 12h14M12 5l-7 7 7 7"/>',
+    right: '<path d="M19 12H5M12 5l7 7-7 7"/>',
+    reset:
+      '<path d="M3 12a9 9 0 1 0 2.5-6.2"/><path d="M3 4v5h5"/>',
+    zoomIn:
+      '<circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M21 21l-4.3-4.3"/>',
+    zoomOut:
+      '<circle cx="11" cy="11" r="7"/><path d="M8 11h6M21 21l-4.3-4.3"/>',
+  } as const
+
+  function svg(name: keyof typeof icons): string {
+    return `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`
+  }
+
+  function btn(action: string, label: string, icon: keyof typeof icons): string {
+    return `<button type="button" class="mermaid-btn" data-action="${action}" aria-label="${label}">${svg(icon)}</button>`
+  }
+
+  function hsl(token: string): string {
+    const value = getComputedStyle(document.documentElement)
+      .getPropertyValue(token)
+      .trim()
+    return value ? `hsl(${value})` : ''
+  }
+
+  function themeVariables() {
+    const foreground = hsl('--foreground')
+    const muted = hsl('--muted-foreground')
+    const border = hsl('--border')
+    const card = hsl('--card')
+    const secondary = hsl('--secondary')
+    const primary = hsl('--primary')
+    const background = hsl('--background')
+
+    return {
+      background: card || background,
+      primaryColor: secondary,
+      primaryTextColor: foreground,
+      primaryBorderColor: border,
+      secondaryColor: background,
+      secondaryTextColor: foreground,
+      secondaryBorderColor: border,
+      tertiaryColor: card,
+      tertiaryTextColor: foreground,
+      tertiaryBorderColor: border,
+      lineColor: muted,
+      textColor: foreground,
+      titleColor: foreground,
+      actorBkg: secondary,
+      actorBorder: border,
+      actorTextColor: foreground,
+      actorLineColor: muted,
+      signalColor: primary,
+      signalTextColor: foreground,
+      labelBoxBkgColor: secondary,
+      labelBoxBorderColor: border,
+      labelTextColor: foreground,
+      noteBkgColor: secondary,
+      noteBorderColor: border,
+      noteTextColor: foreground,
+      clusterBkg: background,
+      clusterBorder: border,
+      mainBkg: secondary,
+      nodeBorder: border,
+      edgeLabelBackground: card,
+      fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+    }
+  }
+
+  async function renderMermaid() {
+    const nodes = [...document.querySelectorAll<HTMLElement>('pre.mermaid')]
+    if (nodes.length === 0) return
+
+    const { default: mermaid } = await import('mermaid')
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: 'base',
+      fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+      themeVariables: themeVariables(),
+      flowchart: {
+        htmlLabels: false,
+        curve: 'basis',
+        padding: 12,
+      },
+      sequence: {
+        actorMargin: 28,
+        messageMargin: 36,
+        boxMargin: 8,
+      },
+    })
+
+    for (const node of nodes) {
+      const source = node.dataset.source ?? node.textContent ?? ''
+      node.dataset.source = source
+      node.removeAttribute('data-processed')
+      node.textContent = source
+    }
+
+    await mermaid.run({ nodes, suppressErrors: true })
+
+    for (const node of nodes) {
+      const figure = node.closest<HTMLElement>('.mermaid-figure')
+      if (!figure) continue
+      mount(figure)
+      captureBase(figure)
+      resetView(figure)
+    }
+  }
+
+  function diagramSvg(figure: HTMLElement) {
+    return figure.querySelector<SVGSVGElement>('pre.mermaid svg')
+  }
+
+  function viewportOf(figure: HTMLElement) {
+    return figure.querySelector<HTMLElement>('.mermaid-viewport')
+  }
+
+  function sourceOf(figure: HTMLElement) {
+    return figure.querySelector<HTMLElement>('pre.mermaid')?.dataset.source ?? ''
+  }
+
+  function captureBase(figure: HTMLElement) {
+    const svg = diagramSvg(figure)
+    if (!svg) return
+    const box = svg.viewBox.baseVal
+    const width = box.width || svg.width.baseVal.value
+    const height = box.height || svg.height.baseVal.value
+    if (!width || !height) return
+    figure.dataset.baseW = String(width)
+    figure.dataset.baseH = String(height)
+  }
+
+  function availableWidth(viewport: HTMLElement) {
+    const style = getComputedStyle(viewport)
+    return (
+      viewport.clientWidth -
+      parseFloat(style.paddingLeft) -
+      parseFloat(style.paddingRight)
+    )
+  }
+
+  function clamp(scale: number) {
+    return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, scale))
+  }
+
+  function applyScale(figure: HTMLElement, scale: number) {
+    const svg = diagramSvg(figure)
+    const viewport = viewportOf(figure)
+    const baseW = Number(figure.dataset.baseW)
+    const baseH = Number(figure.dataset.baseH)
+    if (!svg || !viewport || !baseW || !baseH) return
+
+    const width = Math.max(1, Math.round(baseW * scale))
+    const height = Math.max(1, Math.round(baseH * scale))
+    svg.style.width = `${width}px`
+    svg.style.height = `${height}px`
+    svg.style.maxWidth = 'none'
+    figure.dataset.scale = String(scale)
+    viewport.classList.toggle('is-overflowing', width > availableWidth(viewport) + 1)
+    figure
+      .querySelector<HTMLButtonElement>('[data-action="out"]')
+      ?.toggleAttribute('disabled', scale <= ZOOM_MIN + 0.001)
+    figure
+      .querySelector<HTMLButtonElement>('[data-action="in"]')
+      ?.toggleAttribute('disabled', scale >= ZOOM_MAX - 0.001)
+  }
+
+  function fitScale(figure: HTMLElement) {
+    const baseW = Number(figure.dataset.baseW)
+    const viewport = viewportOf(figure)
+    if (!baseW || !viewport) return 1
+    const fit = Math.min(1, availableWidth(viewport) / baseW)
+    return fit >= 0.85 ? fit : 1
+  }
+
+  function resetView(figure: HTMLElement) {
+    figure.dataset.userZoom = '0'
+    const viewport = viewportOf(figure)
+    applyScale(figure, fitScale(figure))
+    if (viewport) {
+      viewport.scrollLeft = 0
+      viewport.scrollTop = 0
+    }
+  }
+
+  function zoom(figure: HTMLElement, direction: 'in' | 'out') {
+    figure.dataset.userZoom = '1'
+    const current = Number(figure.dataset.scale) || 1
+    applyScale(
+      figure,
+      clamp(current * (direction === 'in' ? ZOOM_STEP : 1 / ZOOM_STEP)),
+    )
+  }
+
+  function pan(figure: HTMLElement, dx: number, dy: number) {
+    const viewport = viewportOf(figure)
+    if (!viewport) return
+    viewport.scrollBy({ left: dx, top: dy, behavior: 'smooth' })
+  }
+
+  async function copySource(figure: HTMLElement, button: HTMLButtonElement) {
+    const text = sourceOf(figure)
+    if (!text) return
+    try {
+      await navigator.clipboard.writeText(text)
+      button.classList.add('is-copied')
+      button.setAttribute('aria-label', 'Copied')
+      window.setTimeout(() => {
+        button.classList.remove('is-copied')
+        button.setAttribute('aria-label', 'Copy diagram source')
+      }, 1200)
+    } catch {
+      button.setAttribute('aria-label', 'Copy failed')
+    }
+  }
+
+  function setFullscreen(figure: HTMLElement, open: boolean) {
+    figure.classList.toggle('is-fullscreen', open)
+    document.documentElement.classList.toggle(
+      'mermaid-lock',
+      Boolean(document.querySelector('.mermaid-figure.is-fullscreen')),
+    )
+    const close = figure.querySelector<HTMLButtonElement>('[data-action="close"]')
+    close?.toggleAttribute('hidden', !open)
+    if (open) close?.focus()
+    requestAnimationFrame(() => {
+      if (figure.dataset.userZoom !== '1') resetView(figure)
+      else applyScale(figure, Number(figure.dataset.scale) || 1)
+    })
+  }
+
+  function onFigureClick(event: Event) {
+    const figure = event.currentTarget
+    if (!(figure instanceof HTMLElement)) return
+    const button = (event.target as Element | null)?.closest('button')
+    if (!button || !figure.contains(button)) return
+
+    const action = button.dataset.action
+    switch (action) {
+      case 'in':
+        zoom(figure, 'in')
+        break
+      case 'out':
+        zoom(figure, 'out')
+        break
+      case 'reset':
+        resetView(figure)
+        break
+      case 'pan-up':
+        pan(figure, 0, -PAN_STEP)
+        break
+      case 'pan-down':
+        pan(figure, 0, PAN_STEP)
+        break
+      case 'pan-left':
+        pan(figure, -PAN_STEP, 0)
+        break
+      case 'pan-right':
+        pan(figure, PAN_STEP, 0)
+        break
+      case 'wide':
+        setFullscreen(figure, true)
+        break
+      case 'copy':
+        void copySource(figure, button as HTMLButtonElement)
+        break
+      case 'close':
+        setFullscreen(figure, false)
+        break
+    }
+  }
+
+  const frames = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const figure = entry.target.closest<HTMLElement>('.mermaid-figure')
+      if (!figure || figure.dataset.userZoom === '1') continue
+      applyScale(figure, fitScale(figure))
+    }
+  })
+
+  function mount(figure: HTMLElement) {
+    const pre = figure.querySelector('pre.mermaid')
+    if (!pre) return
+
+    let viewport = viewportOf(figure)
+    if (!viewport) {
+      viewport = document.createElement('div')
+      viewport.className = 'mermaid-viewport'
+      pre.replaceWith(viewport)
+      viewport.append(pre)
+      frames.observe(viewport)
+    }
+
+    if (figure.querySelector('.mermaid-controls')) return
+
+    const top = document.createElement('div')
+    top.className = 'mermaid-actions-top'
+    top.innerHTML = [
+      btn('wide', 'Open fullscreen', 'wide'),
+      btn('copy', 'Copy diagram source', 'copy'),
+    ].join('')
+
+    const controls = document.createElement('div')
+    controls.className = 'mermaid-controls'
+    controls.setAttribute('role', 'toolbar')
+    controls.setAttribute('aria-label', 'Diagram controls')
+    controls.innerHTML = `
+      <div class="mermaid-pad">
+        <span aria-hidden="true"></span>
+        ${btn('pan-up', 'Pan up', 'up')}
+        ${btn('in', 'Zoom in', 'zoomIn')}
+        ${btn('pan-left', 'Pan left', 'left')}
+        ${btn('reset', 'Reset view', 'reset')}
+        ${btn('pan-right', 'Pan right', 'right')}
+        <span aria-hidden="true"></span>
+        ${btn('pan-down', 'Pan down', 'down')}
+        ${btn('out', 'Zoom out', 'zoomOut')}
+      </div>
+    `
+
+    const close = document.createElement('button')
+    close.type = 'button'
+    close.className = 'mermaid-close'
+    close.dataset.action = 'close'
+    close.setAttribute('aria-label', 'Close fullscreen')
+    close.hidden = true
+    close.innerHTML = svg('close')
+
+    figure.append(top, controls, close)
+    figure.addEventListener('click', onFigureClick)
+    figure.classList.add('is-ready')
+  }
+
+  let pending = false
+  let rerun = false
+
+  const run = () => {
+    if (pending) {
+      rerun = true
+      return
+    }
+    pending = true
+    void renderMermaid().finally(() => {
+      pending = false
+      if (rerun) {
+        rerun = false
+        run()
+      }
+    })
+  }
+
+  run()
+
+  let theme = document.documentElement.classList.contains('dark')
+  const observer = new MutationObserver(() => {
+    const next = document.documentElement.classList.contains('dark')
+    if (next === theme) return
+    theme = next
+    run()
+  })
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  })
+
+  document.addEventListener('astro:after-swap', () => {
+    document.documentElement.classList.remove('mermaid-lock')
+    run()
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return
+    const figure = document.querySelector<HTMLElement>('.mermaid-figure.is-fullscreen')
+    if (!figure) return
+    event.preventDefault()
+    setFullscreen(figure, false)
+  })
+</script>

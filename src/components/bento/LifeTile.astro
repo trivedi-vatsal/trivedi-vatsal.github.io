@@ -10,23 +10,84 @@ import { LIFE } from '../../lib/portfolio'
   ariaLabel="Life outside code"
 >
   <div class="relative z-10">
-    <p class="bento-label">{LIFE.title}</p>
+    <h2 class="text-xl font-semibold tracking-tight bento-wake bento-wake-title">
+      {LIFE.title}
+    </h2>
     <ul class="mt-5 grid grid-cols-2 gap-3">
       {
-        LIFE.interests.map((interest) => (
+        LIFE.interests.map((interest, i) => (
           <li>
             <a
               href={interest.href}
               target={interest.external ? '_blank' : undefined}
               rel={interest.external ? 'noopener noreferrer' : undefined}
-              class="hover:text-primary block text-lg font-medium tracking-tight transition-colors sm:text-xl"
+              class="hover:text-primary bento-wake bento-wake-up group/life flex items-start gap-2.5 text-lg font-medium tracking-tight transition-colors sm:text-xl"
+              style={`--wake-delay: ${i * 40}ms`}
             >
-              {interest.label}
-              {interest.external && (
-                <span class="text-muted-foreground ml-1 font-mono text-xs">
-                  ↗
-                </span>
-              )}
+              <span
+                class="text-primary/80 mt-1 inline-flex size-7 shrink-0 items-center justify-center"
+                aria-hidden="true"
+              >
+                {i === 0 && (
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path d="M4 8h3l2-3h6l2 3h3v11H4V8Z" />
+                    <circle cx="12" cy="13" r="3.5" />
+                  </svg>
+                )}
+                {i === 1 && (
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <circle cx="12" cy="12" r="8" />
+                    <path d="M12 4v2M12 18v2M4 12h2M18 12h2" />
+                    <circle cx="12" cy="12" r="2" />
+                    <path d="m12 12 4-2" />
+                  </svg>
+                )}
+                {i === 2 && (
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path d="M4 16 12 4l8 12H4Z" />
+                    <path d="M9 16h6" />
+                  </svg>
+                )}
+                {i === 3 && (
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  >
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2" />
+                  </svg>
+                )}
+              </span>
+              <span>
+                {interest.label}
+                {interest.external && (
+                  <span class="text-muted-foreground ml-1 font-mono text-xs">
+                    ↗
+                  </span>
+                )}
+              </span>
             </a>
           </li>
         ))
@@ -35,11 +96,11 @@ import { LIFE } from '../../lib/portfolio'
   </div>
 
   <div
-    class="bg-primary/10 anim-breathe pointer-events-none absolute -right-6 -bottom-10 h-40 w-40 rounded-full opacity-60 blur-2xl"
+    class="bg-primary/10 anim-breathe pointer-events-none absolute -right-6 -bottom-10 h-40 w-40 rounded-full opacity-60 blur-2xl transition-[opacity,transform] duration-500 group-hover:scale-110 group-hover:opacity-90"
     aria-hidden="true"
   >
   </div>
   <p class="text-muted-foreground relative z-10 mt-6 text-sm">
-    The human layer — frames, places, and visual craft.
+    Photography and travel when I am not at a keyboard.
   </p>
 </BentoTile>

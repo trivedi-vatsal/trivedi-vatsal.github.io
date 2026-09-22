@@ -96,7 +96,7 @@ export function ExperienceItem({ experience }: ExperienceItemProps) {
               aria-hidden
             />
           ) : (
-            <span className="flex size-2 rounded-full bg-zinc-300 dark:bg-zinc-600" />
+            <span className="bg-muted-foreground/40 flex size-2 rounded-full" />
           )}
         </div>
 
@@ -120,8 +120,8 @@ export function ExperienceItem({ experience }: ExperienceItemProps) {
             className="relative flex items-center justify-center"
             aria-label="Current Employer"
           >
-            <span className="absolute inline-flex size-3 animate-ping rounded-full bg-sky-500 opacity-50" />
-            <span className="relative inline-flex size-2 rounded-full bg-sky-500" />
+            <span className="absolute inline-flex size-3 animate-ping rounded-full bg-primary opacity-50" />
+            <span className="relative inline-flex size-2 rounded-full bg-primary" />
           </span>
         )}
       </div>
@@ -214,7 +214,7 @@ export function ExperiencePositionItem({
               <dt className="sr-only">Employment Period</dt>
               <dd className="flex items-center gap-0.5 tabular-nums">
                 <span>{start}</span>
-                <span className="font-mono">—</span>
+                <span className="font-mono">-</span>
                 {isOngoing ? (
                   <InfinityIcon
                     className="size-4.5 translate-y-[0.5px]"

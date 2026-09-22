@@ -106,8 +106,8 @@ export function StackTile({ items, className }: Props) {
                   onMouseLeave={() => setActive(null)}
                   onBlur={() => setActive(null)}
                   className={cn(
-                    'bg-muted text-muted-foreground flex aspect-square w-full items-center justify-center rounded-2xl transition-colors',
-                    'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
+                    'bg-muted text-muted-foreground flex aspect-square w-full items-center justify-center rounded-2xl transition-[color,background-color,transform] duration-200',
+                    'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none active:scale-[0.98]',
                     isActive
                       ? 'bg-secondary text-foreground'
                       : 'hover:bg-secondary hover:text-foreground',
@@ -117,8 +117,11 @@ export function StackTile({ items, className }: Props) {
                   title={item.name}
                 >
                   <span
-                    className="anim-icon-float inline-flex size-[42%] max-h-8 max-w-8 items-center justify-center"
-                    style={{ animationDelay: `${i * 0.28}s` }}
+                    className="anim-icon-float bento-wake bento-wake-cell inline-flex size-[42%] max-h-8 max-w-8 items-center justify-center"
+                    style={{
+                      animationDelay: `${i * 0.28}s`,
+                      ['--wake-delay']: `${i * 35}ms`,
+                    }}
                   >
                     <StackIcon name={item.name} className="size-full" />
                   </span>

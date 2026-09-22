@@ -14,14 +14,18 @@ import BuildLogTile from '../components/bento/BuildLogTile.astro'
 import ContactTile from '../components/bento/ContactTile.astro'
 import { StackTile } from '../components/bento/StackTile'
 import { STACK, buildLogFromContent } from '../lib/portfolio'
-import { isListedPost, toBlogPostSummary } from '../lib/blog'
+import {
+  isListedPost,
+  getFeaturedJournal,
+  toBlogPostSummary,
+} from '../lib/blog'
 import { SITE } from '../lib/constants'
 
 const posts = (await getCollection('blog', isListedPost))
   .map(toBlogPostSummary)
   .sort((a, b) => new Date(b.pubDate).valueOf() - new Date(a.pubDate).valueOf())
 
-const latest = posts[0]
+const latest = getFeaturedJournal(posts)
 const buildLog = buildLogFromContent(posts)
 ---
 
@@ -50,11 +54,12 @@ const buildLog = buildLogFromContent(posts)
             tags={latest.tags}
             pubDate={latest.pubDate}
             readingTime={latest.readingTime}
+            action={latest.isSeries ? 'Read series' : 'Read note'}
           />
         ) : (
           <NotesTile
             title="Journal coming soon"
-            description="Thinking, documented. First entry is on the way."
+            description="No posts yet. Check back soon."
             href="/blog/"
             tags={['AI', 'Engineering', 'Design']}
             pubDate={new Date().toISOString()}
@@ -75,50 +80,15 @@ const buildLog = buildLogFromContent(posts)
     gap: 16px;
   }
   .home-bento :global(.bento-tile) {
-    border-radius: 20px;
+    border-radius: var(--tile-radius);
     box-shadow: 0 3px 8px hsl(var(--foreground) / 0.015);
   }
   .home-bento :global(.bento-tile:hover) {
-    transform: none;
-    box-shadow: 0 6px 24px hsl(var(--foreground) / 0.045);
-  }
-  .home-bento :global(.identity-tile) {
-    background: hsl(var(--card));
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px -20px hsl(var(--foreground) / 0.28);
   }
   .home-bento :global(.now-tile) {
     background: hsl(var(--secondary) / 0.55);
-    padding: 30px;
-  }
-  .home-bento :global(.featured-tile) {
-    background: #232e20;
-    color: #f2f5ed;
-    border-color: #425039;
-  }
-  .home-bento :global(.anim-shimmer-text) {
-    animation: none;
-    background: none;
-    color: inherit;
-  }
-  .home-bento :global(.anim-tag),
-  .home-bento :global(.status-dot--label) {
-    animation: none;
-  }
-  .home-bento :global(#contact) {
-    background: #fb813e;
-    color: #241b13;
-    border-color: transparent;
-    min-height: 240px;
-  }
-  .home-bento :global(#contact p),
-  .home-bento :global(#contact span) {
-    color: #422a1c !important;
-  }
-  .home-bento :global(#contact h2) {
-    color: #241b13;
-    font-size: clamp(32px, 4vw, 48px);
-  }
-  .home-bento :global(#contact .my-8) {
-    margin-block: 20px;
   }
   @media (min-width: 1024px) {
     .home-bento :global(.featured-tile) {
@@ -166,9 +136,6 @@ const buildLog = buildLogFromContent(posts)
   @media (max-width: 639px) {
     .home-bento {
       gap: 12px;
-    }
-    .home-bento :global(.bento-tile) {
-      border-radius: 16px;
     }
     .home-bento :global([aria-label='Currently building']) {
       padding-bottom: 110px;

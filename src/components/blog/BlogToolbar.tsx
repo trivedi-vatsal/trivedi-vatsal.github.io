@@ -3,7 +3,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { LayoutGrid, List, Rows3, Search } from 'lucide-react'
 
-export type BlogView = 'category' | 'date'
+export type BlogView = 'series' | 'category' | 'date'
 export type BlogLayout = 'list' | 'grid' | 'compact'
 
 type Props = {
@@ -72,6 +72,7 @@ export function BlogToolbar({
             value={view}
             onChange={(value) => onViewChange(value as BlogView)}
             options={[
+              { value: 'series', label: 'Series' },
               { value: 'category', label: 'Category' },
               { value: 'date', label: 'Date' },
             ]}

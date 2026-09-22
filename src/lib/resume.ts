@@ -104,6 +104,23 @@ function toMarkdownBullets(highlights: string[] = []): string {
 
 const work = resume.work as ResumeWork[]
 
+/** Completed years since the earliest role. Updates with the calendar, not a hardcoded count. */
+export function yearsExperience(asOf = new Date()): number {
+  const earliest = work
+    .map((job) => job.startDate)
+    .filter(Boolean)
+    .sort()[0]
+  if (!earliest) return 0
+
+  const [year, month, day] = earliest.split('-').map(Number)
+  let years = asOf.getFullYear() - year
+  const beforeAnniversary =
+    asOf.getMonth() + 1 < month ||
+    (asOf.getMonth() + 1 === month && asOf.getDate() < (day || 1))
+  if (beforeAnniversary) years -= 1
+  return Math.max(years, 0)
+}
+
 /** Flat role rows — used by homepage / portfolio derived content. */
 export const EXPERIENCE = work.map((job) => {
   const current = !job.endDate

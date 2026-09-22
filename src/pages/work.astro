@@ -7,9 +7,8 @@ import { WorkExperience } from '../components/work-experience'
 ---
 
 <BaseLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
-  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
+  <main class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col" transition:animate="fade">
     <TopLayout>
-      <p class="bento-label mb-3">Career</p>
       <h1 class="scroll-m-20 text-3xl font-semibold tracking-tight sm:text-4xl">
         {WORK.TITLE}
       </h1>

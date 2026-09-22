@@ -1,6 +1,13 @@
 ---
 import BentoTile from './BentoTile.astro'
 import { EXPERIMENTS } from '../../lib/portfolio'
+
+const accents = [
+  'bg-primary/80',
+  'bg-foreground/35',
+  'bg-primary/50',
+  'bg-foreground/25',
+]
 ---
 
 <BentoTile
@@ -11,7 +18,9 @@ import { EXPERIMENTS } from '../../lib/portfolio'
   ariaLabel="Experiments"
 >
   <div>
-    <p class="bento-label">Experiments</p>
+    <h2 class="text-base font-semibold tracking-tight bento-wake bento-wake-title">
+      Experiments
+    </h2>
     <div class="relative mt-4 h-[9.5rem] overflow-hidden">
       <div
         class="from-card pointer-events-none absolute inset-x-0 top-0 z-10 h-4 bg-gradient-to-b to-transparent"
@@ -25,14 +34,29 @@ import { EXPERIMENTS } from '../../lib/portfolio'
         {
           [...EXPERIMENTS, ...EXPERIMENTS].map((item, i) => (
             <li
-              class="border-border/70 group-hover:border-foreground/15 flex items-baseline justify-between gap-3 border-b py-2.5 transition-colors"
+              class="border-border/70 group-hover:border-foreground/15 flex items-center justify-between gap-3 border-b py-2.5 transition-colors"
               style={`transition-delay: ${(i % EXPERIMENTS.length) * 40}ms`}
             >
-              <span class="text-sm font-medium tracking-tight sm:text-base">
-                {item.title}
+              <span class="flex min-w-0 items-center gap-2.5">
+                <span
+                  class:list={[
+                    'inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-border/60 bg-secondary/50',
+                  ]}
+                  aria-hidden="true"
+                >
+                  <span
+                    class:list={[
+                      'size-2 rounded-[2px]',
+                      accents[i % accents.length],
+                    ]}
+                  />
+                </span>
+                <span class="truncate text-sm font-medium tracking-tight sm:text-base">
+                  {item.title}
+                </span>
               </span>
               <span class="text-muted-foreground font-mono text-[0.6rem] opacity-0 transition-opacity group-hover:opacity-100">
-                {item.external ? '↗' : '→'}
+                {item.kind}
               </span>
             </li>
           ))
@@ -40,7 +64,10 @@ import { EXPERIMENTS } from '../../lib/portfolio'
       </ul>
     </div>
   </div>
-  <span class="bento-arrow text-foreground mt-4">
+  <span
+    class="bento-arrow text-foreground mt-4 bento-wake bento-wake-x"
+    style="--wake-delay: 60ms"
+  >
     Browse experiments
     <span aria-hidden="true">→</span>
   </span>

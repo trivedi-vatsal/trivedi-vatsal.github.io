@@ -16,7 +16,7 @@ const projectNumber = String(index + 1).padStart(2, '0')
 ---
 
 <BaseLayout title={experiment.title} description={experiment.blurb}>
-  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
+  <main class="experiment-detail flex min-h-[calc(100dvh-8rem)] flex-auto flex-col" transition:animate="fade">
     <TopLayout>
       <nav aria-label="Breadcrumb" class="text-muted-foreground mb-4 text-sm">
         <ol class="flex flex-wrap items-center gap-2">
@@ -56,16 +56,16 @@ const projectNumber = String(index + 1).padStart(2, '0')
         class="grid max-w-5xl gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(17rem,0.75fr)]"
       >
         <section
-          class="border-border/70 bg-card relative overflow-hidden rounded-xl border p-6 sm:p-8"
+          class="bento-tile group relative overflow-hidden p-6 sm:p-8"
           aria-labelledby="overview-heading"
         >
           <span
-            class="text-primary/15 pointer-events-none absolute -top-9 -right-3 font-mono text-9xl font-semibold"
+            class="bento-wake bento-wake-mark text-primary pointer-events-none absolute -top-9 -right-3 font-mono text-9xl font-semibold"
             aria-hidden="true"
           >
             {projectNumber}
           </span>
-          <p class="bento-label relative">The overview</p>
+          <p class="bento-label bento-wake bento-wake-label relative">The overview</p>
           <p
             id="overview-heading"
             class="text-muted-foreground relative mt-5 max-w-xl leading-relaxed"
@@ -74,12 +74,15 @@ const projectNumber = String(index + 1).padStart(2, '0')
           </p>
         </section>
 
-        <aside class="border-border/70 rounded-xl border p-6 sm:p-8">
-          <p class="bento-label">Built for</p>
+        <aside class="bento-tile group p-6 sm:p-8">
+          <p class="bento-label bento-wake bento-wake-label">Built for</p>
           <ul class="mt-5 space-y-3">
             {
-              experiment.builtFor.map((audience) => (
-                <li class="border-border/60 border-b pb-3 text-sm font-medium last:border-0 last:pb-0">
+              experiment.builtFor.map((audience, i) => (
+                <li
+                  class="border-border/60 bento-wake bento-wake-x border-b pb-3 text-sm font-medium last:border-0 last:pb-0"
+                  style={`--wake-delay: ${i * 45}ms`}
+                >
                   {audience}
                 </li>
               ))
@@ -89,7 +92,7 @@ const projectNumber = String(index + 1).padStart(2, '0')
             href={experiment.href}
             target={experiment.external ? '_blank' : undefined}
             rel={experiment.external ? 'noopener noreferrer' : undefined}
-            class="bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring mt-8 inline-flex w-full items-center justify-between rounded-md px-4 py-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring mt-8 inline-flex w-full items-center justify-between rounded-md px-4 py-3 text-sm font-medium transition-[color,background-color,transform] duration-200 focus-visible:ring-2 focus-visible:outline-none active:scale-[0.98]"
           >
             {experiment.action}
             <span aria-hidden="true">{experiment.external ? '↗' : '→'}</span>
@@ -98,7 +101,7 @@ const projectNumber = String(index + 1).padStart(2, '0')
       </div>
 
       <section
-        class="border-border/70 bg-secondary/30 mt-5 max-w-5xl rounded-xl border p-6 sm:p-8"
+        class="border-border/70 bg-secondary/30 mt-5 max-w-5xl rounded-xl border p-6 transition-[border-color,box-shadow] duration-300 hover:border-foreground/20 hover:shadow-[0_14px_40px_-22px_hsl(var(--foreground)/0.25)] sm:p-8"
         aria-labelledby="built-heading"
       >
         <div class="grid gap-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-10">
@@ -138,11 +141,15 @@ const projectNumber = String(index + 1).padStart(2, '0')
         <ol class="mt-6 grid gap-3 md:grid-cols-3">
           {
             experiment.capabilities.map((capability, capabilityIndex) => (
-              <li class="border-border/70 bg-card rounded-lg border p-5">
-                <span class="text-primary font-mono text-xs">
+              <li class="bento-tile group p-5">
+                <span
+                  class="text-primary font-mono text-xs bento-wake bento-wake-fade"
+                >
                   {String(capabilityIndex + 1).padStart(2, '0')}
                 </span>
-                <p class="mt-5 text-sm leading-relaxed">{capability}</p>
+                <p class="mt-5 text-sm leading-relaxed bento-wake bento-wake-up">
+                  {capability}
+                </p>
               </li>
             ))
           }
@@ -163,3 +170,9 @@ const projectNumber = String(index + 1).padStart(2, '0')
     </BottomLayout>
   </main>
 </BaseLayout>
+
+<style>
+  .experiment-detail :global(.bento-tile:hover) .bento-wake-mark {
+    opacity: 0.18;
+  }
+</style>

@@ -9,25 +9,31 @@ interface Props {
   tags: string[]
   pubDate: string
   readingTime: number
+  action?: string
 }
 
-const { title, description, href, tags, pubDate, readingTime } = Astro.props
+const {
+  title,
+  description,
+  href,
+  tags,
+  pubDate,
+  readingTime,
+  action = 'Read note',
+} = Astro.props
 ---
 
 <BentoTile
   href={href}
-  class="order-7 col-span-1 flex min-h-[240px] flex-col justify-between p-5 sm:p-6 lg:order-8 lg:col-span-5"
+  class="order-7 col-span-1 flex min-h-[240px] flex-col justify-between overflow-hidden p-5 sm:p-6 lg:order-8 lg:col-span-5"
   radius="soft"
   delay={200}
   ariaLabel={`Journal: ${title}`}
 >
-  <div>
-    <p class="bento-label">Journal</p>
-    <p class="text-muted-foreground mt-2 font-mono text-xs tracking-wide">
-      Thinking, documented.
-    </p>
+  <div class="relative z-10">
+    <p class="bento-label bento-wake bento-wake-label">Journal</p>
     <h2
-      class="anim-shimmer-text mt-4 text-2xl leading-tight font-semibold tracking-tight sm:text-3xl"
+      class="mt-4 text-2xl leading-tight font-semibold tracking-tight text-pretty sm:text-3xl bento-wake bento-wake-title"
     >
       {title}
     </h2>
@@ -37,9 +43,68 @@ const { title, description, href, tags, pubDate, readingTime } = Astro.props
   </div>
 
   <div
-    class="border-border/80 mt-6 flex flex-wrap items-end justify-between gap-3 border-t pt-4"
+    class="notes-visual pointer-events-none absolute top-5 right-4 opacity-70 sm:right-6"
+    aria-hidden="true"
   >
-    <div>
+    <svg class="h-[5.5rem] w-[4.25rem]" viewBox="0 0 68 88" fill="none">
+      <rect
+        x="8"
+        y="4"
+        width="52"
+        height="72"
+        rx="4"
+        class="anim-float fill-card stroke-border"
+        stroke-width="1"></rect>
+      <rect
+        x="4"
+        y="8"
+        width="52"
+        height="72"
+        rx="4"
+        class="fill-secondary/60 stroke-border"
+        stroke-width="1"></rect>
+      <rect
+        x="14"
+        y="20"
+        width="28"
+        height="4"
+        rx="1.5"
+        class="fill-primary/60"></rect>
+      <rect
+        x="14"
+        y="30"
+        width="36"
+        height="3"
+        rx="1"
+        class="fill-muted-foreground/25"></rect>
+      <rect
+        x="14"
+        y="38"
+        width="32"
+        height="3"
+        rx="1"
+        class="fill-muted-foreground/20"></rect>
+      <rect
+        x="14"
+        y="46"
+        width="34"
+        height="3"
+        rx="1"
+        class="fill-muted-foreground/15"></rect>
+      <rect
+        x="14"
+        y="54"
+        width="22"
+        height="3"
+        rx="1"
+        class="fill-muted-foreground/15"></rect>
+    </svg>
+  </div>
+
+  <div
+    class="border-border/80 relative z-10 mt-6 flex flex-wrap items-end justify-between gap-3 border-t pt-4"
+  >
+    <div class="bento-wake bento-wake-fade">
       <p class="text-muted-foreground font-mono text-[0.65rem] tracking-wide">
         {tags.length ? tags.map((t) => t).join(' · ') : 'Journal'}
       </p>
@@ -48,7 +113,7 @@ const { title, description, href, tags, pubDate, readingTime } = Astro.props
       </p>
     </div>
     <span class="bento-arrow text-foreground">
-      Read note
+      {action}
       <span aria-hidden="true">→</span>
     </span>
   </div>

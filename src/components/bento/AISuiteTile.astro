@@ -33,8 +33,7 @@ const logos = {
   ariaLabel="AI subscription suite"
 >
   <div>
-    <p class="bento-label">AI subscription suite</p>
-    <h2 class="mt-3 text-2xl leading-none font-semibold tracking-tight">
+    <h2 class="text-2xl leading-none font-semibold tracking-tight bento-wake bento-wake-title">
       Current rotation
     </h2>
     <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
@@ -44,14 +43,15 @@ const logos = {
 
   <ul class="mt-5 grid grid-cols-4 gap-3">
     {
-      AI_SUBSCRIPTIONS.map((tool) => {
+      AI_SUBSCRIPTIONS.map((tool, i) => {
         const logo = logos[tool.name as keyof typeof logos]
         const Logo = logo?.Icon
         const color = logo?.color ?? '#111111'
 
         return (
         <li
-          class="border-border/70 bg-secondary/45 hover:bg-secondary flex aspect-square items-center justify-center rounded-xl border transition-colors"
+          class="border-border/70 bg-secondary/45 hover:bg-secondary bento-wake bento-wake-cell flex aspect-square items-center justify-center rounded-xl border transition-colors"
+          style={`--wake-delay: ${i * 40}ms`}
           title={tool.name}
           aria-label={tool.name}
         >

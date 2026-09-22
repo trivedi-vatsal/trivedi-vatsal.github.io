@@ -32,7 +32,7 @@ export function ContactNote({ email, className, label = 'Contact' }: Props) {
       name ? `Note from ${name}` : 'Note from vatsal.xyz',
     )
     const body = encodeURIComponent(
-      [message, '', from ? `— ${from}` : '', name ? name : '']
+      [message, '', from ? `- ${from}` : '', name ? name : '']
         .filter(Boolean)
         .join('\n'),
     )
@@ -122,7 +122,7 @@ export function ContactNote({ email, className, label = 'Contact' }: Props) {
 
               <button
                 type="submit"
-                className="bg-foreground text-background mt-auto w-full py-3 text-sm font-medium transition-opacity hover:opacity-90"
+                className="bg-foreground text-background mt-auto w-full py-3 text-sm font-medium transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.98]"
               >
                 Send the note
               </button>

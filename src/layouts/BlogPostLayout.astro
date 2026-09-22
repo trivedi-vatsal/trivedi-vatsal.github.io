@@ -1,6 +1,6 @@
 ---
 import { getImage } from 'astro:assets'
-import { render } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BlogPageLayout from './BlogPageLayout.astro'
 import { ShareMenu } from '../components/share-menu'
@@ -9,8 +9,18 @@ import { TOCMinimap } from '../components/toc-minimap'
 import { Toaster } from '../components/ui/sonner'
 import defaultOgImage from '../assets/images/View1.png'
 import { SITE } from '../lib/constants'
-import { formatReadingTime, getReadingTime, slugifyTag } from '../lib/blog'
+import {
+  buildSeriesCatalog,
+  formatReadingTime,
+  getReadingTime,
+  getSeriesForPost,
+  isListedPost,
+  slugifyTag,
+  toBlogPostSummary,
+} from '../lib/blog'
 import { blogPostingJsonLd } from '../lib/seo'
+import BlogSeriesNav from '../components/blog/BlogSeriesNav.astro'
+import MermaidDiagrams from '../components/blog/MermaidDiagrams.astro'
 
 interface Props {
   post: CollectionEntry<'blog'>
@@ -23,6 +33,14 @@ const modifiedDate = post.data.updatedDate ?? post.data.pubDate
 const readingTime = getReadingTime(post.body)
 const site = Astro.site ?? 'https://vatsal.xyz'
 const shareUrl = new URL(`/blog/${post.id}/`, site).href
+const series = post.data.series
+  ? getSeriesForPost(
+      toBlogPostSummary(post),
+      buildSeriesCatalog(
+        (await getCollection('blog', isListedPost)).map(toBlogPostSummary),
+      ),
+    )
+  : undefined
 const toc = headings
   .filter((heading) => heading.depth >= 2 && heading.depth <= 4)
   .map((heading) => ({
@@ -137,6 +155,7 @@ const jsonLd = blogPostingJsonLd({
         </div>
       )
     }
+    {series && <BlogSeriesNav series={series} currentId={post.id} />}
   </Fragment>
   {
     toc.length > 0 && (
@@ -148,6 +167,12 @@ const jsonLd = blogPostingJsonLd({
   <article class="prose dark:prose-invert max-w-none">
     <Content />
   </article>
+  <MermaidDiagrams />
+  {
+    series && (
+      <BlogSeriesNav series={series} currentId={post.id} placement="footer" />
+    )
+  }
   {
     toc.length > 0 && (
       <aside

@@ -1,11 +1,15 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
 @plugin 'tailwindcss-animate';
 @plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Space Grotesk Variable', 'Space Grotesk', ui-sans-serif,
+    system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -224,15 +228,15 @@
 
 @layer base {
   :root {
-    /* Warm off-white — not cream/#F4F1EA terracotta cluster */
+    /* Warm off-white, not the cream/terracotta cluster */
     --background: 36 18% 97%;
     --foreground: 24 10% 8%;
     --card: 40 25% 99%;
     --card-foreground: 24 10% 8%;
     --popover: 40 25% 99%;
     --popover-foreground: 24 10% 8%;
-    /* Signature orange accent */
-    --primary: 22 96% 52%;
+    /* Signature orange, saturation kept under 80% */
+    --primary: 22 74% 48%;
     --primary-foreground: 40 30% 98%;
     --secondary: 32 12% 93%;
     --secondary-foreground: 24 10% 12%;
@@ -244,10 +248,10 @@
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 30 8% 86%;
     --input: 30 8% 86%;
-    --ring: 22 96% 52%;
+    --ring: 22 74% 48%;
     --line: 30 8% 86%;
-    --radius: 0.75rem;
-    --tile-radius: 0.75rem;
+    --radius: 1rem;
+    --tile-radius: 1rem;
   }
 
   .dark {
@@ -257,7 +261,7 @@
     --card-foreground: 36 15% 94%;
     --popover: 24 7% 8%;
     --popover-foreground: 36 15% 94%;
-    --primary: 22 96% 55%;
+    --primary: 22 70% 56%;
     --primary-foreground: 24 10% 6%;
     --secondary: 24 6% 14%;
     --secondary-foreground: 36 15% 94%;
@@ -269,7 +273,7 @@
     --destructive-foreground: 0 0% 100%;
     --border: 24 6% 18%;
     --input: 24 6% 18%;
-    --ring: 22 96% 55%;
+    --ring: 22 70% 56%;
     --line: 24 6% 18%;
   }
 
@@ -284,28 +288,18 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     background-image: radial-gradient(
-        ellipse 80% 50% at 10% -10%,
-        hsl(22 96% 52% / 0.06),
-        transparent 55%
-      ),
-      radial-gradient(
-        ellipse 60% 40% at 90% 0%,
-        hsl(200 40% 50% / 0.04),
-        transparent 50%
-      );
+      ellipse 80% 50% at 10% -10%,
+      hsl(var(--primary) / 0.07),
+      transparent 55%
+    );
   }
 
   .dark body {
     background-image: radial-gradient(
-        ellipse 80% 50% at 10% -10%,
-        hsl(22 96% 52% / 0.08),
-        transparent 55%
-      ),
-      radial-gradient(
-        ellipse 60% 40% at 95% 5%,
-        hsl(220 30% 40% / 0.06),
-        transparent 50%
-      );
+      ellipse 80% 50% at 10% -10%,
+      hsl(var(--primary) / 0.1),
+      transparent 55%
+    );
   }
 }
 
@@ -342,14 +336,14 @@
 
   .bento-tile:hover {
     border-color: hsl(var(--foreground) / 0.18);
-    box-shadow: 0 12px 40px -24px hsl(var(--foreground) / 0.35);
-    transform: translateY(-2px);
+    box-shadow: 0 14px 40px -22px hsl(var(--foreground) / 0.38);
+    transform: translateY(-3px);
   }
 
   .bento-tile--flat,
   .bento-tile--soft,
   .bento-tile--sharp {
-    border-radius: 1rem;
+    border-radius: var(--tile-radius);
   }
 
   .bento-label {
@@ -380,13 +374,13 @@
 
   .status-dot::before {
     content: '';
-    @apply absolute inset-0 rounded-full bg-emerald-400/70;
+    @apply bg-primary/70 absolute inset-0 rounded-full;
     animation: pulse-dot 2s ease-in-out infinite;
   }
 
   .status-dot::after {
     content: '';
-    @apply absolute inset-[2px] rounded-full bg-emerald-500;
+    @apply bg-primary absolute inset-[2px] rounded-full;
   }
 
   .status-dot--primary::before {
@@ -439,29 +433,28 @@
     animation: float-y 5s ease-in-out infinite;
   }
 
-  /* Line portrait — light: charcoal ink; dark: warm cream, not stark white */
+  /* Black line ink on a warm ground so the drawing stays readable in both modes */
   .portrait-ink {
-    filter: none;
+    filter: contrast(1.18);
   }
 
   .dark .portrait-ink {
-    filter: brightness(0) invert(0.82) sepia(0.4) saturate(0.55)
-      hue-rotate(8deg);
-    opacity: 0.92;
+    filter: contrast(1.22);
+    opacity: 1;
   }
 
   .portrait-frame {
-    border-radius: calc(var(--tile-radius) + 0.25rem);
-    background: hsl(var(--card));
-    box-shadow: inset 0 0 0 1px hsl(var(--border) / 0.9);
-    padding: 1.25rem;
+    border-radius: 7.5rem 7.5rem 1.5rem 1.5rem;
+    background: hsl(32 28% 88%);
+    border: 1px solid hsl(32 18% 74%);
+    padding: 1.25rem 1.25rem 0;
+    overflow: hidden;
   }
 
   .dark .portrait-frame {
-    background: linear-gradient(165deg, hsl(24 8% 11%) 0%, hsl(24 10% 7%) 100%);
-    box-shadow:
-      inset 0 0 0 1px hsl(36 15% 94% / 0.08),
-      0 24px 48px -32px hsl(0 0% 0% / 0.65);
+    background: hsl(32 22% 84%);
+    border-color: hsl(32 16% 68%);
+    box-shadow: 0 24px 48px -32px hsl(0 0% 0% / 0.55);
   }
 
   .anim-spin-slow {
@@ -586,8 +579,122 @@
     animation-duration: 1.2s;
   }
 
+  .bento-tile:hover .anim-signal {
+    animation-duration: 1.6s;
+  }
+
+  .bento-tile:hover .anim-node {
+    animation-duration: 1.4s;
+  }
+
+  .bento-tile:hover .anim-tag {
+    animation-duration: 2.2s;
+  }
+
   .bento-tile:hover .anim-marquee-y {
-    animation-play-state: paused;
+    animation-duration: 9s;
+  }
+
+  .bento-tile:hover .anim-breathe {
+    animation-duration: 3.2s;
+  }
+
+  .bento-tile:hover .anim-icon-float {
+    animation-duration: 2.4s;
+  }
+
+  /* —— Content wake (marco.fyi-style nested reaction) —— */
+
+  .bento-wake {
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.3s ease,
+      color 0.25s ease,
+      letter-spacing 0.35s ease,
+      gap 0.25s ease,
+      border-color 0.25s ease,
+      background-color 0.25s ease;
+    transition-delay: var(--wake-delay, 0ms);
+  }
+
+  .bento-wake-up {
+    transform: translateY(3px);
+  }
+
+  .bento-tile:hover .bento-wake-up,
+  .group:hover .bento-wake-up {
+    transform: translateY(0);
+  }
+
+  .bento-wake-x {
+    transform: translateX(0);
+  }
+
+  .bento-tile:hover .bento-wake-x,
+  .group:hover .bento-wake-x {
+    transform: translateX(4px);
+  }
+
+  .bento-wake-fade {
+    opacity: 0.55;
+  }
+
+  .bento-tile:hover .bento-wake-fade,
+  .group:hover .bento-wake-fade {
+    opacity: 1;
+  }
+
+  .bento-wake-mark {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .bento-tile:hover .bento-wake-mark,
+  .group:hover .bento-wake-mark {
+    opacity: 0.12;
+  }
+
+  .bento-wake-title {
+    letter-spacing: -0.02em;
+  }
+
+  .bento-tile:hover .bento-wake-title,
+  .group:hover .bento-wake-title {
+    letter-spacing: -0.04em;
+    color: hsl(var(--primary));
+  }
+
+  .bento-wake-label {
+    letter-spacing: 0.14em;
+  }
+
+  .bento-tile:hover .bento-wake-label,
+  .group:hover .bento-wake-label {
+    letter-spacing: 0.18em;
+    color: hsl(var(--foreground));
+  }
+
+  .bento-wake-cell {
+    transform: translateY(0) scale(1);
+  }
+
+  .bento-tile:hover .bento-wake-cell,
+  .group:hover .bento-wake-cell {
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .contact-tile,
+  .contact-tile .bento-arrow,
+  .contact-tile:hover .bento-arrow {
+    color: hsl(24 12% 10%);
+  }
+
+  .contact-tile:hover {
+    box-shadow: 0 18px 44px -20px hsl(22 70% 40% / 0.55);
+  }
+
+  .contact-tile p {
+    color: hsl(24 12% 10% / 0.78);
   }
 }
 
@@ -614,9 +721,24 @@
   .anim-timeline-dot::before,
   .anim-icon-float,
   .anim-marquee-y,
-  .bento-tile {
+  .bento-tile,
+  .bento-wake,
+  .bento-wake-up,
+  .bento-wake-x,
+  .bento-wake-fade,
+  .bento-wake-mark,
+  .bento-wake-title,
+  .bento-wake-label,
+  .bento-wake-cell {
     animation: none !important;
     transition: none !important;
+    transform: none !important;
+    letter-spacing: inherit !important;
+  }
+
+  .bento-wake-mark,
+  .bento-wake-fade {
+    opacity: 1 !important;
   }
 
   .anim-shimmer-text {
@@ -651,4 +773,128 @@
   @apply prose-code:rounded-md prose-code:border prose-code:bg-muted/50 prose-code:px-1 prose-code:py-px prose-code:text-sm prose-code:font-normal prose-code:before:content-none prose-code:after:content-none retina:prose-code:border-[0.5px];
   @apply prose-strong:font-medium;
   @apply prose-blockquote:border-l prose-blockquote:font-normal prose-blockquote:text-muted-foreground prose-blockquote:not-italic prose-blockquote:[&_p:first-of-type]:before:content-none prose-blockquote:[&_p:last-of-type]:after:content-none;
+}
+
+.mermaid-figure {
+  @apply border-border/70 bg-card relative my-8 max-w-full overflow-hidden rounded-md border;
+}
+
+.mermaid-viewport {
+  max-height: min(70dvh, 36rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 2.75rem 0.75rem 4.75rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mermaid-viewport:not(.is-overflowing) {
+  display: flex;
+  justify-content: center;
+}
+
+.mermaid-actions-top {
+  @apply border-border/70 bg-background/95 absolute top-2 right-2 z-[1] flex overflow-hidden rounded-md border shadow-sm backdrop-blur-sm;
+}
+
+.mermaid-controls {
+  @apply border-border/70 bg-background/95 absolute right-2 bottom-2 z-[1] rounded-md border p-1 shadow-sm backdrop-blur-sm;
+}
+
+.mermaid-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 2rem);
+  grid-template-rows: repeat(3, 2rem);
+  gap: 1px;
+}
+
+.mermaid-actions-top .mermaid-btn {
+  @apply size-8;
+}
+
+.mermaid-btn {
+  @apply text-foreground hover:bg-muted grid size-full place-items-center rounded-sm transition-colors;
+}
+
+.mermaid-btn:disabled {
+  opacity: 0.35;
+}
+
+.mermaid-btn:focus-visible {
+  @apply outline-ring outline-2 outline-offset-1;
+}
+
+.mermaid-btn.is-copied {
+  @apply bg-primary/15 text-primary;
+}
+
+.mermaid-close {
+  @apply border-border/70 bg-background/95 text-foreground hover:bg-muted absolute top-2 right-2 z-[2] grid size-8 place-items-center rounded-md border shadow-sm backdrop-blur-sm;
+}
+
+.mermaid-close:focus-visible {
+  @apply outline-ring outline-2 outline-offset-1;
+}
+
+.prose .mermaid-figure pre.mermaid,
+.mermaid-figure pre.mermaid {
+  @apply m-0 w-max max-w-none bg-transparent p-0 font-mono text-xs leading-relaxed shadow-none;
+  color: hsl(var(--muted-foreground));
+}
+
+.mermaid-figure pre.mermaid[data-processed] {
+  color: inherit;
+}
+
+.prose .mermaid-figure pre.mermaid svg,
+.mermaid-figure pre.mermaid svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.mermaid-figure.is-ready pre.mermaid svg {
+  max-width: none;
+}
+
+.mermaid-figure.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  margin: 0;
+  border-radius: 0;
+  background: hsl(var(--background));
+}
+
+.mermaid-figure.is-fullscreen .mermaid-viewport {
+  max-height: none;
+  height: 100%;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+
+.mermaid-figure.is-fullscreen .mermaid-actions-top {
+  display: none;
+}
+
+.mermaid-figure.is-fullscreen .mermaid-close {
+  top: max(0.5rem, env(safe-area-inset-top));
+  right: max(0.5rem, env(safe-area-inset-right));
+}
+
+.mermaid-figure.is-fullscreen .mermaid-controls {
+  right: max(0.5rem, env(safe-area-inset-right));
+  bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+html.mermaid-lock,
+html.mermaid-lock body {
+  overflow: hidden;
+}
+
+.mermaid-figure .nodeLabel,
+.mermaid-figure .edgeLabel,
+.mermaid-figure .actor,
+.mermaid-figure .messageText {
+  font-family: var(--font-mono), ui-monospace, monospace;
 }

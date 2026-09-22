@@ -51,8 +51,7 @@ export const WORK: Page = {
 // Blog Page
 export const BLOG: Page = {
   TITLE: 'Journal',
-  DESCRIPTION:
-    'Thinking, documented. Writing on AI, engineering, integrations, and product craft.',
+  DESCRIPTION: 'Notes on AI, engineering, and integrations.',
 }
 
 // Study Page

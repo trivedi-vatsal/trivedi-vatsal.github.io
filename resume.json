@@ -2,20 +2,22 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Vatsal Trivedi",
-    "label": "Forward Deployed Engineer · AI Platforms · Enterprise Integrations",
+    "label": "Principal Engineer · AI Platforms · Enterprise Integrations",
     "image": "https://avatars.githubusercontent.com/u/14287645?v=4",
     "email": "trivedivatsal005@gmail.com",
     "url": "https://vatsal.xyz",
     "phone": "+91 760-063-5053",
-    "summary": "Forward Deployed Engineer who embeds with the problem, ships into production, and owns the integrations that make AI systems useful inside real enterprises. Work spans LLM orchestration, multi-tenant SaaS, compliance-aware pipelines, and deep enterprise integrations — where production uptime, audit trails, and regulated workflows are the bar.",
+    "summary": "I build AI platforms, multi-tenant SaaS, and the integrations that make them useful inside real companies. I lead Ariya at Phamax, an AI platform for pharmaceutical content, research, and engagement, including the compliance path and the Veeva CRM and Salesforce Marketing Cloud connections. I also ship small tools in the open. The current one is openpreflight: GitHub Check Runs on a server you run yourself.",
     "location": {
+      "address": "",
+      "postalCode": "",
       "city": "Bengaluru",
       "countryCode": "IN",
       "region": "India"
     },
     "profiles": [
       {
-        "network": "GitHub",
+        "network": "Github",
         "username": "trivedi-vatsal",
         "url": "https://github.com/trivedi-vatsal"
       },
@@ -113,15 +115,18 @@
       "position": "Creative Designer",
       "url": "https://devfest.gdgahmedabad.com/",
       "startDate": "2018-09-01",
-      "summary": "Leading design for the GDG Ahmedabad chapter: event visuals, branding assets, and social media graphics for community events."
+      "endDate": "",
+      "summary": "Design for the GDG Ahmedabad chapter: event visuals, branding, and social graphics.",
+      "highlights": []
     },
     {
       "organization": "GirlScript",
-      "position": "GirlScript Summer of Code 2020 Mentor",
+      "position": "Summer of Code 2020 Mentor",
       "url": "https://gssoc.girlscript.tech/",
       "startDate": "2020-02-01",
       "endDate": "2020-05-01",
-      "summary": "Mentored open-source contributors during GirlScript Summer of Code 2020, guiding project architecture, code reviews, and development practices."
+      "summary": "Mentored contributors on project structure, code review, and how to land a change.",
+      "highlights": []
     }
   ],
   "education": [
@@ -131,12 +136,25 @@
       "area": "Computer Engineering",
       "studyType": "Bachelor of Engineering",
       "startDate": "2014-06-01",
-      "endDate": "2018-05-01"
+      "endDate": "2018-05-01",
+      "score": "",
+      "courses": []
+    }
+  ],
+  "awards": [],
+  "publications": [
+    {
+      "name": "Building openpreflight",
+      "publisher": "vatsal.xyz",
+      "releaseDate": "2026-09-21",
+      "url": "https://vatsal.xyz/blog/building-openpreflight-1-github-checks-without-a-ci-platform/",
+      "summary": "Five-part series on shipping a self-hosted GitHub Check Run service: one Go binary, one SQLite file, and the parts I refused to add."
     }
   ],
   "skills": [
     {
       "name": "Core Areas",
+      "level": "",
       "keywords": [
         "AI Platforms",
         "Enterprise Integrations",
@@ -145,68 +163,75 @@
         "Distributed Systems",
         "Event-Driven Architecture",
         "Developer Tooling",
-        "Workflow Orchestration",
-        "API Integrations",
         "Regulated Environments"
       ]
     },
     {
       "name": "AI & LLM Engineering",
+      "level": "",
       "keywords": [
         "LLM Orchestration",
         "RAG Pipelines",
         "Prompt Engineering",
-        "Semantic Retrieval",
-        "Embedding Pipelines",
-        "Hybrid Retrieval",
         "Tool Calling",
         "AI Evaluations",
         "OpenAI API",
         "Claude",
         "LangGraph",
         "Vector Databases",
-        "MCP"
+        "MCP",
+        "Agent Skills"
       ]
     },
     {
-      "name": "Platform Engineering & DevOps",
+      "name": "Platform Engineering",
+      "level": "",
       "keywords": [
-        "CI/CD Pipeline Architecture",
-        "Infrastructure as Code (IaC)",
-        "Observability & Monitoring",
-        "Security and Compliance Automation",
-        "Automated Deployments",
-        "Asynchronous Workflows",
-        "Caching Strategies"
+        "CI/CD",
+        "GitHub Actions",
+        "Docker",
+        "Observability",
+        "Infrastructure as Code",
+        "Security Automation"
       ]
     },
     {
       "name": "Programming Languages",
-      "keywords": ["TypeScript", "JavaScript", "Python", "SQL", "Go"]
+      "level": "",
+      "keywords": ["TypeScript", "JavaScript", "Python", "Go", "SQL"]
     },
     {
       "name": "Frameworks & Tools",
+      "level": "",
       "keywords": [
         "React",
         "Node.js",
         "FeathersJS",
         "Kafka",
-        "GraphQL & REST APIs",
+        "GraphQL & REST",
         "Vercel AI SDK",
-        "Shopify SDK",
-        "GitHub Actions",
+        "Shopify",
         "Turborepo",
-        "shadcn/ui",
-        "Strapi"
+        "shadcn/ui"
       ]
     },
     {
       "name": "Databases",
-      "keywords": ["PostgreSQL", "MongoDB", "BigQuery", "Redis", "Cassandra"]
+      "level": "",
+      "keywords": [
+        "PostgreSQL",
+        "SQLite",
+        "MongoDB",
+        "BigQuery",
+        "Redis",
+        "Cassandra",
+        "Delta Lake"
+      ]
     },
     {
-      "name": "Design & Prototyping",
-      "keywords": ["Figma", "Affinity Designer Suite", "Procreate"]
+      "name": "Design",
+      "level": "",
+      "keywords": ["Figma", "Affinity Designer", "Procreate"]
     }
   ],
   "certificates": [
@@ -215,7 +240,7 @@
       "issuer": "Databricks"
     },
     {
-      "name": "Data Science on Google Cloud Platform: Designing Data Warehouses",
+      "name": "Data Science on Google Cloud: Designing Data Warehouses",
       "issuer": "Google Cloud"
     }
   ],
@@ -226,102 +251,87 @@
     },
     {
       "language": "Gujarati",
-      "fluency": "Native Speaker"
+      "fluency": "Native"
     },
     {
       "language": "Hindi",
       "fluency": "Fluent"
     }
   ],
+  "interests": [],
+  "references": [],
   "projects": [
     {
-      "name": "InboxCraft",
-      "description": "Client-side tool that generates PowerShell scripts to automate Microsoft 365 Outlook inbox rules — no sign-up, no backend, fully transparent script execution.",
+      "name": "openpreflight",
+      "description": "Self-hosted GitHub Check Runs for private pull requests. One Go binary, one SQLite file, on a server you run. Apache-2.0.",
       "highlights": [
-        "Quick Mode and Advanced Mode workflows with a template library for services like GitHub, Slack, and Jira.",
-        "AST-based PowerShell code generation with syntax highlighting; entirely client-side for security and transparency.",
-        "Published as an official Agent Skills package compatible with Claude Code, Cursor, and assistants following the Vercel Labs skills spec; available via npx skills."
+        "GitHub App, webhooks, runner, UI, and local state in one deployable unit. Docker Compose or a Linux release binary.",
+        "The project checks itself: docs, site, and the binary each get a Check Run from ci.openpreflight.xyz. GitHub Actions is only used to publish release images.",
+        "Wrote a five-part series on vatsal.xyz, from the trigger model through running untrusted code."
       ],
-      "keywords": [
-        "TypeScript",
-        "React",
-        "Vite",
-        "PowerShell",
-        "Microsoft 365",
-        "Agent Skills",
-        "Agentic AI"
-      ],
-      "url": "https://github.com/trivedi-vatsal/inboxcraft",
+      "keywords": ["Go", "SQLite", "Docker", "GitHub Apps"],
+      "url": "https://openpreflight.xyz",
+      "type": "application"
+    },
+    {
+      "name": "Knock",
+      "description": "Copy-paste React and Tailwind components for private previews: access screens, invitations, and draft controls. Drops into a shadcn project.",
+      "highlights": [],
+      "keywords": ["React", "Tailwind", "shadcn/ui"],
+      "url": "https://knock.codes",
+      "type": "library"
+    },
+    {
+      "name": "InboxCraft",
+      "description": "A browser-only PowerShell generator for Microsoft 365 Outlook inbox rules. Quick and Advanced modes, with templates for GitHub, Slack, and Jira. Scripts stay in the browser.",
+      "highlights": [],
+      "keywords": ["TypeScript", "React", "PowerShell"],
+      "url": "https://inboxcraft.app/",
       "type": "application"
     },
     {
       "name": "InboxCraft Skills",
-      "description": "Official agent skill pack for InboxCraft — nine PowerShell-based tools for managing Outlook rules, folders, and categories via natural language.",
+      "description": "Official Agent Skills pack for InboxCraft. Nine PowerShell tools so assistants can manage Outlook rules, folders, and categories from a prompt.",
       "highlights": [
-        "Compatible with Claude Code, Cursor, Antigravity, and assistants following the npx skills specification.",
-        "Covers rule creation, folder hierarchy visualization, category management, large folder detection, and empty folder cleanup."
+        "Works with Claude Code, Cursor, and other assistants that follow the npx skills spec.",
+        "Covers rule creation, folder trees, categories, large-folder scans, and empty-folder cleanup."
       ],
-      "keywords": [
-        "PowerShell",
-        "Agent Skills",
-        "Claude Code",
-        "Agentic AI",
-        "Microsoft Outlook",
-        "LLM Tooling"
-      ],
+      "keywords": ["PowerShell", "Agent Skills", "Outlook"],
       "url": "https://github.com/trivedi-vatsal/inboxcraft-skills",
       "type": "library"
     },
     {
-      "name": "StaleGuard",
-      "description": "Zero-friction stale deployment detector — silently reloads outdated SPA builds on tab focus by monitoring HTTP ETag/Last-Modified headers, with no polling or user banners.",
+      "name": "audit-plan-tasks",
+      "description": "Agent Skill that scaffolds AUDIT.md, PLAN.md, and TASKS.md so a plan is based on what you actually checked, not on the request.",
       "highlights": [
-        "Focus-triggered version checking with ETag and Last-Modified fallback; offline-safe.",
-        "Deployed to Azure Static Web Apps and GitHub Pages with automated GitHub Actions workflow."
+        "Audit first: read the code, run the commands, hit the real endpoints, then plan.",
+        "Install with npx skills add trivedi-vatsal/audit-plan-tasks."
       ],
-      "keywords": [
-        "TypeScript",
-        "React",
-        "Vite",
-        "GitHub Actions",
-        "Azure Static Web Apps"
-      ],
-      "url": "https://github.com/trivedi-vatsal/StaleGuard",
+      "keywords": ["Agent Skills", "Planning"],
+      "url": "https://github.com/trivedi-vatsal/audit-plan-tasks",
+      "type": "library"
+    },
+    {
+      "name": "StaleGuard",
+      "description": "Reloads a stale SPA when the tab is focused again, by checking ETag and Last-Modified. No polling and no banner.",
+      "highlights": [],
+      "keywords": ["TypeScript", "React"],
+      "url": "https://vatsal.xyz/StaleGuard/",
       "type": "library"
     },
     {
       "name": "PySecRecipes",
-      "description": "Production-ready GitHub Actions workflow for automated Python dependency security audits — weekly scans, vulnerability reporting, and intelligent issue lifecycle management.",
-      "highlights": [
-        "Scans against PyPI Advisory, OSV, and Python Packaging Advisory databases; generates detailed remediation reports.",
-        "Auto-creates and closes GitHub issues as vulnerabilities appear and are resolved; supports monorepos and multi-environment setups."
-      ],
-      "keywords": [
-        "Python",
-        "GitHub Actions",
-        "Security Automation",
-        "CI/CD",
-        "DevSecOps",
-        "pip-audit"
-      ],
-      "url": "https://github.com/trivedi-vatsal/pysec-recipes",
+      "description": "GitHub Actions recipes that audit Python dependencies against PyPI, OSV, and Python Packaging advisories, and open or close issues as findings change.",
+      "highlights": [],
+      "keywords": ["Python", "GitHub Actions", "DevSecOps"],
+      "url": "https://vatsal.xyz/pysec-recipes/",
       "type": "application"
     },
     {
       "name": "PyImportSync",
-      "description": "AST-based Python dependency validator that ensures imports in a codebase are declared in requirements.txt — available as a GitHub Action and pre-commit hook.",
-      "highlights": [
-        "Git-aware caching and configurable analysis paths for fast execution in CI/CD pipelines.",
-        "Cross-platform support via shell and PowerShell scripts; integrates with UV package manager."
-      ],
-      "keywords": [
-        "Python",
-        "AST",
-        "GitHub Actions",
-        "pre-commit",
-        "CI/CD",
-        "Developer Tooling"
-      ],
+      "description": "AST check that every Python import is declared in requirements.txt. Ships as a GitHub Action and a pre-commit hook.",
+      "highlights": [],
+      "keywords": ["Python", "AST", "pre-commit"],
       "url": "https://github.com/trivedi-vatsal/PyImportSync",
       "type": "application"
     }
@@ -329,7 +339,7 @@
   "meta": {
     "canonical": "https://resume.vatsal.xyz",
     "version": "v1.0.0",
-    "lastModified": "2026-07-30T00:00:00",
+    "lastModified": "2026-09-22T00:00:00",
     "theme": "jsonresume-theme-local"
   }
 }

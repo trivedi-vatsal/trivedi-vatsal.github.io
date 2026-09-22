@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   buildDateLanes,
   buildLabelLanes,
+  buildSeriesCatalog,
+  buildSeriesLanes,
   filterPosts,
   getAllTags,
   slugifyTag,
@@ -25,8 +27,10 @@ function readParam(key: string): string | null {
   return new URLSearchParams(window.location.search).get(key)
 }
 
-function parseView(value: string | null): BlogView {
-  return value === 'date' ? 'date' : 'category'
+function parseView(value: string | null, hasSeries: boolean): BlogView {
+  if (value === 'date' || value === 'category' || value === 'series')
+    return value
+  return hasSeries ? 'series' : 'category'
 }
 
 function parseLayout(value: string | null): BlogLayout {
@@ -39,8 +43,10 @@ export function BlogExplorer({
   initialTag,
   hideViewToggle = Boolean(initialTag),
 }: Props) {
+  const hasSeries = posts.some((post) => Boolean(post.series))
+  const defaultView: BlogView = hasSeries ? 'series' : 'category'
   const [view, setView] = useState<BlogView>(() =>
-    initialTag ? 'date' : parseView(readParam('view')),
+    initialTag ? 'date' : parseView(readParam('view'), hasSeries),
   )
   const [layout, setLayout] = useState<BlogLayout>(() =>
     parseLayout(readParam('layout')),
@@ -48,12 +54,25 @@ export function BlogExplorer({
   const [search, setSearch] = useState(() => readParam('search') ?? '')
   const [activeTag, setActiveTag] = useState<string | undefined>(initialTag)
   const [chipsExpanded, setChipsExpanded] = useState(false)
+  const [urlReady, setUrlReady] = useState(() => typeof window !== 'undefined')
 
   useEffect(() => {
+    if (initialTag) {
+      setUrlReady(true)
+      return
+    }
+    setView(parseView(readParam('view'), hasSeries))
+    setLayout(parseLayout(readParam('layout')))
+    setSearch(readParam('search') ?? '')
+    setUrlReady(true)
+  }, [hasSeries, initialTag])
+
+  useEffect(() => {
+    if (!urlReady) return
     const params = new URLSearchParams(window.location.search)
 
     if (!hideViewToggle) {
-      if (view === 'category') params.delete('view')
+      if (view === defaultView) params.delete('view')
       else params.set('view', view)
     }
 
@@ -66,7 +85,7 @@ export function BlogExplorer({
     const query = params.toString()
     const next = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`
     window.history.replaceState({}, '', next)
-  }, [view, layout, search, hideViewToggle])
+  }, [view, layout, search, hideViewToggle, defaultView, urlReady])
 
   const tags = useMemo(() => getAllTags(posts), [posts])
   const visibleTags = chipsExpanded ? tags : tags.slice(0, CHIP_LIMIT)
@@ -81,11 +100,13 @@ export function BlogExplorer({
     [posts, search, activeTag, initialTag],
   )
 
-  const lanes = useMemo(
-    () =>
-      view === 'date' ? buildDateLanes(filtered) : buildLabelLanes(filtered),
-    [filtered, view],
-  )
+  const catalog = useMemo(() => buildSeriesCatalog(posts), [posts])
+
+  const lanes = useMemo(() => {
+    if (view === 'date') return buildDateLanes(filtered)
+    if (view === 'series') return buildSeriesLanes(filtered)
+    return buildLabelLanes(filtered)
+  }, [filtered, view])
 
   if (posts.length === 0) {
     return <p className="text-muted-foreground">No notes yet.</p>
@@ -168,7 +189,12 @@ export function BlogExplorer({
       ) : (
         <div className="flex flex-col">
           {lanes.map((lane) => (
-            <BlogSwimLane key={lane.key} lane={lane} layout={layout} />
+            <BlogSwimLane
+              key={lane.key}
+              lane={lane}
+              layout={layout}
+              catalog={catalog}
+            />
           ))}
         </div>
       )}

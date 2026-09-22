@@ -13,6 +13,14 @@ const blog = defineCollection({
     author: z.string().default('Vatsal Trivedi'),
     heroImage: z.string().optional(),
     heroAlt: z.string().optional(),
+    series: z
+      .object({
+        slug: z.string(),
+        title: z.string(),
+        part: z.number().int().positive(),
+        description: z.string().optional(),
+      })
+      .optional(),
   }),
 })
 

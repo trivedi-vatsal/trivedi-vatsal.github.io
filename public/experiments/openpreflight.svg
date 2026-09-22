@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1400" viewBox="0 0 800 1400" role="img" aria-label="openpreflight preview">
+  <rect width="800" height="1400" fill="#f6f3ee"/>
+  <text x="48" y="72" font-family="ui-sans-serif,system-ui" font-size="36" font-weight="700" fill="#1c1917">openpreflight</text>
+  <rect x="48" y="90" width="120" height="6" rx="3" fill="#c45c26"/>
+  
+  <rect x="48" y="130" width="704" height="220" rx="12" fill="#fff" stroke="#e7e0d6"/>
+  <rect x="72" y="150" width="180" height="14" rx="4" fill="#c45c26" fill-opacity="0.85"/>
+  <text x="72" y="188" font-family="ui-sans-serif,system-ui" font-size="22" font-weight="600" fill="#1c1917">Check Runs</text>
+  <rect x="72" y="208" width="520" height="10" rx="3" fill="#e7e0d6"/>
+  <rect x="72" y="228" width="420" height="10" rx="3" fill="#f0ebe4"/>
+
+  <rect x="72" y="260" width="280" height="72" rx="8" fill="#c45c26" fill-opacity="0.08"/>
+  <rect x="368" y="260" width="280" height="72" rx="8" fill="#f6f3ee"/>
+
+  <rect x="48" y="380" width="704" height="200" rx="12" fill="#fff" stroke="#e7e0d6"/>
+  <rect x="72" y="400" width="180" height="14" rx="4" fill="#c45c26" fill-opacity="0.85"/>
+  <text x="72" y="438" font-family="ui-sans-serif,system-ui" font-size="22" font-weight="600" fill="#1c1917">Webhook receiver</text>
+  <rect x="72" y="458" width="520" height="10" rx="3" fill="#e7e0d6"/>
+  <rect x="72" y="478" width="420" height="10" rx="3" fill="#f0ebe4"/>
+
+  <rect x="72" y="510" width="280" height="72" rx="8" fill="#c45c26" fill-opacity="0.08"/>
+  <rect x="368" y="510" width="280" height="72" rx="8" fill="#f6f3ee"/>
+
+  <rect x="48" y="610" width="704" height="240" rx="12" fill="#fff" stroke="#e7e0d6"/>
+  <rect x="72" y="630" width="180" height="14" rx="4" fill="#c45c26" fill-opacity="0.85"/>
+  <text x="72" y="668" font-family="ui-sans-serif,system-ui" font-size="22" font-weight="600" fill="#1c1917">Local runner</text>
+  <rect x="72" y="688" width="520" height="10" rx="3" fill="#e7e0d6"/>
+  <rect x="72" y="708" width="420" height="10" rx="3" fill="#f0ebe4"/>
+
+  <rect x="72" y="740" width="280" height="72" rx="8" fill="#c45c26" fill-opacity="0.08"/>
+  <rect x="368" y="740" width="280" height="72" rx="8" fill="#f6f3ee"/>
+
+  <rect x="48" y="880" width="704" height="200" rx="12" fill="#fff" stroke="#e7e0d6"/>
+  <rect x="72" y="900" width="180" height="14" rx="4" fill="#c45c26" fill-opacity="0.85"/>
+  <text x="72" y="938" font-family="ui-sans-serif,system-ui" font-size="22" font-weight="600" fill="#1c1917">SQLite state</text>
+  <rect x="72" y="958" width="520" height="10" rx="3" fill="#e7e0d6"/>
+  <rect x="72" y="978" width="420" height="10" rx="3" fill="#f0ebe4"/>
+
+  <rect x="72" y="1010" width="280" height="72" rx="8" fill="#c45c26" fill-opacity="0.08"/>
+  <rect x="368" y="1010" width="280" height="72" rx="8" fill="#f6f3ee"/>
+
+  <rect x="48" y="1110" width="704" height="180" rx="12" fill="#fff" stroke="#e7e0d6"/>
+  <rect x="72" y="1130" width="180" height="14" rx="4" fill="#c45c26" fill-opacity="0.85"/>
+  <text x="72" y="1168" font-family="ui-sans-serif,system-ui" font-size="22" font-weight="600" fill="#1c1917">Deploy</text>
+  <rect x="72" y="1188" width="520" height="10" rx="3" fill="#e7e0d6"/>
+  <rect x="72" y="1208" width="420" height="10" rx="3" fill="#f0ebe4"/>
+
+  <rect x="72" y="1240" width="280" height="72" rx="8" fill="#c45c26" fill-opacity="0.08"/>
+  <rect x="368" y="1240" width="280" height="72" rx="8" fill="#f6f3ee"/>
+
+</svg>

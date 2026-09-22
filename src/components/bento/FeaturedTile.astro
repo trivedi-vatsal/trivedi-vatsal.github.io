@@ -11,49 +11,210 @@ import { FEATURED } from '../../lib/portfolio'
   delay={100}
   ariaLabel={`Featured project: ${FEATURED.name} (opens in a new tab)`}
 >
-  <div class="featured-content">
-    <p class="bento-label">Featured project / Self-hosted CI</p><h2>
-      {FEATURED.name}<span aria-hidden="true">↗</span>
-    </h2><p class="featured-description">{FEATURED.description}</p><ul>
-      {FEATURED.tags.map((tag) => <li>{tag}</li>)}
-    </ul><span class="featured-role"
-      >{FEATURED.position}<span aria-hidden="true">↗</span></span
-    >
-  </div>
-  <div class="project-art" aria-hidden="true">
-    <div class="orbit"></div><div class="orbit inner"></div><div class="core">
-      <span class="check-mark">✓</span>
-    </div><span class="node top">GitHub</span><span class="node bottom"
-      >Checks</span
-    >
+  <div class="featured-layout">
+    <div class="featured-copy">
+      <h2 class="bento-wake bento-wake-title">
+        {FEATURED.name}<span aria-hidden="true">↗</span>
+      </h2>
+      <p class="featured-description">{FEATURED.description}</p>
+      <ul>
+        {
+          FEATURED.tags.map((tag, i) => (
+            <li
+              class="bento-wake bento-wake-up"
+              style={`--wake-delay: ${i * 40}ms`}
+            >
+              {tag}
+            </li>
+          ))
+        }
+      </ul>
+      <span
+        class="featured-role bento-wake bento-wake-x"
+        style="--wake-delay: 100ms"
+      >
+        {FEATURED.position}
+        <span aria-hidden="true">↗</span>
+      </span>
+    </div>
+
+    <div class="featured-visual bento-wake bento-wake-fade" aria-hidden="true">
+      <svg class="featured-svg" viewBox="0 0 280 220" fill="none">
+        <rect
+          x="8"
+          y="8"
+          width="264"
+          height="204"
+          rx="14"
+          class="stroke-border fill-secondary/40"
+          stroke-width="1"></rect>
+        <rect
+          x="8"
+          y="8"
+          width="264"
+          height="28"
+          rx="14"
+          class="fill-card stroke-border"
+          stroke-width="1"></rect>
+        <rect x="8" y="22" width="264" height="14" class="fill-card"></rect>
+        <circle cx="24" cy="22" r="3.5" class="fill-muted-foreground/40"></circle>
+        <circle cx="36" cy="22" r="3.5" class="fill-muted-foreground/40"></circle>
+        <circle cx="48" cy="22" r="3.5" class="fill-muted-foreground/40"></circle>
+        <rect
+          x="64"
+          y="16"
+          width="140"
+          height="12"
+          rx="6"
+          class="fill-secondary"></rect>
+
+        <rect
+          x="24"
+          y="52"
+          width="110"
+          height="64"
+          rx="8"
+          class="anim-node stroke-foreground/20 fill-card"
+          stroke-width="1"></rect>
+        <rect
+          x="36"
+          y="64"
+          width="48"
+          height="6"
+          rx="2"
+          class="fill-primary/70"></rect>
+        <rect
+          x="36"
+          y="78"
+          width="76"
+          height="4"
+          rx="2"
+          class="fill-muted-foreground/25"></rect>
+        <rect
+          x="36"
+          y="88"
+          width="60"
+          height="4"
+          rx="2"
+          class="fill-muted-foreground/15"></rect>
+        <circle cx="118" cy="100" r="4" class="anim-signal fill-primary"></circle>
+
+        <rect
+          x="146"
+          y="52"
+          width="110"
+          height="64"
+          rx="8"
+          class="anim-node anim-node-delay-1 stroke-primary/40 fill-card"
+          stroke-width="1.5"></rect>
+        <rect
+          x="158"
+          y="64"
+          width="54"
+          height="6"
+          rx="2"
+          class="fill-primary"></rect>
+        <path
+          d="M158 86 H238 M158 96 H220"
+          class="anim-dash stroke-foreground/20"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+
+        <rect
+          x="24"
+          y="132"
+          width="232"
+          height="60"
+          rx="8"
+          class="anim-node anim-node-delay-2 stroke-foreground/15 fill-card"
+          stroke-width="1"></rect>
+        <rect
+          x="36"
+          y="146"
+          width="36"
+          height="6"
+          rx="2"
+          class="fill-primary/50"></rect>
+        <rect
+          x="80"
+          y="146"
+          width="72"
+          height="6"
+          rx="2"
+          class="fill-muted-foreground/20"></rect>
+        <rect
+          x="36"
+          y="164"
+          width="200"
+          height="4"
+          rx="2"
+          class="fill-muted-foreground/15"></rect>
+        <rect
+          x="36"
+          y="174"
+          width="148"
+          height="4"
+          rx="2"
+          class="fill-muted-foreground/10"></rect>
+      </svg>
+    </div>
   </div>
 </BentoTile>
+
 <style>
-  .featured-content {
-    position: relative;
-    z-index: 1;
-    padding: 30px;
-    width: 72%;
+  :global(.featured-tile) {
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
   }
-  .featured-content .bento-label {
-    color: #b8c7b0;
+  .featured-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 100%;
+  }
+  .featured-copy {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    min-height: 100%;
+  }
+  .featured-visual {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 28px 28px 0;
+  }
+  .featured-svg {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
   }
   h2 {
     font-size: clamp(30px, 3.5vw, 44px);
     line-height: 1.1;
     letter-spacing: -0.06em;
-    margin: 28px 0 16px;
+    margin: 0 0 16px;
     font-weight: 500;
+    text-wrap: balance;
+  }
+  :global(.featured-tile:hover) .bento-wake-title {
+    color: inherit;
+    letter-spacing: -0.075em;
   }
   h2 > span {
-    font-size: 30px;
-    color: #fd8e51;
-    margin-left: 12px;
+    font-size: 28px;
+    color: hsl(var(--primary));
+    margin-left: 10px;
+    display: inline-block;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  :global(.featured-tile:hover) h2 > span {
+    transform: translate(3px, -3px);
   }
   .featured-description {
-    color: #c0caba;
-    font-size: 13px;
-    line-height: 1.8;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    max-width: 42ch;
   }
   ul {
     display: flex;
@@ -62,90 +223,42 @@ import { FEATURED } from '../../lib/portfolio'
     margin-top: 22px;
   }
   li {
-    border: 1px solid #596550;
-    border-radius: 4px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.4rem;
     padding: 4px 8px;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 0.7rem;
+    color: hsl(var(--muted-foreground));
   }
   .featured-role {
-    border-top: 1px solid #4b5745;
+    border-top: 1px solid hsl(var(--border));
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 30px;
+    margin-top: auto;
     padding-top: 16px;
-    font-size: 10px;
-    color: #c0caba;
+    font-size: 0.8125rem;
+    color: hsl(var(--muted-foreground));
   }
   .featured-role > span {
-    font-size: 20px;
+    font-size: 1.25rem;
+    color: hsl(var(--primary));
   }
-  .project-art {
-    position: absolute;
-    right: -110px;
-    top: 50%;
-    width: 310px;
-    height: 310px;
-    transform: translateY(-50%);
+  @media (min-width: 768px) {
+    .featured-layout {
+      grid-template-columns: minmax(0, 1.15fr) minmax(200px, 0.85fr);
+      align-items: stretch;
+    }
+    .featured-visual {
+      display: flex;
+    }
   }
-  .orbit {
-    position: absolute;
-    inset: 0;
-    border: 1px dashed #788a6060;
-    border-radius: 50%;
-  }
-  .orbit.inner {
-    inset: 35px;
-    border-style: solid;
-  }
-  .core {
-    position: absolute;
-    inset: 98px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #39492e;
-    border: 1px solid #71845c;
-    border-radius: 25px;
-    font-size: 80px;
-    line-height: 1;
-    box-shadow: 0 0 60px #9bb68015;
-  }
-  .core > span {
-    font-size: 54px;
-    align-self: center;
-    color: #bed39f;
-  }
-  .node {
-    position: absolute;
-    background: #303e28;
-    border: 1px solid #63734f;
-    border-radius: 5px;
-    padding: 7px 10px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: #c9d7bb;
-  }
-  .top {
-    top: 25px;
-    left: 65px;
-  }
-  .bottom {
-    bottom: 25px;
-    left: 90px;
-  }
-  @media (max-width: 600px) {
-    .featured-content {
-      width: 100%;
+  @media (max-width: 700px) {
+    .featured-copy {
       padding: 26px;
     }
-    .project-art {
-      right: -205px;
-      opacity: 0.18;
-    }
     .featured-description {
-      position: relative;
+      max-width: none;
     }
     .featured-role {
       margin-top: 24px;

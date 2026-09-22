@@ -6,37 +6,56 @@ import { LINKS } from '../../lib/constants'
 <BentoTile
   id="contact"
   href={LINKS.mail}
-  class="bg-foreground text-background dark:bg-card dark:text-foreground order-11 col-span-1 flex min-h-[260px] flex-col justify-between p-6 sm:col-span-2 sm:min-h-[300px] sm:p-8 lg:order-11 lg:col-span-12"
+  class="contact-tile bg-primary order-11 col-span-1 flex min-h-[260px] flex-col justify-between overflow-hidden p-6 sm:col-span-2 sm:min-h-[300px] sm:p-8 lg:order-11 lg:col-span-12"
   radius="soft"
   delay={260}
   ariaLabel="Contact"
 >
-  <p class="bento-label !text-background/55 dark:!text-muted-foreground">
-    Contact
-  </p>
+  <div
+    class="pointer-events-none absolute -top-8 -right-6 opacity-30 sm:-right-2"
+    aria-hidden="true"
+  >
+    <svg class="h-44 w-44 sm:h-56 sm:w-56" viewBox="0 0 200 200" fill="none">
+      <circle
+        cx="100"
+        cy="100"
+        r="78"
+        class="anim-spin-slow"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-dasharray="4 10"
+        opacity="0.7"></circle>
+      <circle
+        cx="100"
+        cy="100"
+        r="52"
+        class="anim-spin-slower"
+        stroke="currentColor"
+        stroke-width="1.5"
+        opacity="0.55"></circle>
+      <circle cx="100" cy="100" r="8" fill="currentColor" opacity="0.8"></circle>
+      <circle cx="100" cy="22" r="4" fill="currentColor"></circle>
+      <circle cx="168" cy="130" r="3.5" fill="currentColor" opacity="0.7"></circle>
+      <circle cx="40" cy="140" r="3" fill="currentColor" opacity="0.55"></circle>
+    </svg>
+  </div>
 
-  <div class="my-8">
+  <div class="relative z-10 my-2 sm:my-4">
     <h2
-      class="anim-shimmer-text anim-shimmer-text--invert max-w-3xl text-3xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+      class="max-w-3xl text-3xl leading-[1.1] font-semibold tracking-tight text-pretty sm:text-5xl lg:text-6xl bento-wake bento-wake-up"
     >
-      Have an<br />interesting<br class="sm:hidden" /> problem?
+      Have an interesting problem?
     </h2>
     <p
-      class="text-background/70 dark:text-muted-foreground mt-4 max-w-xl text-lg sm:text-xl"
+      class="mt-4 max-w-xl text-lg sm:text-xl bento-wake bento-wake-fade"
+      style="--wake-delay: 60ms"
     >
       Let's build something.
     </p>
   </div>
 
-  <div class="flex flex-wrap items-center justify-between gap-4">
-    <span class="bento-arrow !text-background dark:!text-foreground">
-      Get in touch
-      <span aria-hidden="true">→</span>
-    </span>
-    <span
-      class="text-background/50 dark:text-muted-foreground font-mono text-[0.65rem] tracking-wide"
-    >
-      Bengaluru · Remote-friendly
-    </span>
-  </div>
+  <span class="bento-arrow relative z-10">
+    Get in touch
+    <span aria-hidden="true">→</span>
+  </span>
 </BentoTile>

@@ -4,13 +4,14 @@ import TopLayout from '../layouts/TopLayout.astro'
 import BottomLayout from '../layouts/BottomLayout.astro'
 import { EXPERIMENTS_PAGE } from '../lib/constants'
 import { EXPERIMENTS } from '../lib/portfolio'
+import { EXPERIMENT_COVERS } from '../lib/experiment-covers'
 ---
 
 <BaseLayout
   title={EXPERIMENTS_PAGE.TITLE}
   description={EXPERIMENTS_PAGE.DESCRIPTION}
 >
-  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="fade">
+  <main class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col" transition:animate="fade">
     <TopLayout>
       <h1
         class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
@@ -18,36 +19,194 @@ import { EXPERIMENTS } from '../lib/portfolio'
         {EXPERIMENTS_PAGE.TITLE}
       </h1>
       <p class="text-muted-foreground mt-3 max-w-2xl text-base">
-        A small collection of tools and studies. Each one has its own page with
-        a quick explanation of what it does and how to use it.
+        Tools and studies with a short page for each: what it does and how to
+        use it.
       </p>
     </TopLayout>
     <BottomLayout>
-      <ul class="grid gap-4 sm:grid-cols-2">
+      <ul class="experiments-grid grid gap-6 lg:grid-cols-2 lg:gap-8">
         {
-          EXPERIMENTS.map((item) => (
-            <li>
-              <a
-                href={`/experiments/${item.slug}/`}
-                class="bento-tile group hover:border-foreground/20 flex h-full flex-col justify-between p-6 transition-colors"
-              >
-                <div>
-                  <p class="bento-label">{item.kind}</p>
-                  <h2 class="mt-3 text-2xl font-semibold tracking-tight">
-                    {item.title}
-                  </h2>
-                  <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
-                    {item.blurb}
-                  </p>
-                </div>
-                <span class="bento-arrow text-foreground mt-6">
-                  Explore experiment <span aria-hidden="true">→</span>
-                </span>
-              </a>
-            </li>
-          ))
+          EXPERIMENTS.map((item, index) => {
+            const number = String(index + 1).padStart(2, '0')
+            const coverKey = 'cover' in item ? item.cover : item.slug
+            const cover = coverKey ? EXPERIMENT_COVERS[coverKey] : undefined
+            return (
+              <li>
+                <a
+                  href={`/experiments/${item.slug}/`}
+                  class="bento-tile experiment-card group relative flex h-full flex-col overflow-hidden"
+                >
+                  <div class="experiment-media">
+                    <div class="experiment-chrome" aria-hidden="true">
+                      <span class="experiment-dot" />
+                      <span class="experiment-dot" />
+                      <span class="experiment-dot" />
+                      <span class="experiment-url">{item.slug}</span>
+                    </div>
+                    <div class="experiment-viewport">
+                      {cover ? (
+                        <img
+                          src={cover}
+                          alt=""
+                          class="experiment-shot"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : (
+                        <div class="experiment-placeholder">
+                          <span class="bento-label">{item.kind}</span>
+                          <span class="experiment-placeholder-title">
+                            {item.title}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div class="experiment-copy relative z-10 flex flex-1 flex-col p-6 sm:p-7">
+                    <span
+                      class="bento-wake bento-wake-mark text-primary pointer-events-none absolute -right-1 -bottom-6 font-mono text-8xl font-semibold"
+                      aria-hidden="true"
+                    >
+                      {number}
+                    </span>
+                    <p class="bento-label bento-wake bento-wake-label relative">
+                      {item.kind}
+                    </p>
+                    <h2 class="bento-wake bento-wake-title relative mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+                      {item.title}
+                    </h2>
+                    <p class="text-muted-foreground relative mt-3 text-sm leading-relaxed sm:text-base">
+                      {item.blurb}
+                    </p>
+                    <span class="bento-arrow text-foreground relative mt-auto pt-6">
+                      Explore experiment <span aria-hidden="true">→</span>
+                    </span>
+                  </div>
+                </a>
+              </li>
+            )
+          })
         }
       </ul>
     </BottomLayout>
   </main>
 </BaseLayout>
+
+<style>
+  .experiment-card {
+    padding: 0;
+  }
+
+  .experiment-media {
+    border-bottom: 1px solid hsl(var(--border) / 0.7);
+    background: hsl(var(--secondary) / 0.35);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .experiment-card:hover .experiment-media {
+    transform: scale(1.02);
+  }
+
+  .experiment-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid hsl(var(--border) / 0.55);
+    background: hsl(var(--card));
+  }
+
+  .experiment-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 9999px;
+    background: hsl(var(--muted-foreground) / 0.35);
+  }
+
+  .experiment-dot:nth-child(1) {
+    background: #e7a08a;
+  }
+  .experiment-dot:nth-child(2) {
+    background: #e7c98a;
+  }
+  .experiment-dot:nth-child(3) {
+    background: #a8c99a;
+  }
+
+  .experiment-url {
+    margin-left: 0.5rem;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 9999px;
+    background: hsl(var(--secondary) / 0.7);
+    padding: 0.2rem 0.75rem;
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.65rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .experiment-viewport {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: hsl(var(--secondary) / 0.45);
+  }
+
+  .experiment-shot {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 145%;
+    object-fit: cover;
+    object-position: top center;
+    transform: translateY(0);
+    transition: transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .experiment-card:hover .experiment-shot {
+    transform: translateY(calc(-100% + 62.5%));
+  }
+
+  .experiment-placeholder {
+    display: flex;
+    min-height: 145%;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background:
+      linear-gradient(
+        160deg,
+        hsl(var(--primary) / 0.14),
+        hsl(var(--secondary) / 0.4) 55%,
+        hsl(var(--card))
+      );
+  }
+
+  .experiment-placeholder-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .experiment-card:hover .experiment-placeholder {
+    transform: translateY(calc(-100% + 62.5%));
+    transition: transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .experiments-grid :global(.bento-tile:hover) .bento-wake-title {
+    color: hsl(var(--primary));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .experiment-media,
+    .experiment-shot,
+    .experiment-placeholder {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>
