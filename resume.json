@@ -7,7 +7,7 @@
     "email": "trivedivatsal005@gmail.com",
     "url": "https://vatsal.xyz",
     "phone": "+91 760-063-5053",
-    "summary": "I build AI platforms, multi-tenant SaaS, and the integrations that make them useful inside real companies. I lead Ariya at Phamax, an AI platform for pharmaceutical content, research, and engagement, including the compliance path and the Veeva CRM and Salesforce Marketing Cloud connections. I also ship small tools in the open. The current one is openpreflight: GitHub Check Runs on a server you run yourself.",
+    "summary": "I build AI platforms, multi-tenant SaaS, and the integrations companies actually run them on. At Phamax I lead engineering for Ariya, a pharma AI platform for content, research, analytics, and engagement. That includes the compliance path and the Veeva CRM and Salesforce Marketing Cloud connections. I also ship small tools in the open. The current one is openpreflight: GitHub Check Runs on a server you already run.",
     "location": {
       "address": "",
       "postalCode": "",
@@ -47,65 +47,65 @@
     {
       "name": "Phamax",
       "location": "Bengaluru, India",
-      "description": "Ariya — AI platform for pharma covering content generation, research, analytics, and engagement.",
+      "description": "Ariya is an AI platform for pharma: content generation, research, analytics, and engagement.",
       "position": "Principal Engineer (Ariya Platform)",
       "startDate": "2025-05-08",
-      "summary": "Leading engineering for Ariya, an AI platform for pharmaceutical content workflows, research, analytics, and engagement. Designing and delivering scalable, compliant systems that connect generative AI with enterprise ecosystems.",
+      "summary": "Lead engineering for Ariya, an AI platform for pharmaceutical content, research, analytics, and engagement. The work is to design and ship systems that put generative AI into the tools pharma teams already use, without skipping compliance.",
       "highlights": [
-        "Architecting core systems for an AI platform serving global pharmaceutical clients across content creation, research, analytics, and engagement.",
-        "Built the AI Content Wizard and content lifecycle system covering authoring, multi-stage approval, compliance validation, and omnichannel distribution across regulated markets.",
-        "Designed and deployed LLM orchestration covering prompt engineering, context injection, RAG pipelines, embedding retrieval, and tool calling for compliant, traceable content generation.",
-        "Integrated Veeva CRM and Salesforce Marketing Cloud (SFMC) to support compliant omnichannel workflows across multiple client tenants.",
-        "Led development of a centralized Data Catalog for metadata-driven discovery, observability, and self-serve data access across business and engineering teams.",
-        "Implemented production architecture with full auditability, deployment pipelines, monitoring, and optimized AI/data workflows using caching and vector databases."
+        "Architect the core systems for an AI platform used by global pharmaceutical clients. Workflows cover content creation, research, analytics, and engagement.",
+        "Built the AI Content Wizard and the content lifecycle around it: authoring, multi-stage approval, compliance checks, and distribution in regulated markets.",
+        "Designed and shipped LLM orchestration (prompts, context injection, RAG, embeddings, tool calling) so generated content stays compliant and traceable across content types and markets.",
+        "Integrated Veeva CRM and Salesforce Marketing Cloud (SFMC) so omnichannel campaigns can run across client tenants without breaking compliance.",
+        "Led the Data Catalog so business and engineering teams can find data from metadata, with observability and self-serve access.",
+        "Shipped audit trails, deployment pipelines, and monitoring, and sped up AI and data workflows with caching and vector databases."
       ]
     },
     {
       "name": "Comviva",
       "location": "Bengaluru, India",
-      "description": "MobiLytix Rewards — engagement marketing for loyalty programs and promotional campaigns.",
+      "description": "MobiLytix Rewards and MobiLytix Digital Marketing Product",
       "position": "Technical Lead",
       "url": "https://www.comviva.com/products-solutions/martech/cvm/mobilytix-rewards/",
       "startDate": "2021-12-01",
       "endDate": "2025-03-24",
-      "summary": "Technical lead for MobiLytix Rewards, an engagement marketing product powering loyalty programs and promotional campaigns across industries.",
+      "summary": "Technical lead for MobiLytix Rewards, an engagement product for loyalty programs and promotional campaigns.",
       "highlights": [
-        "Led modernization of MobiLytix Rewards into a cloud-agnostic, multi-tenant SaaS product with AI/ML-driven personalization for enterprise clients in telecom and retail.",
-        "Drove full-stack architecture and feature development using TypeScript, React, FeathersJS, Delta Lake, Postgres, and vector databases across a distributed microservices system.",
-        "Owned event-driven campaign execution with Kafka, handling high-throughput reward and loyalty workflows with asynchronous processing and caching.",
-        "Introduced observability and monitoring standards across the platform, improving deployment reliability and reducing mean time to resolution for production incidents.",
-        "Delivered measurable gains in user engagement and campaign performance through data-driven personalization and ML-driven segmentation."
+        "Led the rewrite of MobiLytix Rewards into a cloud-agnostic, multi-tenant SaaS product, with AI/ML personalization, for telecom and retail clients.",
+        "Owned full-stack architecture and features in TypeScript, React, FeathersJS, Delta Lake, Postgres, and vector databases, on a distributed microservices system.",
+        "Owned the Kafka campaign pipeline for high-throughput reward and loyalty workflows, with async processing and caching.",
+        "Introduced observability and monitoring across the platform. Deploys got more reliable and production incidents took less time to resolve.",
+        "Improved user engagement and campaign performance with personalization and ML segmentation."
       ]
     },
     {
       "name": "Comviva",
       "location": "Bengaluru, India",
-      "description": "MobiLytix Digital Marketing — omni-channel marketing automation.",
+      "description": "MobiLytix Digital Marketing Product",
       "position": "Senior Engineer",
       "url": "https://www.comviva.com/products-solutions/martech/cvm/mobilytix-digital-marketing/",
       "startDate": "2020-06-01",
-      "endDate": "2021-11-30",
-      "summary": "Built integrations and analytics for an omni-channel marketing automation platform helping enterprises engage customers across digital touchpoints.",
+      "endDate": "2021-11-01",
+      "summary": "Built integrations and analytics for an omnichannel marketing automation platform used to reach customers across digital channels.",
       "highlights": [
-        "Delivered 14+ integrations including Shopify Public App, SeatGeek, HubSpot, AWS QuickSight, GoodData, Matomo, WooCommerce, WordPress, Batch Push, and Unlayer Editor.",
-        "Implemented ML-driven insights using Google BigQuery and GoodData for personalized campaign optimization.",
-        "Improved performance through query optimization, caching, and CDN strategies.",
-        "Resolved multi-tenant data isolation, API rate limiting, and secure credential handling across third-party platforms."
+        "Shipped 14+ integrations including Shopify Public App, Seatgeek, HubSpot, AWS QuickSight, GoodData, Matomo, WooCommerce, WordPress, Batch Push, and Unlayer Editor.",
+        "Built ML insights on Google BigQuery and GoodData for campaign optimization.",
+        "Improved performance with query work, caching, and CDNs.",
+        "Worked through multi-tenant data isolation, API rate limits, and how credentials are stored for third-party platforms."
       ]
     },
     {
       "name": "Tata Consultancy Services (TCS)",
       "location": "Gandhinagar, India",
-      "description": "Life sciences digital transformation for global clients.",
+      "description": "Life sciences work for global clients.",
       "position": "Assistant System Engineer",
       "url": "https://www.tcs.com/what-we-do/industries/life-sciences/solution/tcs-lifesciences-interactive",
       "startDate": "2018-09-01",
-      "endDate": "2020-05-31",
-      "summary": "Delivered digital transformation solutions for global life sciences clients, building full-stack applications and data-driven tools in a regulated enterprise environment.",
+      "endDate": "2020-05-01",
+      "summary": "Built full-stack applications and reporting tools for global life sciences clients, in a regulated enterprise setting.",
       "highlights": [
-        "Developed and delivered full-stack applications using React, Angular, Node.js, and Express.",
-        "Enabled business collaboration with Microsoft 365 including SharePoint, Teams, Power Automate, and Power BI.",
-        "Built analytics and reporting workflows using GA360, Google Tag Manager, and Data Studio for enterprise life sciences teams."
+        "Built full-stack applications with ReactJS, Angular, NodeJS, and ExpressJS.",
+        "Set up Microsoft 365 workflows with SharePoint, Teams, Power Automate, and Power BI.",
+        "Built analytics and reporting with GA360, Google Tag Manager, and Data Studio for life sciences teams."
       ]
     }
   ],

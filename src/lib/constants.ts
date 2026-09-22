@@ -25,8 +25,8 @@ export const NAV_LINKS = [
 export const SITE: Site = {
   TITLE: 'Vatsal Trivedi',
   DESCRIPTION:
-    'Full Spectrum Engineer in Bengaluru. AI platforms, enterprise integrations, and developer tools that ship to production.',
-  AUTHOR: 'Vatsal Trivedi',
+    'Engineer in Bengaluru. AI platforms, enterprise integrations, and small tools that ship.',
+  AUTHOR: 'trivedi-vatsal',
 }
 
 export const EXPERIMENTS_PAGE: Page = {
@@ -38,7 +38,7 @@ export const EXPERIMENTS_PAGE: Page = {
 export const ABOUT: Page = {
   TITLE: 'About',
   DESCRIPTION:
-    'Full Spectrum Engineer in Bengaluru. Bio, experience, stack, and life outside code.',
+    'Engineer in Bengaluru. Bio, experience, stack, and life outside code.',
 }
 
 // Work Page

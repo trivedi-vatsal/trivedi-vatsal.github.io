@@ -10,7 +10,7 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     draft: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
-    author: z.string().default('Vatsal Trivedi'),
+    author: z.string().default('trivedi-vatsal'),
     heroImage: z.string().optional(),
     heroAlt: z.string().optional(),
     series: z

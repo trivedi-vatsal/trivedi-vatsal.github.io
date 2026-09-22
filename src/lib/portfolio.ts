@@ -80,7 +80,7 @@ export const FEATURED = {
   name: 'openpreflight',
   position: 'GitHub Checks, on your own server',
   description:
-    'Gate private pull requests with native GitHub Check Runs. One Go binary, one SQLite file, on infrastructure you control.',
+    'Gate private pull requests with native GitHub Check Runs. One Go binary, one SQLite file, on a server you run.',
   tags: ['Self-hosted CI', 'Go', 'SQLite', 'GitHub'],
   href: 'https://openpreflight.xyz',
   external: true,
@@ -125,7 +125,7 @@ export const EXPERIMENTS = [
     ],
     capabilities: [
       'Run native GitHub Check Runs against private pull requests',
-      'Keep runner state and logs on infrastructure you control',
+      'Keep runner state and logs on a server you run',
       'Set up with Docker Compose or a Linux release binary',
     ],
     href: 'https://openpreflight.xyz',
@@ -243,11 +243,11 @@ export const EXPERIMENTS = [
       'When someone comes back to an open SPA tab, check if a newer deploy exists. No polling, no banner.',
     whatIBuilt:
       'A small library that checks ETag and Last-Modified on tab focus so SPAs can reload after a deploy.',
-    builtFor: ['SPA maintainers', 'Product teams', 'Quiet refresh flows'],
+    builtFor: ['SPA maintainers', 'Product teams'],
     capabilities: [
-      'Detect a newer deployment when a visitor returns to a tab',
-      'Use ETag and Last-Modified headers instead of a polling loop',
-      'Keep the refresh experience quiet and unobtrusive',
+      'Detect a newer deploy when someone comes back to a tab',
+      'Use ETag and Last-Modified instead of polling',
+      'Reload quietly, without a banner',
     ],
     href: 'https://vatsal.xyz/StaleGuard/',
     external: true,
@@ -266,7 +266,6 @@ export const EXPERIMENTS = [
       'Reusable Actions recipes that run dependency audits and keep findings in GitHub issues as they open and close.',
     builtFor: [
       'Python teams',
-      'Security-minded maintainers',
       'GitHub Actions users',
     ],
     capabilities: [
@@ -309,10 +308,10 @@ export const EXPERIMENTS = [
       'Loose interface experiments: hierarchy, motion, composition. Rough drafts, not case studies.',
     whatIBuilt:
       'Small UI studies where I try layout, type, and motion before using them in real work.',
-    builtFor: ['Design peers', 'Product builders', 'Interface-curious people'],
+    builtFor: ['Design peers', 'Product builders'],
     capabilities: [
       'Browse interface concepts and interaction studies',
-      'See explorations focused on visual craft',
+      'See explorations of layout, type, and motion',
     ],
     href: LINKS.dribbble,
     external: true,
@@ -328,7 +327,7 @@ export const EXPERIMENTS = [
       'Selected design pieces on Behance: interfaces and visual work from past projects.',
     whatIBuilt:
       'A Behance portfolio of interface and visual work from product projects.',
-    builtFor: ['Potential collaborators', 'Design teams', 'Product leaders'],
+    builtFor: ['Design teams', 'Product leaders'],
     capabilities: [
       'Browse selected case studies and design pieces',
       'See the visual side of product and interface work',
@@ -342,14 +341,14 @@ export const EXPERIMENTS = [
     slug: 'writing',
     cover: 'writing',
     kind: 'Writing archive',
-    blurb: 'Thinking, documented.',
+    blurb: "Notes on engineering, AI, and the work that didn't fit in a commit.",
     overview:
       'Short notes on engineering, AI, and integrations. The stuff I wish I had written down sooner.',
     whatIBuilt:
       'Short posts on DEV about things I learned while building.',
-    builtFor: ['Engineers', 'AI practitioners', 'Curious builders'],
+    builtFor: ['Engineers', 'People building with LLMs'],
     capabilities: [
-      'Read notes on engineering, AI, and developer craft',
+      'Read notes on engineering, AI, and shipping software',
       'Browse longer-form writing on DEV',
     ],
     href: LINKS.devto,
@@ -388,7 +387,7 @@ export const LIFE = {
 export const ABOUT_INTRO = {
   greeting: "Hey, I'm Vatsal!",
   paragraphs: [
-    `I'm a Full Spectrum Engineer with ${yearsExperience()} years on AI platforms, multi-tenant SaaS, and enterprise integrations. I like owning a product problem the whole way: figure out what's worth building, design it, ship it, then see if it actually helped. I work best next to product and design, with enough context to help shape the problem.`,
+    `I'm an engineer with ${yearsExperience()} years on AI platforms, multi-tenant SaaS, and enterprise integrations. I like owning a product problem the whole way: figure out what's worth building, design it, ship it, then see if it actually helped. I work best next to product and design, with enough context to help shape the problem.`,
     'At Phamax I lead engineering for Ariya, an AI platform for pharmaceutical content. Brand-compliant generation under real regulatory constraints, wired into Veeva CRM and Salesforce Marketing Cloud.',
     "Outside work I'm usually with a camera, or tinkering in open source and small UI experiments.",
   ],
@@ -426,7 +425,7 @@ export const ABOUT_LOCATION = {
       label: 'Current',
       city: 'Bengaluru',
       region: 'India',
-      note: 'Now enjoying Bengaluru, India.',
+      note: 'Based in Bengaluru, India.',
       coords: '12.9716° N, 77.5946° E',
       embed:
         'https://www.openstreetmap.org/export/embed.html?bbox=77.5346%2C12.9416%2C77.6546%2C13.0016&layer=mapnik&marker=12.9716%2C77.5946',

@@ -29,9 +29,10 @@ export function siteGraphJsonLd(siteUrl: URL | string) {
       {
         '@type': 'Person',
         '@id': personId,
-        name: SITE.AUTHOR,
+        name: 'Vatsal Trivedi',
+        alternateName: SITE.AUTHOR,
         url: `${origin}/`,
-        jobTitle: 'Full Spectrum Engineer',
+        jobTitle: 'Principal Engineer',
         sameAs: [
           LINKS.github,
           LINKS.linkedin,

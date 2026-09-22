@@ -1,4 +1,9 @@
-import { useState, type ComponentType, type SVGProps } from 'react'
+import {
+  useState,
+  type ComponentType,
+  type CSSProperties,
+  type SVGProps,
+} from 'react'
 import {
   SiApachekafka,
   SiNodedotjs,
@@ -118,10 +123,12 @@ export function StackTile({ items, className }: Props) {
                 >
                   <span
                     className="anim-icon-float bento-wake bento-wake-cell inline-flex size-[42%] max-h-8 max-w-8 items-center justify-center"
-                    style={{
-                      animationDelay: `${i * 0.28}s`,
-                      ['--wake-delay']: `${i * 35}ms`,
-                    }}
+                    style={
+                      {
+                        animationDelay: `${i * 0.28}s`,
+                        ['--wake-delay']: `${i * 35}ms`,
+                      } as CSSProperties
+                    }
                   >
                     <StackIcon name={item.name} className="size-full" />
                   </span>
