@@ -40,6 +40,15 @@ export type ExperiencePositionItemType = {
   skills?: string[]
   /** Indicates if the position details are expanded in the UI */
   isExpanded?: boolean
+  /** Headline figures shown under the title, outside the collapsible. */
+  stats?: ExperienceStat[]
+  /** One line on where the figures come from, shown at the end of the details. */
+  evidence?: string
+}
+
+export type ExperienceStat = {
+  value: string
+  label: string
 }
 
 export type ExperienceItemType = {
@@ -120,8 +129,8 @@ export function ExperienceItem({ experience }: ExperienceItemProps) {
             className="relative flex items-center justify-center"
             aria-label="Current Employer"
           >
-            <span className="absolute inline-flex size-3 animate-ping rounded-full bg-primary opacity-50" />
-            <span className="relative inline-flex size-2 rounded-full bg-primary" />
+            <span className="bg-primary absolute inline-flex size-3 animate-ping rounded-full opacity-50" />
+            <span className="bg-primary relative inline-flex size-2 rounded-full" />
           </span>
         )}
       </div>
@@ -241,11 +250,34 @@ export function ExperiencePositionItem({
           </dl>
         </CollapsibleTrigger>
 
+        {Array.isArray(position.stats) && position.stats.length > 0 && (
+          <dl className="not-prose grid grid-cols-2 gap-x-4 gap-y-3 pt-3 pl-9 sm:grid-cols-4">
+            {position.stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="flex min-w-0 flex-col-reverse self-start"
+              >
+                <dt className="text-muted-foreground text-xs leading-snug">
+                  {stat.label}
+                </dt>
+                <dd className="text-foreground text-lg leading-tight font-semibold tabular-nums">
+                  {stat.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
         <CollapsibleContent className="overflow-hidden">
           {position.description && (
             <Prose className="pt-2 pl-9">
               <ReactMarkdown>{position.description}</ReactMarkdown>
             </Prose>
+          )}
+          {position.evidence && (
+            <p className="not-prose text-muted-foreground border-border/70 mt-4 ml-9 border-l-2 pl-3 font-mono text-[0.7rem] leading-relaxed">
+              {position.evidence}
+            </p>
           )}
         </CollapsibleContent>
 

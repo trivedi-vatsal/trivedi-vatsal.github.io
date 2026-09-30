@@ -45,7 +45,7 @@ export const ABOUT: Page = {
 export const WORK: Page = {
   TITLE: 'Work',
   DESCRIPTION:
-    'Phamax, Comviva, and TCS. AI platforms, enterprise SaaS, and integration-heavy systems.',
+    "Phamax, Comviva, Factoreal, and TCS. I've built generative-AI tools for pharma teams, fan-engagement software for sports teams, and a loyalty platform, along with the integrations and data pipelines they depend on.",
 }
 
 // Blog Page

@@ -7,7 +7,7 @@
     "email": "trivedivatsal005@gmail.com",
     "url": "https://vatsal.xyz",
     "phone": "+91 760-063-5053",
-    "summary": "I build AI platforms, multi-tenant SaaS, and the integrations companies actually run them on. At Phamax I lead engineering for Ariya, a pharma AI platform for content, research, analytics, and engagement. That includes the compliance path and the Veeva CRM and Salesforce Marketing Cloud connections. I also ship small tools in the open. The current one is openpreflight: GitHub Check Runs on a server you already run.",
+    "summary": "I build AI products and the platforms under them. At Phamax I lead engineering for Ariya, a generative-AI platform for pharma teams: React frontends, Django and FastAPI services, retrieval-grounded LLM pipelines on Azure OpenAI and Azure AI Search, and the CI/CD that ships it to 8 pharma and life-sciences clients. Before that I spent three years on Factoreal, a fan-engagement SaaS for sports teams incubated by Comviva, where I built its BigQuery analytics pipeline, fan scoring, and Shopify integration. Then I ran releases and wrote the segmentation engine for Comviva's MobiLytix Rewards. The figures in this resume are counted from each employer's git history, with merges and teammates' work kept separate. I also ship small tools in the open. The current one is openpreflight: GitHub Check Runs on a server you already run.",
     "location": {
       "address": "",
       "postalCode": "",
@@ -47,50 +47,70 @@
     {
       "name": "Phamax",
       "location": "Bengaluru, India",
-      "description": "Ariya is an AI platform for pharma: content generation, research, analytics, and engagement.",
+      "description": "Ariya: generative-AI platform for pharma content, research, analytics, and engagement",
       "position": "Principal Engineer (Ariya Platform)",
       "startDate": "2025-05-08",
-      "summary": "Lead engineering for Ariya, an AI platform for pharmaceutical content, research, analytics, and engagement. The work is to design and ship systems that put generative AI into the tools pharma teams already use, without skipping compliance.",
+      "summary": "I lead engineering for Ariya, a generative-AI platform that pharma marketing and medical teams use to create, review, localize, and publish content. It runs as dedicated deployments for 8 pharma and life-sciences clients. I write code across it (729 commits of my own in 16 repositories since May 2025) and review the team's: 185 of the 373 pull requests I merged were teammates' work.",
       "highlights": [
-        "Architect the core systems for an AI platform used by global pharmaceutical clients. Workflows cover content creation, research, analytics, and engagement.",
-        "Built the AI Content Wizard and the content lifecycle around it: authoring, multi-stage approval, compliance checks, and distribution in regulated markets.",
-        "Designed and shipped LLM orchestration (prompts, context injection, RAG, embeddings, tool calling) so generated content stays compliant and traceable across content types and markets.",
-        "Integrated Veeva CRM and Salesforce Marketing Cloud (SFMC) so omnichannel campaigns can run across client tenants without breaking compliance.",
-        "Led the Data Catalog so business and engineering teams can find data from metadata, with observability and self-serve access.",
-        "Shipped audit trails, deployment pipelines, and monitoring, and sped up AI and data workflows with caching and vector databases."
+        "Wrote the codebase restructuring plan and carried it out in about eight weeks: stood up the new core API, portal, and wizard repositories with their CI, then moved every deployment from tag-based to branch-based releases.",
+        "Designed Content Compose, the email pipeline for medical content that must cite its sources, and wrote 23 of its 26 commits: three LLM passes over hybrid search in Azure AI Search. The model never writes the reference list; it is rebuilt from inline citations, and a 14-check validator QA-checks every output.",
+        "Took a white-label RAG assistant over 551 medical publications from a Turborepo migration to production in five weeks (staging on day 4, UAT on day 15, production on day 35), writing 146 of the 156 commits since: PIN + JWT access, citation chips that open the source PDF, an agent-reasoning panel, and an admin console with audit logs.",
+        "Built the Speech Avatar end to end in about two and a half weeks: six endpoints on the Azure Speech SDK (tokens, streaming chat, post-call conversation analysis), the data model, and the portal UI.",
+        "Built the localization system (32 of 33 portal commits and all of the backend), and moved the Content Wizard from hardcoded steps to configuration served by the API, with per-instance theming and delegated template approval.",
+        "Wrote the structured-data ingestion pipeline (41 of its 42 commits): Bronze/Silver/Gold on Azure Blob Storage with a DBML-driven schema registry. When Gold-layer loads failed in production, fixed six causes in one pass (emoji encoding, unmapped columns, VARCHAR overflow, missing surrogate keys) and made loads idempotent with hashed keys.",
+        "Built a SonarQube scanning kit in four days, then made 20 security fixes in the next three, applied to three client release lines: AES-GCM in place of static-IV AES-CBC, a JWT algorithm allow-list, SHA-256 at 19 call sites, and parameterised SQL. Earlier, encrypted phone numbers at rest and rotated database SSL certificates across 7 environments in about ten days.",
+        "Wrote about 30 of the GitHub Actions workflows that deploy Ariya to staging, UAT, and production, and built a JSON-to-PPTX service in two days (Bun, Elysia; runs as a server or an Azure Function)."
       ]
     },
     {
       "name": "Comviva",
       "location": "Bengaluru, India",
-      "description": "MobiLytix Rewards and MobiLytix Digital Marketing Product",
+      "description": "MobiLytix Rewards: reward campaigns and loyalty programs for telecom and retail",
       "position": "Technical Lead",
       "url": "https://www.comviva.com/products-solutions/martech/cvm/mobilytix-rewards/",
-      "startDate": "2021-12-01",
+      "startDate": "2023-10-01",
       "endDate": "2025-03-24",
-      "summary": "Technical lead for MobiLytix Rewards, an engagement product for loyalty programs and promotional campaigns.",
+      "summary": "I was technical lead on MobiLytix Rewards, Comviva's loyalty platform, rebuilt as multi-tenant TypeScript microservices on FeathersJS, Keycloak, PostgreSQL, Redis, and Kafka. I ran its releases, wrote the segmentation service, and wrote the shared data packages the services build on.",
       "highlights": [
-        "Led the rewrite of MobiLytix Rewards into a cloud-agnostic, multi-tenant SaaS product, with AI/ML personalization, for telecom and retail clients.",
-        "Owned full-stack architecture and features in TypeScript, React, FeathersJS, Delta Lake, Postgres, and vector databases, on a distributed microservices system.",
-        "Owned the Kafka campaign pipeline for high-throughput reward and loyalty workflows, with async processing and caching.",
-        "Introduced observability and monitoring across the platform. Deploys got more reliable and production incidents took less time to resolve.",
-        "Improved user engagement and campaign performance with personalization and ML segmentation."
+        "Ran the release train from 5.7.0 to 5.8.2: all 17 release-to-main merges across 6 services, four tagged releases of the core loyalty service in 30 days, and 50 feature, fix, and security branches integrated from about 8 in-house and vendor engineers.",
+        "Wrote the segmentation service that drives loyalty targeting (24 of its 28 non-merge commits). It turns rule-builder JSON into PostgreSQL across 26 operators, 11 of them date-based, and reads custom member attributes from a JSON column, so new segment fields need no schema change.",
+        "Built club onboarding in the core loyalty service: a hook that creates each club's five tables inside a transaction, plus a Kafka hook that recomputes a segment as soon as it is edited.",
+        "Sole author of the shared Postgres (Knex) and Redis client packages that 5 services build on, and of the service-to-service JWT helpers. Primary author of the member business-logic package (27 of its 32 commits). Moved the S3 package to TypeScript and set up npm publishing in GitLab CI.",
+        "Added the first automated tests to three services that had none (segment, scheduler, tier), moving from Mocha to Jest with coverage thresholds. The segment service got 48 test cases."
       ]
     },
     {
-      "name": "Comviva",
+      "name": "Factoreal",
       "location": "Bengaluru, India",
-      "description": "MobiLytix Digital Marketing Product",
+      "description": "Factoreal: omnichannel fan-engagement SaaS for sports teams, incubated by Comviva",
+      "position": "Technical Lead",
+      "url": "https://www.comviva.com/products-solutions/martech/cvm/mobilytix-digital-marketing/",
+      "startDate": "2021-12-01",
+      "endDate": "2023-09-01",
+      "summary": "Factoreal is a marketing-automation platform that cricket, football, soccer, and baseball teams use to run fan campaigns over email, SMS, WhatsApp, push, and social. It was incubated by Comviva, later became MobiLytix Digital Marketing, and is now part of Satisfi Labs. As technical lead I owned fan scoring, the Shopify relaunch, and analytics provisioning. Across both roles I built 13 third-party integrations, including Shopify, Razorpay, SeatGeek, HubSpot, GoodData, and reCAPTCHA Enterprise.",
+      "highlights": [
+        "Designed and built the Fan Maturity Model: six channel scores (email, SMS, app, web, store spend, WhatsApp) combined with per-team weights into four tiers, from Inactive to Fanatic. It runs as daily BigQuery scheduled queries over 19 tables per team; I wrote 93% of the Python scheduling module and the portal configuration view.",
+        "Rebuilt the Shopify app for the 2022 App Store relaunch (install from the store, signup, per-store tables, OAuth scopes). Took webhook handling from 17 topics to 40, added GraphQL billing webhooks, and upgraded the Admin API from 2020-01 to 2023-04 in two steps.",
+        "Grew per-customer analytics provisioning from 57 BigQuery tables to 86, plus 49 views. By January 2023 the platform ran 998 scheduled queries across 71 customer datasets.",
+        "Created the shared contact-operations npm package, used by 5 production services, and shipped the 1.0.0 release of the plan-entitlements package that 12 services use.",
+        "Added per-customer session timeouts and reCAPTCHA Enterprise on signup, fixed duplicate Shopify contacts by normalizing phone numbers, and built the SeatGeek ticketing integration."
+      ]
+    },
+    {
+      "name": "Factoreal",
+      "location": "Bengaluru, India",
+      "description": "Factoreal: omnichannel fan-engagement SaaS for sports teams, incubated by Comviva",
       "position": "Senior Engineer",
       "url": "https://www.comviva.com/products-solutions/martech/cvm/mobilytix-digital-marketing/",
       "startDate": "2020-06-01",
       "endDate": "2021-11-01",
-      "summary": "Built integrations and analytics for an omnichannel marketing automation platform used to reach customers across digital channels.",
+      "summary": "I worked across the whole Factoreal stack: the Strapi API that every service talks to, the React portal, and the Node.js and Python services around them.",
       "highlights": [
-        "Shipped 14+ integrations including Shopify Public App, Seatgeek, HubSpot, AWS QuickSight, GoodData, Matomo, WooCommerce, WordPress, Batch Push, and Unlayer Editor.",
-        "Built ML insights on Google BigQuery and GoodData for campaign optimization.",
-        "Improved performance with query work, caching, and CDNs.",
-        "Worked through multi-tenant data isolation, API rate limits, and how credentials are stored for third-party platforms."
+        "Wrote the analytics pipeline: a sync engine that copies Postgres and Cassandra data into BigQuery through 24 per-entity jobs (220 of its 230 commits), per-customer datasets created at signup (25 tables at launch, 57 by year end), and a KPI service computing 10 email metrics for embedded GoodData dashboards.",
+        "Built Shopify ingestion in the API. When Shopify retries created duplicate orders, added an idempotency check, then enforced it with unique indexes on three per-customer tables. Built abandoned-cart events on a Redis-backed timer driven by Kafka, 3 hours by default and configurable per customer.",
+        "Added Razorpay payments with webhooks that publish order and payment events to Kafka, and web push and mobile-app SDK events in the core API.",
+        "Stopped page views from flooding the events catalog with a Redis key per customer, domain, and page title, and fixed double-counted first visits in the tracking snippet customers embed.",
+        "Built email-domain verification and the website trial-signup flow, and wrote the HubSpot contact import used for customer migrations."
       ]
     },
     {
@@ -163,6 +183,8 @@
         "Distributed Systems",
         "Event-Driven Architecture",
         "Developer Tooling",
+        "Data Engineering",
+        "Application Security",
         "Regulated Environments"
       ]
     },
@@ -175,9 +197,14 @@
         "Prompt Engineering",
         "Tool Calling",
         "AI Evaluations",
+        "Azure OpenAI",
+        "Azure AI Search",
         "OpenAI API",
         "Claude",
+        "LangChain",
         "LangGraph",
+        "CopilotKit / AG-UI",
+        "Azure Speech",
         "Vector Databases",
         "MCP",
         "Agent Skills"
@@ -189,7 +216,11 @@
       "keywords": [
         "CI/CD",
         "GitHub Actions",
+        "GitLab CI",
         "Docker",
+        "Azure (App Service, Functions, Blob Storage, Key Vault)",
+        "Bicep",
+        "SonarQube",
         "Observability",
         "Infrastructure as Code",
         "Security Automation"
@@ -198,16 +229,32 @@
     {
       "name": "Programming Languages",
       "level": "",
-      "keywords": ["TypeScript", "JavaScript", "Python", "Go", "SQL"]
+      "keywords": [
+        "TypeScript",
+        "JavaScript",
+        "Python",
+        "Go",
+        "SQL",
+        "PowerShell"
+      ]
     },
     {
       "name": "Frameworks & Tools",
       "level": "",
       "keywords": [
         "React",
+        "Next.js",
         "Node.js",
+        "Django",
+        "FastAPI",
+        "Celery",
+        "Strapi",
         "FeathersJS",
+        "Express",
+        "Keycloak",
         "Kafka",
+        "BullMQ",
+        "Jest",
         "GraphQL & REST",
         "Vercel AI SDK",
         "Shopify",
@@ -220,12 +267,25 @@
       "level": "",
       "keywords": [
         "PostgreSQL",
+        "MySQL",
         "SQLite",
         "MongoDB",
         "BigQuery",
         "Redis",
         "Cassandra",
         "Delta Lake"
+      ]
+    },
+    {
+      "name": "Data Engineering",
+      "level": "",
+      "keywords": [
+        "Medallion Architecture",
+        "ETL & Sync Pipelines",
+        "Pandas",
+        "PyArrow",
+        "SQLAlchemy",
+        "GoodData"
       ]
     },
     {
@@ -339,7 +399,7 @@
   "meta": {
     "canonical": "https://resume.vatsal.xyz",
     "version": "v1.0.0",
-    "lastModified": "2026-09-22T00:00:00",
+    "lastModified": "2026-09-30T00:00:00",
     "theme": "jsonresume-theme-local"
   }
 }

@@ -264,10 +264,7 @@ export const EXPERIMENTS = [
       'GitHub Actions recipes that audit Python dependencies and open issues for findings instead of burying them in build logs.',
     whatIBuilt:
       'Reusable Actions recipes that run dependency audits and keep findings in GitHub issues as they open and close.',
-    builtFor: [
-      'Python teams',
-      'GitHub Actions users',
-    ],
+    builtFor: ['Python teams', 'GitHub Actions users'],
     capabilities: [
       'Run Python dependency security audits in GitHub Actions',
       'Open and maintain issues around detected findings',
@@ -341,11 +338,11 @@ export const EXPERIMENTS = [
     slug: 'writing',
     cover: 'writing',
     kind: 'Writing archive',
-    blurb: "Notes on engineering, AI, and the work that didn't fit in a commit.",
+    blurb:
+      "Notes on engineering, AI, and the work that didn't fit in a commit.",
     overview:
       'Short notes on engineering, AI, and integrations. The stuff I wish I had written down sooner.',
-    whatIBuilt:
-      'Short posts on DEV about things I learned while building.',
+    whatIBuilt: 'Short posts on DEV about things I learned while building.',
     builtFor: ['Engineers', 'People building with LLMs'],
     capabilities: [
       'Read notes on engineering, AI, and shipping software',
@@ -388,7 +385,7 @@ export const ABOUT_INTRO = {
   greeting: "Hey, I'm Vatsal!",
   paragraphs: [
     `I'm an engineer with ${yearsExperience()} years on AI platforms, multi-tenant SaaS, and enterprise integrations. I like owning a product problem the whole way: figure out what's worth building, design it, ship it, then see if it actually helped. I work best next to product and design, with enough context to help shape the problem.`,
-    'At Phamax I lead engineering for Ariya, an AI platform for pharmaceutical content. Brand-compliant generation under real regulatory constraints, wired into Veeva CRM and Salesforce Marketing Cloud.',
+    'At Phamax I lead engineering for Ariya, a generative-AI platform for pharma teams. In a normal week I touch every layer: a React feature, a Django or FastAPI endpoint, a retrieval-grounded LLM pipeline with citations, and the GitHub Actions workflow that ships all three to 8 client deployments. Before that I spent three years on Factoreal, a fan-engagement SaaS for sports teams that Comviva incubated, where I built its BigQuery analytics pipeline, fan scoring, and Shopify integration. After that I ran releases and wrote the segmentation engine for MobiLytix Rewards at Comviva.',
     "Outside work I'm usually with a camera, or tinkering in open source and small UI experiments.",
   ],
 }
