@@ -1,0 +1,21 @@
+---
+interface Props {
+  notes: string[]
+}
+
+const { notes } = Astro.props
+---
+
+<section
+  aria-labelledby="how-counted-heading"
+  class="border-border/70 mt-16 border-t pt-8"
+>
+  <h2 id="how-counted-heading" class="text-lg font-semibold tracking-tight">
+    How these numbers were counted
+  </h2>
+  <ul
+    class="text-muted-foreground mt-4 max-w-3xl list-disc space-y-2 pl-5 text-sm leading-relaxed"
+  >
+    {notes.map((note) => <li>{note}</li>)}
+  </ul>
+</section>

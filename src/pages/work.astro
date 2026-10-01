@@ -1,28 +1,46 @@
 ---
+import resume from '../../resume.json'
 import { WORK, WORK_EXPERIENCES } from '../lib/constants'
+import { SELECTED_SYSTEMS } from '../lib/work-details'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import TopLayout from '../layouts/TopLayout.astro'
 import BottomLayout from '../layouts/BottomLayout.astro'
 import { WorkExperience } from '../components/work-experience'
+import SelectedSystems from '../components/work/SelectedSystems.astro'
 ---
 
 <BaseLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
-  <main class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col" transition:animate="fade">
+  <main
+    class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col"
+    transition:animate="fade"
+  >
     <TopLayout>
       <h1 class="scroll-m-20 text-3xl font-semibold tracking-tight sm:text-4xl">
         {WORK.TITLE}
       </h1>
       <p class="text-muted-foreground mt-3 max-w-2xl text-base">
-        Phamax, Comviva, and TCS. AI platforms, enterprise SaaS, and
-        integration-heavy systems.
+        {WORK.DESCRIPTION}
+      </p>
+      <p class="text-muted-foreground mt-5 max-w-3xl text-sm leading-relaxed">
+        <strong class="text-foreground font-semibold">Focus areas</strong>
+        {resume.basics.focusAreas}
       </p>
     </TopLayout>
     <BottomLayout>
-      <WorkExperience
-        client:visible
-        className="bg-transparent px-0"
-        experiences={WORK_EXPERIENCES}
-      />
+      <section aria-labelledby="experience-heading">
+        <h2
+          id="experience-heading"
+          class="mb-6 text-2xl font-semibold tracking-tight"
+        >
+          Work experience
+        </h2>
+        <WorkExperience
+          client:visible
+          className="bg-transparent px-0"
+          experiences={WORK_EXPERIENCES}
+        />
+      </section>
+      <SelectedSystems systems={SELECTED_SYSTEMS} />
     </BottomLayout>
   </main>
 </BaseLayout>

@@ -1,5 +1,6 @@
 import type { ExperienceItemType } from '@/components/work-experience'
 import resume from '../../resume.json'
+import { ROLE_DETAILS } from './work-details'
 
 type ResumeWork = {
   name: string
@@ -33,23 +34,51 @@ const ROLE_SKILLS: Record<string, string[]> = {
   '2025-05-08': [
     'TypeScript',
     'React',
-    'LLM',
-    'RAG',
-    'Veeva CRM',
-    'SFMC',
     'Python',
+    'Django',
+    'FastAPI',
+    'Azure OpenAI',
+    'Azure AI Search',
+    'RAG',
+    'Azure Speech',
+    'Turborepo',
+    'MySQL',
     'Postgres',
+    'GitHub Actions',
+    'SonarQube',
+  ],
+  '2023-10-01': [
+    'TypeScript',
+    'FeathersJS',
+    'Postgres',
+    'Knex',
+    'Redis',
+    'Kafka',
+    'Jest',
+    'GitLab CI',
   ],
   '2021-12-01': [
-    'TypeScript',
+    'Node.js',
+    'Strapi',
     'React',
-    'FeathersJS',
-    'Kafka',
-    'Delta Lake',
+    'Python',
+    'Flask',
     'Postgres',
-    'Vector DB',
+    'BigQuery',
+    'Shopify',
   ],
-  '2020-06-01': ['Shopify', 'HubSpot', 'BigQuery', 'GoodData', 'AWS', 'CDN'],
+  '2020-06-01': [
+    'Node.js',
+    'Strapi',
+    'React',
+    'Kafka',
+    'Redis',
+    'Cassandra',
+    'Postgres',
+    'BigQuery',
+    'GoodData',
+    'Shopify',
+  ],
   '2018-09-01': [
     'React',
     'Angular',
@@ -73,11 +102,6 @@ function formatHumanMonth(iso: string): string {
   return `${label} ${year}`
 }
 
-function formatPeriodMonth(iso: string): string {
-  const [year, month] = iso.split('-')
-  return `${month}.${year}`
-}
-
 function companyWebsite(url?: string): string | undefined {
   if (!url) return undefined
   try {
@@ -88,18 +112,25 @@ function companyWebsite(url?: string): string | undefined {
   }
 }
 
-function positionTitle(job: ResumeWork): string {
-  if (!job.description) return job.position
-  // Prefer a short product/line name before an em/en dash.
-  const product = job.description.split(/\s+[—–-]\s+/)[0]?.trim()
-  if (!product || product === job.name) return job.position
-  // Avoid duplicating context already in the position title.
-  if (job.position.includes(product)) return job.position
-  return `${job.position} · ${product}`
-}
-
 function toMarkdownBullets(highlights: string[] = []): string {
   return highlights.map((line) => `- ${line}`).join('\n')
+}
+
+function roleDescription(job: ResumeWork): string {
+  const details = ROLE_DETAILS[job.startDate]
+  return [
+    details?.summary ?? job.summary,
+    details
+      ? details.sections
+          .map(
+            (section) =>
+              `### ${section.title}\n\n${toMarkdownBullets(section.items)}`,
+          )
+          .join('\n\n')
+      : toMarkdownBullets(job.highlights),
+  ]
+    .filter(Boolean)
+    .join('\n\n')
 }
 
 const work = resume.work as ResumeWork[]
@@ -150,19 +181,19 @@ export const WORK_EXPERIENCES: ExperienceItemType[] = (() => {
     }
   >()
 
-  for (const [index, job] of work.entries()) {
+  for (const job of work) {
     const key = job.name
     const existing = groups.get(key)
     const position = {
       id: `${slugify(job.name)}-${slugify(job.position)}-${job.startDate}`,
-      title: positionTitle(job),
+      title: job.position,
       employmentPeriod: {
-        start: formatPeriodMonth(job.startDate),
-        ...(job.endDate ? { end: formatPeriodMonth(job.endDate) } : {}),
+        start: job.startDate.slice(0, 4),
+        ...(job.endDate ? { end: job.endDate.slice(0, 4) } : {}),
       },
       employmentType: 'Full-time',
-      isExpanded: index === 0,
-      description: toMarkdownBullets(job.highlights),
+      isExpanded: true,
+      description: roleDescription(job),
       skills: ROLE_SKILLS[job.startDate],
     }
 

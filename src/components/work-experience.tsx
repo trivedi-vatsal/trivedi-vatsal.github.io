@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useRef, type ComponentProps } from 'react'
-import { differenceInMonths, parse } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
 
 import { cn } from '@/lib/utils'
@@ -13,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import type { ChevronsUpDownIconHandle } from '@/components/chevrons-up-down-icon'
 import { ChevronsUpDownIcon } from '@/components/chevrons-up-down-icon'
-import { BriefcaseBusinessIcon, InfinityIcon } from 'lucide-react'
+import { BriefcaseBusinessIcon } from 'lucide-react'
 
 export type ExperiencePositionItemType = {
   /** Unique identifier for the position */
@@ -40,6 +39,15 @@ export type ExperiencePositionItemType = {
   skills?: string[]
   /** Indicates if the position details are expanded in the UI */
   isExpanded?: boolean
+  /** Headline figures shown under the title, outside the collapsible. */
+  stats?: ExperienceStat[]
+  /** One line on where the figures come from, shown at the end of the details. */
+  evidence?: string
+}
+
+export type ExperienceStat = {
+  value: string
+  label: string
 }
 
 export type ExperienceItemType = {
@@ -85,7 +93,7 @@ export type ExperienceItemProps = {
 
 export function ExperienceItem({ experience }: ExperienceItemProps) {
   return (
-    <div className="space-y-4 py-4">
+    <div className="border-border/70 space-y-4 border-t py-8">
       <div className="not-prose flex items-center gap-3">
         <div className="flex size-6 shrink-0 items-center justify-center">
           {experience.companyLogo ? (
@@ -120,13 +128,13 @@ export function ExperienceItem({ experience }: ExperienceItemProps) {
             className="relative flex items-center justify-center"
             aria-label="Current Employer"
           >
-            <span className="absolute inline-flex size-3 animate-ping rounded-full bg-primary opacity-50" />
-            <span className="relative inline-flex size-2 rounded-full bg-primary" />
+            <span className="bg-primary absolute inline-flex size-3 animate-ping rounded-full opacity-50" />
+            <span className="bg-primary relative inline-flex size-2 rounded-full" />
           </span>
         )}
       </div>
 
-      <div className="before:bg-border relative space-y-4 before:absolute before:left-3 before:h-full before:w-px">
+      <div className="relative space-y-8">
         {experience.positions.map((position) => (
           <ExperiencePositionItem key={position.id} position={position} />
         ))}
@@ -157,7 +165,6 @@ export function ExperiencePositionItem({
 
   const { start, end } = position.employmentPeriod
   const isOngoing = !end
-  const duration = formatDuration(start, end)
 
   return (
     <Collapsible
@@ -215,37 +222,40 @@ export function ExperiencePositionItem({
               <dd className="flex items-center gap-0.5 tabular-nums">
                 <span>{start}</span>
                 <span className="font-mono">-</span>
-                {isOngoing ? (
-                  <InfinityIcon
-                    className="size-4.5 translate-y-[0.5px]"
-                    aria-label="Present"
-                  />
-                ) : (
-                  <span>{end}</span>
-                )}
+                {isOngoing ? <span>Present</span> : <span>{end}</span>}
               </dd>
             </div>
-
-            {duration && (
-              <>
-                <Separator
-                  className="data-vertical:h-4 data-vertical:self-center"
-                  orientation="vertical"
-                />
-                <div>
-                  <dt className="sr-only">Duration</dt>
-                  <dd className="tabular-nums">{duration}</dd>
-                </div>
-              </>
-            )}
           </dl>
         </CollapsibleTrigger>
+
+        {Array.isArray(position.stats) && position.stats.length > 0 && (
+          <dl className="not-prose grid grid-cols-2 gap-x-4 gap-y-3 pt-3 pl-9 sm:grid-cols-4">
+            {position.stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="flex min-w-0 flex-col-reverse self-start"
+              >
+                <dt className="text-muted-foreground text-xs leading-snug">
+                  {stat.label}
+                </dt>
+                <dd className="text-foreground text-lg leading-tight font-semibold tabular-nums">
+                  {stat.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
         <CollapsibleContent className="overflow-hidden">
           {position.description && (
             <Prose className="pt-2 pl-9">
               <ReactMarkdown>{position.description}</ReactMarkdown>
             </Prose>
+          )}
+          {position.evidence && (
+            <p className="not-prose text-muted-foreground border-border/70 mt-4 ml-9 border-l-2 pl-3 font-mono text-[0.7rem] leading-relaxed">
+              {position.evidence}
+            </p>
           )}
         </CollapsibleContent>
 
@@ -284,50 +294,5 @@ function Skill({ className, ...props }: ComponentProps<'span'>) {
       )}
       {...props}
     />
-  )
-}
-
-function formatDuration(start: string, end?: string): string {
-  const startHasMonth = start.includes('.')
-  const endHasMonth = end ? end.includes('.') : true
-
-  // Both year-only: granularity is years, no month arithmetic needed.
-  if (!startHasMonth && end && !endHasMonth) {
-    const years = parseInt(end, 10) - parseInt(start, 10)
-    if (years <= 0) {
-      return ''
-    }
-    return `${years}y`
-  }
-
-  const startDate = parsePeriodDate(start, 'first')
-  const endDate = end ? parsePeriodDate(end, 'last') : new Date()
-
-  // +1 to count both the start and end months inclusively.
-  const totalMonths = differenceInMonths(endDate, startDate) + 1
-  if (totalMonths <= 0) {
-    return ''
-  }
-
-  if (totalMonths < 12) {
-    return `${totalMonths}m`
-  }
-
-  const years = Math.floor(totalMonths / 12)
-  const months = totalMonths % 12
-  if (months === 0) {
-    return `${years}y`
-  }
-  return `${years}y ${months}m`
-}
-
-function parsePeriodDate(str: string, fallbackMonth: 'first' | 'last'): Date {
-  if (str.includes('.')) {
-    return parse(str, 'MM.yyyy', new Date())
-  }
-  return parse(
-    `${fallbackMonth === 'last' ? '12' : '01'}.${str}`,
-    'MM.yyyy',
-    new Date(),
   )
 }

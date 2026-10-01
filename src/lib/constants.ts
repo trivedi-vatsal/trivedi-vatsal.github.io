@@ -45,7 +45,7 @@ export const ABOUT: Page = {
 export const WORK: Page = {
   TITLE: 'Work',
   DESCRIPTION:
-    'Phamax, Comviva, and TCS. AI platforms, enterprise SaaS, and integration-heavy systems.',
+    'I build marketing, loyalty, and generative AI products. I work on data pipelines, shared services, and the applications customers use, and lead teams through design, implementation, and production releases.',
 }
 
 // Blog Page
