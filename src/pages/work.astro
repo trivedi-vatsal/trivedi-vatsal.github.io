@@ -1,12 +1,11 @@
 ---
 import { WORK, WORK_EXPERIENCES } from '../lib/constants'
-import { HOW_COUNTED, SELECTED_SYSTEMS } from '../lib/work-details'
+import { SELECTED_SYSTEMS } from '../lib/work-details'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import TopLayout from '../layouts/TopLayout.astro'
 import BottomLayout from '../layouts/BottomLayout.astro'
 import { WorkExperience } from '../components/work-experience'
 import SelectedSystems from '../components/work/SelectedSystems.astro'
-import HowCounted from '../components/work/HowCounted.astro'
 ---
 
 <BaseLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
@@ -21,25 +20,22 @@ import HowCounted from '../components/work/HowCounted.astro'
       <p class="text-muted-foreground mt-3 max-w-2xl text-base">
         {WORK.DESCRIPTION}
       </p>
-      <p class="text-muted-foreground mt-2 max-w-2xl text-sm">
-        The figures below are counted from each employer's git history. Merges,
-        and work I reviewed but did not write, are kept separate.{' '}
-        <a
-          href="#how-counted-heading"
-          class="text-foreground underline-offset-4 hover:underline"
-        >
-          See how I counted
-        </a>
-      </p>
     </TopLayout>
     <BottomLayout>
-      <WorkExperience
-        client:visible
-        className="bg-transparent px-0"
-        experiences={WORK_EXPERIENCES}
-      />
+      <section aria-labelledby="experience-heading">
+        <h2
+          id="experience-heading"
+          class="mb-6 text-2xl font-semibold tracking-tight"
+        >
+          Work experience
+        </h2>
+        <WorkExperience
+          client:visible
+          className="bg-transparent px-0"
+          experiences={WORK_EXPERIENCES}
+        />
+      </section>
       <SelectedSystems systems={SELECTED_SYSTEMS} />
-      <HowCounted notes={HOW_COUNTED} />
     </BottomLayout>
   </main>
 </BaseLayout>

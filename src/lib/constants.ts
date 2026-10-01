@@ -45,7 +45,7 @@ export const ABOUT: Page = {
 export const WORK: Page = {
   TITLE: 'Work',
   DESCRIPTION:
-    "Phamax, Comviva, Factoreal, and TCS. I've built generative-AI tools for pharma teams, fan-engagement software for sports teams, and a loyalty platform, along with the integrations and data pipelines they depend on.",
+    'I design and build the systems behind omnichannel marketing, loyalty, and generative AI products—from data pipelines and shared services to customer-facing applications. My work combines architecture, hands-on engineering, and team leadership through production delivery.',
 }
 
 // Blog Page

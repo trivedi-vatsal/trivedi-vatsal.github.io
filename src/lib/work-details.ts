@@ -1,281 +1,276 @@
-import type { ExperienceStat } from '@/components/work-experience'
-
-/**
- * Long-form detail for the Work page, keyed by role startDate in resume.json.
- * resume.json highlights stay short for the PDF resume; these are the fuller,
- * site-only write-up. Every figure here was counted from the private git
- * history of that role (all branches, deduplicated by SHA, merges separated
- * from code I wrote). Work I only reviewed and merged is described as review.
- */
-export type RoleDetailSection = {
-  title: string
-  items: string[]
-}
-
-export type RoleDetail = {
-  stats: ExperienceStat[]
-  sections: RoleDetailSection[]
-  /** Where the figures come from, in one line. */
-  evidence: string
-}
+/** Detailed career copy for the website; the PDF resume stays independent. */
+export type RoleDetailSection = { title: string; items: string[] }
+export type RoleDetail = { summary: string; sections: RoleDetailSection[] }
 
 export const ROLE_DETAILS: Record<string, RoleDetail> = {
   '2025-05-08': {
-    stats: [
-      { value: '729', label: 'commits I wrote, across 16 repos' },
-      { value: '185', label: 'teammate PRs reviewed and merged' },
-      { value: '8', label: 'client deployments' },
-      { value: '35 days', label: 'RAG assistant, migration to production' },
-    ],
+    summary:
+      'Lead engineering for Ariya, a generative-AI platform for pharma marketing and medical teams, with ownership of architecture, hands-on implementation, engineering standards, and delivery across eight client deployments.',
     sections: [
       {
         title: 'Platform and team',
         items: [
-          'Wrote the codebase restructuring plan in May 2025 and carried it out within about eight weeks. On 17 July I stood up the new core API, portal, and wizard repositories with their imports and CI; on 28 July I moved deployment from tag-based to branch-based releases.',
-          'Reviewed and merged 373 pull requests across 9 repositories, 185 of them written by teammates. On the big shared repos I am deliberately a minority author: 136 of 1,234 non-merge commits in the portal and 124 of 943 in the core API.',
-          "Wrote the team's onboarding docs, GitHub workflow conventions, and the restructuring plan in the engineering wiki.",
+          'Restructured the platform into core API, portal, and authoring applications, defining application boundaries and a consistent CI and release process across client deployments.',
+          'Guided implementation through code reviews and coordinated changes across shared services and client applications to keep platform behavior consistent.',
+          'Established onboarding documentation, contribution standards, and an architecture plan in the engineering wiki, giving the team a shared basis for development and delivery.',
         ],
       },
       {
         title: 'LLM content generation',
         items: [
-          'Designed Content Compose, the email pipeline for medical content that has to cite its sources, and wrote 23 of the 26 commits on it. It makes three LLM calls: a selection pass (temperature 0.1) that ranks brand content, a bibliography pass that turns retrieved source chunks into reference entries, and a generation pass that writes the email.',
-          'Retrieval is hybrid text and vector search on Azure AI Search. Filters are applied only on fields confirmed filterable, and search falls back to text-only if embedding fails.',
-          'The LLM never writes the reference list. It is rebuilt after generation from the inline citation markers, so every reference points at a source that was actually retrieved. Subject line and preheader are generated as separate blocks, and adjacent citation markers are formatted as superscript.',
-          'Built a no-backend validator that runs 14 checks at four severity levels on each output: reference block populated, every enabled block generated, subject and preheader present, citation placement and order, placeholder URLs, relevance of retrieved chunks, generation time, and token usage.',
-          'Added a second brand-schema variant alongside the original, so brands with a flat content structure could use the same pipeline.',
+          'Architected Content Compose as a three-stage pipeline for source-backed medical emails: rank relevant brand content, prepare references from retrieved sources, and generate the email. Separating these stages makes content selection and citation handling explicit.',
+          'Designed hybrid text and vector retrieval on Azure AI Search, with validated filter capabilities and a text-only fallback that keeps generation available when embedding fails.',
+          'Made reference integrity deterministic: rebuild the bibliography from retrieved sources and inline citation markers after generation. Generate subject lines and preheaders independently, and format citations consistently for review.',
+          'Built an independent validator with 14 checks across four severity levels to surface missing content, citation errors, placeholder links, retrieval relevance, and generation cost and latency before editorial review.',
+          'Extended the pipeline to support both hierarchical and flat brand-content schemas, allowing different brands to share the same generation architecture.',
         ],
       },
       {
         title: 'Conversational AI',
         items: [
-          'Took a white-label RAG assistant over 551 medical publications from a Turborepo migration to production in five weeks: staging CI on day 4, UAT on day 15, production CI/CD with Key Vault and Container Apps on day 35. I wrote 146 of the 156 commits after the migration.',
-          "Built its user-facing pieces: PIN + JWT sign-in, citation chips that open the source PDF in an in-app viewer, a panel that shows the agent's reasoning steps, a token-usage badge, and a feedback flow. Built the client's admin console for users, feedback, threads, and audit logs, and moved its analytics from Log Analytics to Application Insights.",
-          'Built the Speech Avatar end to end in about two and a half weeks: six endpoints on the Azure Speech SDK (speech and ICE tokens, streaming chat, post-call conversation analysis, avatar config, conversation logs), two Django models, and the portal UI.',
-          'Added the admin statistics API (UTC-correct aggregation, user-ID resolution) and thread filters to the FastAPI + LangGraph agent service a teammate built.',
+          'Delivered a white-label RAG assistant over 551 medical publications, carrying it from a Turborepo migration through staging, UAT, and production on Azure Container Apps with Key Vault-managed secrets.',
+          'Built the product controls around the assistant: PIN and JWT access, source PDFs opened from citation chips, agent-step visibility, token usage, and feedback. Added an admin console for users, conversations, feedback, and audit logs, with Application Insights for operational analytics.',
+          'Built the Speech Avatar across the Azure Speech SDK, Django, and portal UI, covering speech and ICE credentials, streaming chat, avatar configuration, conversation logs, and post-call analysis.',
+          'Extended a teammate’s FastAPI and LangGraph agent service with admin statistics and thread filters, using UTC-correct aggregation and resolved user identities to make usage reporting reliable.',
         ],
       },
       {
         title: 'Authoring product',
         items: [
-          'Moved the Content Wizard from steps hardcoded per content type to configuration served by the API: two Django config apps with 18 migrations between them, modelling channels, variants, content types, and their forms.',
-          'Built per-instance theming and delegated admins who can approve or delete templates, so one codebase serves every client.',
-          'Built the localization system: 32 of the 33 commits on the portal side and all of the backend. Translation rules live in a Django service, languages come from the database rather than code, and an in-browser HTML translator with versioned saves sits inside the Content Wizard.',
-          'Built the predefined-intent flow in the client admin portal (18 of its 29 commits), and started the Enterprise Data Management catalog, which teammates then extended.',
+          'Replaced hardcoded authoring steps with an API-driven configuration model for channels, variants, content types, and forms, allowing the Content Wizard to evolve through configuration instead of client-specific UI logic.',
+          'Implemented per-instance theming and delegated template administration so a shared codebase could support client branding and local approval workflows.',
+          'Designed localization across the portal and backend, with centrally managed translation rules, database-defined languages, and an in-browser HTML translator with versioned saves inside the authoring workflow.',
+          'Built predefined-intent management in the client admin portal and established the Enterprise Data Management catalog that teammates extended.',
+        ],
+      },
+      {
+        title: 'Regulated content lifecycle',
+        items: [
+          'Built the content lifecycle around the AI Content Wizard, connecting authoring, multi-stage approval, compliance checks, and distribution for pharmaceutical teams working across regulated markets.',
+          'Designed LLM orchestration across prompts, context injection, retrieval, embeddings, and tool calling to support traceable content generation across content types and markets.',
+        ],
+      },
+      {
+        title: 'Enterprise integrations',
+        items: [
+          'Integrated Veeva CRM and Salesforce Marketing Cloud into Ariya’s campaign workflows, connecting content and engagement capabilities to the enterprise systems pharmaceutical teams already use.',
+          'Supported omnichannel campaign execution across client tenants with compliance requirements carried into the integration workflows.',
+        ],
+      },
+      {
+        title: 'Data catalog and access',
+        items: [
+          'Led the Data Catalog initiative, establishing metadata-based discovery so business and engineering teams could find the data available to them.',
+          'Extended the catalog’s scope to data observability and self-service access, connecting discovery with visibility into data operations and use.',
         ],
       },
       {
         title: 'Data engineering',
         items: [
-          "Wrote Ariya's structured-data ingestion (41 of its 42 commits): a Bronze/Silver/Gold pipeline on Azure Blob Storage with a DBML-driven schema registry, 8 tracking models, and 7 CLI tools for schema conversion, migrations, and secrets. The medallion runner was in place five days after the first commit.",
-          'When Gold-layer loads started failing in production, I fixed six separate problems in one pass: emoji in email subjects (MySQL error 1366), unmapped column names (1054), a text column overflowing VARCHAR(255) (1406), a missing surrogate-key guard, a Windows encoding crash, and retry spam from stale blob entries. Same day, I generated deterministic hashed keys so loads could UPSERT, and fixed a DBML parser bug that silently dropped nullable columns.',
-          'The encoding fix needed a second pass: in May 2026 I moved utf8mb4 enforcement to table creation, because fixing it on the connection alone had not covered new tables.',
-          'Wrote the HCP and SFMC email-data APIs behind the Daily Sales Brief; a teammate built its WhatsApp delivery.',
+          'Architected structured-data ingestion around Bronze, Silver, and Gold layers on Azure Blob Storage, with a DBML schema registry, run tracking, and CLI tools for schema conversion, migrations, and secrets management.',
+          'Stabilized production Gold-layer ingestion by resolving Unicode failures, schema mismatches, text overflow, missing key guards, platform encoding errors, and stale-file retries. Introduced deterministic hashed keys for repeatable UPSERTs and fixed nullable-column loss in the schema parser.',
+          'Enforced utf8mb4 at table creation as well as connection setup, making Unicode support part of the data model rather than a recurring ingestion fix.',
+          'Built the HCP and SFMC email-data APIs powering the Daily Sales Brief, supplying the data foundation for a teammate’s WhatsApp delivery integration.',
         ],
       },
       {
         title: 'Security',
         items: [
-          'Built a SonarQube scanning kit in four days (PowerShell runner with four modules, SonarQube on Docker Compose, hotspot export to JSON, a baseline-versus-patched workflow), then used it on the core API and portal: 20 fixes in three days, applied to three client release lines.',
-          "The fixes: replaced AES-CBC with a static IV by AES-GCM with a random nonce; allow-listed JWT algorithms, since the token's own alg header had been trusted; moved 19 MD5/SHA-1 call sites to SHA-256; replaced f-string SQL with parameterised queries; removed CSRF exemptions from two webhooks; replaced a blanket `COPY .` with explicit paths in 8 client Docker images; and replaced `Math.random` with a crypto-safe helper in the portal.",
-          'Earlier: encrypted user phone numbers at rest, added a scheduled dependency security audit that opens issues, and rotated database SSL certificates across 7 environments and 4 services in about ten days.',
+          'Established a repeatable SonarQube assessment and remediation workflow with automated scans, exported hotspots, and baseline comparisons; applied 20 fixes across the core API and portal to three client release lines.',
+          'Strengthened encryption, authentication, and data access: replaced static-IV AES-CBC with AES-GCM and random nonces, restricted JWT algorithms, replaced weak hashes with SHA-256, parameterized SQL, restored webhook CSRF controls, narrowed Docker build inputs, and introduced cryptographic randomness in the portal.',
+          'Encrypted user phone numbers at rest, automated dependency security audits with issue creation, and coordinated database SSL certificate rotation across seven environments and four services.',
         ],
       },
       {
         title: 'Delivery',
         items: [
-          'Wrote about 30 GitHub Actions workflows across 11 repositories covering staging, UAT, and production for four clients and our own environments; I am the top workflow author in the portal repo. Teammates replicated the pattern for the other clients.',
-          'Switched Python builds to uv and Docker layer caching. When a dependency broke, pushed the same fix to six client branches the same day.',
-          'Built a JSON-to-PPTX service in two days (Bun, Elysia, pptxgenjs) that runs as a server or an Azure Function.',
-          'Built the content-metrics API (last N days or explicit ranges, grouped by author, status, and subtype) and the events reader and cache behind the admin event dashboard.',
+          'Standardized deployment workflows across staging, UAT, and production for client and internal environments, giving the team a reusable path from development to release.',
+          'Introduced uv and Docker layer caching into Python builds and coordinated dependency fixes across client deployments to improve build efficiency and release consistency.',
+          'Built a JSON-to-PPTX service with Bun, Elysia, and pptxgenjs, supporting both server and Azure Function deployment from the same implementation.',
+          'Built content-metrics APIs and cached event reporting for administrators, exposing activity by author, status, content subtype, and date range.',
         ],
       },
     ],
-    evidence:
-      'Source: git history on all branches, deduplicated by SHA, 12 May 2025 – 3 Jul 2026. 454 of my 1,183 commits are merges; the 729 above leave them out. Durations come from commit dates.',
   },
   '2023-10-01': {
-    stats: [
-      { value: '17 / 17', label: 'release merges to main, v5.7 – 5.8.2' },
-      { value: '4', label: 'tagged releases in 30 days' },
-      { value: '26', label: 'rule operators in the segment engine' },
-      { value: '5', label: 'services on my DB and cache packages' },
-    ],
+    summary:
+      'Technical lead for MobiLytix Rewards, Comviva’s multi-tenant loyalty platform, owning member-targeting services, shared backend foundations, and release coordination across in-house and vendor engineering teams.',
     sections: [
+      {
+        title: 'Platform rewrite',
+        items: [
+          'Led the rewrite of MobiLytix Rewards into a cloud-agnostic, multi-tenant SaaS platform for telecom and retail customers, owning full-stack architecture across the distributed microservices system.',
+          'Built across TypeScript, React, FeathersJS, PostgreSQL, Delta Lake, and vector databases, connecting customer-facing features with the service and data foundations of the loyalty platform.',
+        ],
+      },
+      {
+        title: 'Campaign processing and personalization',
+        items: [
+          'Owned the Kafka campaign-processing pipeline for reward and loyalty workflows, using asynchronous processing and caching to support high-throughput execution.',
+          'Delivered AI/ML personalization and segmentation capabilities for loyalty targeting, complementing the rule-based segmentation service with personalized campaign experiences.',
+        ],
+      },
+      {
+        title: 'Platform observability',
+        items: [
+          'Introduced observability and monitoring across the platform to give engineers visibility into service behavior during releases and production operations.',
+          'Used that operational visibility to support more reliable deployments and faster production-incident diagnosis and resolution.',
+        ],
+      },
       {
         title: 'Releases',
         items: [
-          'Ran the release train from 5.7.0 to 5.8.2: every release-to-main merge across six services between 30 January and 3 March 2025 (17 of 17) was mine, including four tagged releases of the core loyalty service in 30 days.',
-          'Integrated 50 feature, fix, SAST, and VAPT branches into release branches across 7 repositories, from about 8 in-house and vendor engineers.',
+          'Led release delivery across six loyalty services, coordinating service upgrades and production rollout as a connected platform.',
+          'Aligned in-house and vendor engineers on feature delivery, defect resolution, static-analysis findings, and penetration-test remediation across service boundaries.',
         ],
       },
       {
         title: 'Segmentation service',
         items: [
-          'Wrote the segmentation service that drives loyalty targeting (24 of its 28 non-merge commits). It converts rule-builder JSON into PostgreSQL queries across 26 operators, 11 of them date-based: current day, week, or month, X days ago, in X days, and so on.',
-          'Fixed columns such as email and status are queried directly; any other field is read from the member JSON column, so new segment fields need no schema change.',
-          'Segments run once, on a cron schedule, or on fixed dates. Each run is recorded as pending, success, or failed with its error, and a run stuck in pending is marked failed.',
+          'Designed and implemented the loyalty segmentation service, translating rule-builder JSON into PostgreSQL across 26 operators, including 11 date operators for time-sensitive campaign targeting.',
+          'Combined direct queries for core member fields with JSON-backed custom attributes, allowing clients to introduce new targeting criteria without database schema changes.',
+          'Built one-time, cron, and fixed-date execution with explicit run states, error history, and stale-run detection, making scheduled targeting failures visible and recoverable.',
         ],
       },
       {
         title: 'Loyalty core',
         items: [
-          "Built club onboarding in the core loyalty service: a hook that creates each club's membership, member, and segment-mapping tables inside a transaction that rolls back if any step fails. Later added per-club member-status and support-history tables and the tenant's segment-run history.",
-          'Added a Kafka hook so creating or editing a segment triggers recomputation in the segment service. My first version sent the segment ID under the wrong key; I caught and fixed it.',
+          'Made club provisioning transactional across membership, member, and segment data, so partial setup rolls back instead of leaving an incomplete tenant. Extended the tenant model with member status, support history, and segment-run history.',
+          'Connected segment creation and updates to Kafka-driven recomputation, keeping targeting results aligned with changes to campaign rules.',
         ],
       },
       {
         title: 'Shared packages',
         items: [
-          'Sole author of the shared Postgres (Knex) and Redis client packages that 5 services build on, and of the JWT helpers for service-to-service calls.',
-          'Primary author of the member business-logic package (27 of its 32 commits): enrollment, membership validation, attribute updates, segment checks, and Redis caching, taken from 1.1.0 to 2.0.1.',
-          'Moved the S3 storage package to TypeScript and set up npm publishing for the connectors package in GitLab CI.',
+          'Authored the shared PostgreSQL and Redis clients used by five services, along with JWT helpers for service-to-service authentication, establishing common infrastructure behavior across the platform.',
+          'Led development of the shared member domain package, centralizing enrollment, membership validation, attribute updates, segmentation checks, and Redis caching.',
+          'Moved the S3 storage package to TypeScript and automated connector publishing in GitLab CI, strengthening shared-package contracts and distribution.',
         ],
       },
       {
         title: 'Testing',
         items: [
-          'Added the first tests to three services that had none (segment, scheduler, tier) over two weeks in February 2025, moving from Mocha to Jest with coverage thresholds. The segment service got 48 cases, 17 of them for the query builder alone.',
-          'Honest baseline: the thresholds (65–80%) were the target, not the state. Measured coverage where I committed a report was 15% for the scheduler and 19% for tiers.',
+          'Established automated tests for segmentation, scheduling, and tier services with Jest and coverage gates. The segmentation suite included 48 cases, with 17 focused on query translation—the core of targeting correctness.',
+          'Set service coverage targets of 65–80% and measured the scheduler and tier baselines, making test gaps visible and defining a concrete standard for subsequent improvements.',
         ],
       },
     ],
-    evidence:
-      'Source: git history of the mr-* repositories on all branches, deduplicated by SHA, May 2024 – Mar 2025. 117 of my 240 commits there are merges. Work I merged but did not write (tier expiry, notifications, tenant isolation, SAST fixes) is not listed as mine.',
   },
   '2021-12-01': {
-    stats: [
-      { value: '998', label: 'scheduled BigQuery queries across 71 customers' },
-      { value: '17 → 40', label: 'Shopify webhook topics handled' },
-      { value: '4', label: 'fan tiers scored from 6 channels' },
-      { value: '5', label: 'services on the shared package I created' },
-    ],
+    summary:
+      'Led engineering across Factoreal’s omnichannel marketing platform, spanning email, SMS, WhatsApp, push, social, segmentation, customer journeys, commerce, and analytics. Built shared platform capabilities for ecommerce, sports, and other customer verticals.',
     sections: [
       {
         title: 'Fan Maturity Model',
         items: [
-          'Designed and built the Fan Maturity Model (March to July 2023), which scores every fan so teams can segment by engagement. Six channels (email, SMS, app recency, web recency, store spend, WhatsApp) each score 1, 10, or 100; a weighted sum with per-customer weights places each fan in one of four tiers: Inactive, Marginal, Casual, or Fanatic.',
-          'It runs as about 18 daily BigQuery scheduled queries over 19 tables per customer: the base scores at 00:15 in append mode, the rollups at 00:40–00:45. I wrote 93% of the Python scheduling module that creates, deletes, and reschedules those queries, plus the configuration UI in the portal.',
+          'Designed the Fan Maturity Model for Factoreal’s sports vertical, translating engagement across email, SMS, app, web, commerce, and WhatsApp into four actionable audience tiers using customer-configurable weights.',
+          'Built daily scoring orchestration and portal configuration, separating channel-level scores from rollups and automating query creation, deletion, and rescheduling so teams could manage engagement targeting without SQL.',
         ],
       },
       {
         title: 'Commerce',
         items: [
-          'Rebuilt the Shopify app for the 2022 App Store relaunch: install from the store, signup, per-store table creation, and OAuth access scopes. Took webhook handling from 17 topics to 40 in one change and added GraphQL subscriptions for the app-subscription and billing webhooks; a teammate built the billing plans.',
-          'Kept the integration current by upgrading the Shopify Admin API from version 2020-01 to 2022-04, then to 2023-04.',
-          'Fixed duplicate Shopify contacts: the same person arrived with phone numbers in different international formats, so matches failed. Normalized every number to national number plus country code with libphonenumber.',
-          'Created the ticketing integrations service in June 2023 and wrote its SeatGeek sync. Added WhatsApp commerce data (cart events and order source) to the platform.',
+          'Rebuilt the Shopify integration for its App Store relaunch, covering installation, signup, store provisioning, and OAuth permissions. Expanded webhook coverage from 17 to 40 topics and added GraphQL subscriptions for app and billing events alongside a teammate’s billing-plan implementation.',
+          'Maintained Shopify API compatibility through successive upgrades, keeping commerce ingestion aligned with the platform’s evolving integration contracts.',
+          'Resolved duplicate customer identities caused by inconsistent international phone formats, introducing country-aware normalization with libphonenumber for reliable contact matching.',
+          'Established a dedicated ticketing integration service with SeatGeek synchronization, and extended commerce data capture to WhatsApp cart activity and order attribution.',
         ],
       },
       {
         title: 'Analytics at scale',
         items: [
-          "Kept growing the per-customer BigQuery schema from 57 tables to 86, plus 49 views. I made 23 of the 32 commits on its table config and all 8 on the generator that builds a new customer's dataset.",
-          'By January 2023 the platform ran 998 BigQuery scheduled queries across 71 customer datasets, most of them daily. I built the provisioning, the fan-scoring schedule, and a Jira-to-BigQuery report sync; the query count describes the system, not queries I wrote one by one.',
-          'Automated GoodData dashboard-cache invalidation, and added social-follower dashboard queries in August 2023.',
+          'Built and evolved the BigQuery analytics foundation for a platform handling 10 billion transactions, bringing customer engagement and commerce data into reporting and audience-scoring workflows.',
+          'Automated customer dataset provisioning and scoring schedules for an analytics estate spanning 71 customer datasets and 998 scheduled queries, supporting recurring reporting across tenants.',
+          'Connected analytics to operational decisions through automated GoodData cache invalidation, social-follower reporting, and a Jira-to-BigQuery reporting sync.',
         ],
       },
       {
         title: 'Shared code and data operations',
         items: [
-          'Created the shared contact-operations npm package in November 2022 and wrote it through January 2023. Five production services depend on it; ten repositories have at some point. Also shipped the 1.0.0 release of the plan-entitlements package, which twelve services use.',
-          'Wrote the script that retires a customer across about 119 Postgres tables, and ran contact cleanups such as email normalization.',
-          'Rewrote contact lookups from JSONB containment to key equality and trimmed SELECT * to the columns needed. I did not record timings, so I claim the change, not a speedup.',
+          'Centralized contact operations in a shared package used by five production services and delivered plan-entitlement logic used by twelve, keeping customer and subscription behavior consistent across the platform.',
+          'Automated customer retirement across tenant data and built contact-cleanup routines, turning cross-service data maintenance into repeatable operations.',
+          'Refined contact queries by replacing broad JSONB containment with key equality and selecting only required fields, reducing unnecessary work in a frequently used data-access path.',
         ],
       },
       {
         title: 'Account security',
         items: [
-          'Added per-customer session timeouts (60 minutes by default) with idle detection in the portal, and reCAPTCHA Enterprise on website signup, which rejects anything that is not a signup action with a risk score above 0.5.',
-          'Reviewed and merged the 2022 penetration-test remediation branches; a teammate wrote those fixes.',
+          'Implemented tenant-configurable session expiry with idle detection and risk-scored signup protection through reCAPTCHA Enterprise, strengthening account access and trial-entry controls.',
+          'Reviewed penetration-test remediation with the implementing engineer, assessing fixes within the platform’s existing authentication and application flows.',
         ],
       },
     ],
-    evidence:
-      'Source: git history of 106 repositories on all branches, deduplicated by SHA, Dec 2021 – Sep 2023: 703 non-merge commits plus 515 merges. The scheduled-query count comes from a production export of 19 Jan 2023 (984 succeeded, 14 failed, 2 running at that moment).',
   },
   '2020-06-01': {
-    stats: [
-      { value: '220 / 230', label: 'commits in the BigQuery sync engine' },
-      { value: '24', label: 'per-entity sync jobs into BigQuery' },
-      { value: '25 → 57', label: 'BigQuery tables per customer, 2021' },
-      { value: '10', label: 'email KPIs, every line mine' },
-    ],
+    summary:
+      'Built the data, commerce, and channel foundations of Factoreal’s marketing automation platform across its core API, React portal, and backend services, connecting customer activity to analytics and campaign workflows.',
     sections: [
       {
         title: 'Analytics pipeline',
         items: [
-          'Wrote the sync engine that copies Postgres and Cassandra data into BigQuery (220 of its 230 commits). It runs 24 per-entity jobs covering contacts, carts, campaigns, journeys, lists, and SMS, email, WhatsApp, mobile, and web events; I added 7 incremental variants in late 2021 and Cassandra pagination for large tables. It runs daily at 23:00.',
-          "Made each customer's BigQuery dataset provision itself at signup. I created the table config in February 2021 with 25 tables; it had 57 by December.",
-          'Created the KPI service in October 2020 and wrote all 1,011 lines of its email-KPI module: open, click, click-to-open, hard and soft bounce, deferred, deliverability, engagement, and unsubscribe rates. Embedded GoodData dashboards in the React portal to show them.',
+          'Built the PostgreSQL and Cassandra-to-BigQuery sync engine across 24 entity workflows covering contacts, commerce, campaigns, journeys, and omnichannel events. Added incremental synchronization and Cassandra pagination to handle growing data volumes without relying solely on full reloads.',
+          'Automated analytics dataset provisioning at signup, making customer onboarding include its reporting infrastructure without manual database setup.',
+          'Built the KPI service for email delivery and engagement metrics and embedded GoodData dashboards in the portal, giving customers visibility into deliverability, audience response, and unsubscribe rates.',
         ],
       },
       {
         title: 'Commerce and payments',
         items: [
-          'Built Shopify webhook ingestion in the Strapi API. When Shopify retries created duplicate orders, I first added an idempotency check on the order ID, then a week later made it impossible at the database level with unique indexes on three per-customer tables.',
-          'Built abandoned-cart detection: a Redis hash and a Kafka listener fire an event after a timeout that defaults to 3 hours and is configurable per customer. My first version concatenated the Redis timestamp as a string instead of adding to it; I caught and fixed it three days later.',
-          'Added Razorpay: a new payments module in the API and webhook handling that publishes order and payment events to Kafka.',
+          'Made Shopify order ingestion safe under webhook retries through application-level idempotency and database uniqueness constraints, preventing duplicate order records at both boundaries.',
+          'Built abandoned-cart detection with Redis state, Kafka events, and tenant-configurable timeouts, turning incomplete purchases into triggers for customer journeys.',
+          'Integrated Razorpay payment ingestion and published order and payment events to Kafka, connecting commerce transactions to downstream marketing workflows.',
         ],
       },
       {
         title: 'Tracking and channels',
         items: [
-          'Stopped page views from flooding the events catalog: a Redis key per customer, domain, and page title means each page is recorded once instead of on every view. Added per-customer exclusion rules to custom-event ingestion.',
-          'Fixed double-counted first visits in the tracking snippet customers embed: the first page load was sending a visit and creating one.',
-          'Built web push subscription and event handling, and mobile-app SDK registration and events, in the core API.',
+          'Introduced Redis-backed page deduplication and tenant-specific event exclusions, keeping repeated page views from inflating the event catalog while preserving useful tracking signals.',
+          'Corrected first-visit double counting in the customer tracking snippet, improving the accuracy of the behavioral data feeding reporting and segmentation.',
+          'Built web-push subscription handling and mobile SDK registration and events, extending the platform’s customer-engagement capabilities across web and app channels.',
         ],
       },
       {
         title: 'Signup and growth',
         items: [
-          'Built email-domain verification with branded confirmation emails (July 2021) and the website trial-signup flow (November 2021).',
-          "Wrote the HubSpot contact import used to migrate customers' contacts, with status emails over SES.",
-          'Instrumented factoreal.com (WordPress) with Google Analytics, LinkedIn Insight, Google Ads, Facebook Pixel, and the Instabot widget.',
+          'Built verified email-domain onboarding with branded confirmation messages and a trial-signup flow, connecting website acquisition to product access.',
+          'Built HubSpot contact migration with SES status notifications, helping customers bring existing audiences into the platform with visibility into import progress.',
+          'Integrated analytics, advertising pixels, and conversational capture into Factoreal’s website, connecting acquisition activity to marketing measurement.',
         ],
       },
     ],
-    evidence:
-      'Source: git history on all branches, deduplicated by SHA, Jul 2020 – Nov 2021: 683 non-merge commits. Across my tenure I am the 4th-largest committer of about 76 to the core Strapi API.',
   },
 }
 
 export type SelectedSystem = {
   title: string
-  /** Company and period, shown beside the title. */
   context: string
   problem: string
   built: string
   result: string
-  evidence: string
   stack: string[]
 }
 
 export const SELECTED_SYSTEMS: SelectedSystem[] = [
   {
     title: 'Content Compose',
-    context: 'Phamax · 2026',
+    context: 'Phamax',
     problem:
-      'Pharma teams need marketing email that cites its sources. A model that writes its own reference list will sooner or later cite something that was never retrieved.',
+      'Medical marketing teams need generated content with references they can verify. Model-generated bibliographies can introduce citations that have no basis in the retrieved material.',
     built:
-      'A three-pass pipeline on Azure OpenAI and Azure AI Search: rank brand content, turn retrieved chunks into reference entries, then write the email. The reference list is rebuilt from inline citation markers after generation instead of being written by the model. A separate 14-check validator QA-checks every output.',
+      'Separated selection, reference preparation, and email generation into three stages on Azure OpenAI and Azure AI Search. Used hybrid retrieval with a text fallback, rebuilt bibliographies deterministically from source-linked citation markers, and added an independent 14-check output validator.',
     result:
-      'Every reference in an email maps to a retrieved source. The validator flags missing references, misplaced citations, and placeholder links before anyone reviews the content.',
-    evidence:
-      'I wrote 23 of the 26 commits on the pipeline; first commit 13 Apr 2026, bibliography pass 15 Jun 2026.',
+      'References map to retrieved sources, and automated checks surface citation, completeness, and link issues before editorial review. A shared pipeline supports different brand-content schemas.',
     stack: ['Python', 'Azure OpenAI', 'Azure AI Search', 'Django'],
   },
   {
     title: 'Publications assistant',
-    context: 'Phamax · 2026',
+    context: 'Phamax',
     problem:
-      'A client wanted a branded assistant that answers questions from 551 medical publications, with sources a medical reviewer can check.',
+      'A client needed a branded assistant over 551 medical publications, with inspectable sources, controlled access, and administrative oversight.',
     built:
-      "Migrated the widget to a Turborepo monorepo, then built PIN + JWT access, citation chips that open the source PDF, a panel showing the agent's reasoning steps, token usage per answer, and an admin console with audit logs.",
+      'Carried a Turborepo migration through production delivery, implementing PIN and JWT access, in-app source PDFs, agent-step visibility, token reporting, feedback, and an audit-enabled admin console. Established environment-specific CI/CD on Azure Container Apps with Key Vault.',
     result:
-      'Staging on day 4, UAT on day 15, production CI/CD on day 35 after the migration.',
-    evidence:
-      '146 of 156 commits after the migration are mine (21 May – 3 Jul 2026).',
+      'Delivered the assistant across staging, UAT, and production, giving reviewers direct access to source publications and administrators visibility into usage, feedback, and conversations.',
     stack: [
       'React',
       'Turborepo',
@@ -286,75 +281,57 @@ export const SELECTED_SYSTEMS: SelectedSystem[] = [
   },
   {
     title: 'Structured ingestion',
-    context: 'Phamax · 2026',
+    context: 'Phamax',
     problem:
-      'Client CRM and email data arrived as files in Blob Storage with no schema discipline, and the platform needed it in clean relational tables.',
+      'CRM and email files in Blob Storage needed to become relational data despite inconsistent schemas, Unicode content, and repeated ingestion attempts.',
     built:
-      'A Bronze/Silver/Gold pipeline with a DBML schema registry, run tracking, and CLI tools for schema conversion and migrations.',
+      'Designed Bronze, Silver, and Gold processing with a DBML schema registry, run tracking, and migration tooling. Added deterministic keys for repeatable UPSERTs, enforced Unicode-compatible tables, and corrected schema-parser and retry behavior.',
     result:
-      'Gold-layer loads failed in production on emoji, unmapped columns, and overflowing text. I fixed six causes in one pass and made loads idempotent with hashed keys. The encoding fix needed a second round two months later.',
-    evidence:
-      '41 of 42 commits mine; medallion runner five days after the first commit (Feb 2026).',
+      'Resolved six production failure causes and made repeated loads update existing records, providing a more dependable data foundation for downstream APIs and reporting.',
     stack: ['Python', 'Pandas', 'SQLAlchemy', 'Azure Blob Storage', 'MySQL'],
   },
   {
-    title: 'Security pass',
-    context: 'Phamax · May 2026',
+    title: 'Platform security',
+    context: 'Phamax',
     problem:
-      'The core API had no routine static analysis, and nobody knew how many weak-crypto and injection patterns it carried.',
+      'The core API and portal needed a repeatable way to identify security weaknesses and carry remediations consistently across client release lines.',
     built:
-      'A SonarQube kit that scans any branch from a fresh clone and exports hotspots as JSON, built in four days.',
+      'Established SonarQube scanning, hotspot export, and baseline comparisons. Remediated encryption, JWT validation, hashing, SQL access, webhook CSRF controls, Docker build scope, and browser randomness.',
     result:
-      'Twenty fixes in the next three days: AES-GCM instead of static-IV CBC, JWT algorithm allow-list, SHA-256 in 19 places, parameterised SQL, no CSRF exemptions on webhooks. Applied to three client release lines.',
-    evidence:
-      'Kit: 7 commits, 10–13 May 2026. Fixes: 11 in the core API, 9 in the portal.',
+      'Applied 20 security fixes across three client release lines and gave the team a reusable assessment workflow for subsequent changes.',
     stack: ['PowerShell', 'SonarQube', 'Docker', 'Django', 'React'],
   },
   {
     title: 'Segmentation engine',
-    context: 'Comviva · 2024–25',
+    context: 'Comviva',
     problem:
-      'Loyalty campaigns target members by attributes that change per client, and date rules like "joined this week" or "expires in 30 days".',
+      'Loyalty targeting needed to support client-specific member attributes and relative date rules without requiring schema changes for every new campaign criterion.',
     built:
-      'A service that turns rule-builder JSON into PostgreSQL across 26 operators, reads custom attributes from a JSON column, and runs segments once, on a cron, or on fixed dates, with run history.',
+      'Designed a JSON-to-PostgreSQL rule engine with 26 operators, combining core fields with JSON-backed attributes. Added scheduled execution, run-state tracking, stale-run detection, and Kafka-triggered recomputation when rules change.',
     result:
-      'New segment fields need no schema change, and a Kafka hook recomputes a segment as soon as it is edited.',
-    evidence:
-      '24 of 28 non-merge commits mine, Dec 2024 – Mar 2025; 48 test cases.',
+      'Clients can target new member attributes without schema migrations, while operators can inspect execution history and identify failed or stalled segment runs.',
     stack: ['TypeScript', 'PostgreSQL', 'Knex', 'Kafka', 'Jest'],
   },
   {
     title: 'Fan Maturity Model',
-    context: 'Factoreal · 2023',
+    context: 'Factoreal · Sports vertical',
     problem:
-      'Sports teams wanted to know which fans were drifting away and which were their most engaged, across every channel they used.',
+      'Sports customers needed to turn fragmented engagement across marketing and commerce channels into audiences they could act on.',
     built:
-      'Rule-based scoring over six channels, combined with per-team weights into four tiers from Inactive to Fanatic. It runs as daily BigQuery scheduled queries over 19 tables per team, which a Python service creates and reschedules, with a configuration view in the portal.',
+      'Combined six channel scores with customer-configurable weights into four engagement tiers. Separated base scoring from rollups and built daily BigQuery orchestration with portal controls for configuration and rescheduling.',
     result:
-      'Every fan gets a tier each night, and teams segment campaigns by it without writing SQL.',
-    evidence:
-      'Built March–July 2023; I wrote 93% of the scheduling module and the portal configuration view.',
+      'Teams receive refreshed fan tiers each day and can use them for campaign segmentation without writing scoring queries themselves.',
     stack: ['BigQuery', 'Python', 'Flask', 'Node.js', 'React'],
   },
   {
     title: 'BigQuery analytics pipeline',
-    context: 'Factoreal · 2020–23',
+    context: 'Factoreal',
     problem:
-      'Customer dashboards needed data spread across Postgres and Cassandra, and every new customer needed its own analytics dataset.',
+      'An omnichannel platform handling 10 billion transactions needed to turn PostgreSQL and Cassandra data into customer-specific reporting and audience insights.',
     built:
-      'A sync engine with 24 per-entity jobs and incremental variants, per-customer dataset provisioning at signup, and a KPI service for email metrics feeding embedded GoodData dashboards.',
+      'Built entity-level synchronization with incremental processing and pagination, automated dataset provisioning at signup, and delivered KPI APIs and embedded GoodData dashboards. Added scoring schedules and dashboard-cache invalidation as the analytics estate grew.',
     result:
-      'The per-customer schema grew from 25 tables to 86 plus 49 views. By January 2023 the platform ran 998 scheduled queries across 71 customer datasets.',
-    evidence:
-      '220 of 230 commits in the sync engine are mine; I created the KPI service and wrote its email-KPI module.',
+      'Supported an analytics estate of 71 customer datasets and 998 scheduled queries, connecting engagement and commerce data to recurring dashboards and audience scoring.',
     stack: ['Node.js', 'BigQuery', 'PostgreSQL', 'Cassandra', 'GoodData'],
   },
-]
-
-export const HOW_COUNTED: string[] = [
-  "Commits come from each employer's git history across all branches, deduplicated by commit SHA. The repositories are private, so client, colleague, and product names are left out.",
-  'Merge commits are counted separately. They show review and release work, not code I wrote: 454 of my 1,183 commits at Phamax are merges, 117 of 240 on MobiLytix Rewards, and 668 of 2,054 at Factoreal.',
-  'Lines of code are left out on purpose. Git sums them once per branch and includes bulk imports and lockfiles, so they overstate.',
-  'Where a teammate wrote something and I merged it, it is described as review or release work, not listed as mine.',
-  "Durations such as 'five weeks' are computed from commit dates. They show when code landed, not when the thinking started.",
 ]
