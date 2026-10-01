@@ -45,7 +45,7 @@ export const ABOUT: Page = {
 export const WORK: Page = {
   TITLE: 'Work',
   DESCRIPTION:
-    'I design and build the systems behind omnichannel marketing, loyalty, and generative AI products—from data pipelines and shared services to customer-facing applications. My work combines architecture, hands-on engineering, and team leadership through production delivery.',
+    'I build marketing, loyalty, and generative AI products. I work on data pipelines, shared services, and the applications customers use, and lead teams through design, implementation, and production releases.',
 }
 
 // Blog Page
