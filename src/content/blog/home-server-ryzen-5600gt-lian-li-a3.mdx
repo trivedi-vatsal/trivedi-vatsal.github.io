@@ -1,0 +1,62 @@
+---
+title: 'Building My Home Server: a Ryzen 5600GT Build in a Lian Li A3'
+description: 'How I built a quiet, low-power home server around a Ryzen 5 5600GT and 32GB of RAM in a Lian Li A3-mATX case, and what it runs: SteamOS and Ollama.'
+pubDate: 2026-10-15
+tags: ['homelab', 'hardware', 'ollama']
+---
+
+I wanted a home server I could leave on all day without hearing it or worrying about the power draw. What I ended up with is an AMD Ryzen 5 5600GT and 32GB of RAM in a compact Lian Li A3-mATX case.
+
+## The parts list
+
+I bought everything from MD Computers.
+
+| Part         | Model                                                                                                                                                            | Qty |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| CPU          | [AMD Ryzen 5 5600GT](https://mdcomputers.in/product/amd-ryzen-5-5600gt-100-100001488box-desktop-processor) (6 cores, 12 threads, 65W, Radeon iGPU, stock cooler) | 1   |
+| Motherboard  | [MSI B550M PRO-VDH WIFI](https://mdcomputers.in/msi-m-atx-motherboard-b550m-pro-vdh-wifi.html) (mATX)                                                            | 1   |
+| RAM          | [EVM 16GB DDR4-3200 CL19](https://www.mdcomputers.in/product/evm-ram-16gb-ddr4-evmt16g3200u88p)                                                                  | 2   |
+| Boot SSD     | [EVM 1TB NVMe Gen3](https://www.mdcomputers.in/product/evm-1tb-nvme-ssd-evmnv)                                                                                   | 1   |
+| Case         | [Lian Li A3-mATX](https://www.mdcomputers.in/product/cabinet/lian-li-a3-mini-tower-cabinet-g99-a3x-in)                                                           | 1   |
+| Fans         | [Montech Air P120 (dual pack)](https://mdcomputers.in/product/montech-p120-case-fan)                                                                             | 2   |
+| Power supply | [MSI MAG A750BN PCIE5](https://mdcomputers.in/msi-mag-a750bn-pcie5.html) (750W, 80+ Bronze)                                                                      | 1   |
+
+## Why these parts
+
+Low idle power came first. After that, I wanted enough room in the build to add things later.
+
+The CPU is a Ryzen 5 5600GT: six Zen 3 cores, a 65W TDP, and Radeon graphics on the chip. That last part means the server boots and runs with no graphics card at all. It's stuck on PCIe 3.0, which doesn't matter for anything here.
+
+I went with two 16GB sticks so the memory runs in dual channel. APU graphics share system RAM, so the extra bandwidth matters a lot. And 32GB leaves plenty of room for local models.
+
+The board is an MSI B550M PRO-VDH WIFI. Four RAM slots (up to 128GB), two M.2 slots, four SATA ports, and Wi-Fi as a fallback for the gigabit Ethernet.
+
+A 1TB Gen3 NVMe holds the OS, the apps and the models. Gen4 would have been wasted, because the 5600GT can't go past Gen3 anyway.
+
+The 750W power supply is overkill at idle. It's there for the graphics card, and it has a native 16-pin PCIe 5.0 connector rated for 300W.
+
+The Lian Li A3-mATX is a 26L case with mesh on three sides, and it still takes a full ATX power supply. The catch is that there's room for only one 3.5" hard drive.
+
+## Putting it together
+
+It's a normal mATX build, but the small case makes the order matter.
+
+1. Build the core on top of the motherboard box before anything goes in the case: CPU in the socket, the stock Wraith Stealth cooler on top, then the RAM and the NVMe drive.
+2. Put the RAM in slots A2 and B2, the second and fourth slots counting from the CPU. Use the wrong pair and two sticks can end up running in single channel.
+3. The boot NVMe goes in the top M.2 slot, under MSI's M.2 Shield Frozr heatsink. That leaves the second slot free for later.
+4. Mount the motherboard and the power supply. The A3 lets the PSU sit sideways or face the front.
+5. Work out the cable routing early. The A750BN is non-modular, so every cable stays attached, and the spare ones need to be bundled away from the fans.
+6. Fit the four Montech P120s as intake and exhaust. The board is short on fan headers, so the 1-to-3 PWM splitter that comes with the fans helps.
+7. The graphics card goes in last, in the x16 slot, with either the 16-pin or the 6+2-pin cable from the PSU depending on the card.
+8. On first boot, plug the monitor into the graphics card (or the motherboard's HDMI if there's no card). Check that the BIOS sees 32GB of RAM and the SSD, and turn on XMP if the RAM isn't running at 3200MHz.
+
+## Software
+
+The server runs [SteamOS](https://store.steampowered.com/steamos), and [Ollama](https://ollama.com/) serves a model hosted right on the machine. What else it hosts, and how it's all set up, will get its own post.
+
+## Sources
+
+- [MD Computers: Lian Li A3-mATX specs](https://www.mdcomputers.in/product/cabinet/lian-li-a3-mini-tower-cabinet-g99-a3x-in) (drive support: one 3.5" bay)
+- [MSI B550M PRO-VDH WIFI datasheet](https://cdn.panacompu.com/doc/pd/MSI%20B550M-PRO-VDH-WIFI%20-%20DataSheet%20ENG.pdf) (one Gen4 and one Gen3 M.2 slot, four SATA ports)
+- [MD Computers: Ryzen 5 5600GT](https://mdcomputers.in/amd-ryzen-5-5600gt-100-100001488box.html) (specs, PCIe 3.0)
+- [MD Computers: MSI MAG A750BN PCIE5](https://mdcomputers.in/msi-mag-a750bn-pcie5.html) (connectors, 300W 16-pin)
