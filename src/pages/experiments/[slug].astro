@@ -95,7 +95,7 @@ const projectNumber = String(index + 1).padStart(2, '0')
             class="bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring mt-8 inline-flex w-full items-center justify-between rounded-md px-4 py-3 text-sm font-medium transition-[color,background-color,transform] duration-200 focus-visible:ring-2 focus-visible:outline-none active:scale-[0.98]"
           >
             {experiment.action}
-            <span aria-hidden="true">{experiment.external ? '↗' : '→'}</span>
+            {!experiment.external && <span aria-hidden="true">→</span>}
           </a>
         </aside>
       </div>

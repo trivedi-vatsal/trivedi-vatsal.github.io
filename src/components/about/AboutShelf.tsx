@@ -161,7 +161,6 @@ export function AboutShelf({ items, className }: Props) {
                       </span>
                       <span className="line-clamp-1 block truncate text-[0.6rem] leading-snug opacity-70">
                         {item.author}
-                        {item.external ? ' ↗' : ''}
                       </span>
                     </span>
                     <span
