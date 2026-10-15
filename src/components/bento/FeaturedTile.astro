@@ -14,7 +14,7 @@ import { FEATURED } from '../../lib/portfolio'
   <div class="featured-layout">
     <div class="featured-copy">
       <h2 class="bento-wake bento-wake-title">
-        {FEATURED.name}<span aria-hidden="true">↗</span>
+        {FEATURED.name}
       </h2>
       <p class="featured-description">{FEATURED.description}</p>
       <ul>
@@ -34,7 +34,6 @@ import { FEATURED } from '../../lib/portfolio'
         style="--wake-delay: 100ms"
       >
         {FEATURED.position}
-        <span aria-hidden="true">↗</span>
       </span>
     </div>
 
@@ -200,16 +199,6 @@ import { FEATURED } from '../../lib/portfolio'
     color: inherit;
     letter-spacing: -0.075em;
   }
-  h2 > span {
-    font-size: 28px;
-    color: hsl(var(--primary));
-    margin-left: 10px;
-    display: inline-block;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  :global(.featured-tile:hover) h2 > span {
-    transform: translate(3px, -3px);
-  }
   .featured-description {
     color: hsl(var(--muted-foreground));
     font-size: 0.9375rem;
@@ -239,10 +228,6 @@ import { FEATURED } from '../../lib/portfolio'
     padding-top: 16px;
     font-size: 0.8125rem;
     color: hsl(var(--muted-foreground));
-  }
-  .featured-role > span {
-    font-size: 1.25rem;
-    color: hsl(var(--primary));
   }
   @media (min-width: 768px) {
     .featured-layout {

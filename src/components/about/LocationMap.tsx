@@ -91,7 +91,7 @@ export function LocationMap({ places, className }: Props) {
           rel="noopener noreferrer"
           className="text-muted-foreground hover:text-foreground font-mono text-[0.65rem] tracking-[0.12em] uppercase transition-colors"
         >
-          OpenStreetMap ↗
+          OpenStreetMap
         </a>
       </div>
     </section>
