@@ -1,5 +1,4 @@
 ---
-import { getImage } from 'astro:assets'
 import { getCollection, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BlogPageLayout from './BlogPageLayout.astro'
@@ -7,8 +6,8 @@ import { ShareMenu } from '../components/share-menu'
 import { TOCInline } from '../components/toc-inline'
 import { TOCMinimap } from '../components/toc-minimap'
 import { Toaster } from '../components/ui/sonner'
-import defaultOgImage from '../assets/images/View1.png'
 import { SITE } from '../lib/constants'
+import { ogImageUrlForPath } from '../lib/og-image-url'
 import {
   buildSeriesCatalog,
   formatReadingTime,
@@ -49,15 +48,9 @@ const toc = headings
     depth: heading.depth,
   }))
 
-const optimizedOg = await getImage({
-  src: defaultOgImage,
-  width: 1200,
-  height: 630,
-  format: 'webp',
-})
 const ogImage = post.data.heroImage
   ? new URL(post.data.heroImage, site).href
-  : new URL(optimizedOg.src, site).href
+  : ogImageUrlForPath(site, `blog/${post.id}`)
 
 const jsonLd = blogPostingJsonLd({
   siteUrl: site,

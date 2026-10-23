@@ -6,7 +6,11 @@ type HastNode = {
 
 function walk(node: HastNode): void {
   const href = node.properties?.href
-  if (node.tagName === 'a' && typeof href === 'string' && !href.startsWith('#')) {
+  if (
+    node.tagName === 'a' &&
+    typeof href === 'string' &&
+    !href.startsWith('#')
+  ) {
     node.properties!.target = '_blank'
     node.properties!.rel = ['noopener', 'noreferrer']
   }

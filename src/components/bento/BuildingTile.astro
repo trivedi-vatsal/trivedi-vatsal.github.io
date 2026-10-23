@@ -11,8 +11,13 @@ import { CURRENTLY_BUILDING } from '../../lib/portfolio'
   ariaLabel="Currently building"
 >
   <div class="relative z-10">
-    <span class="text-primary font-mono text-[0.7rem] bento-wake bento-wake-fade">{CURRENTLY_BUILDING.status}</span>
-    <h2 class="mt-2 text-2xl font-semibold tracking-tight bento-wake bento-wake-title">
+    <span
+      class="text-primary bento-wake bento-wake-fade font-mono text-[0.7rem]"
+      >{CURRENTLY_BUILDING.status}</span
+    >
+    <h2
+      class="bento-wake bento-wake-title mt-2 text-2xl font-semibold tracking-tight"
+    >
       {CURRENTLY_BUILDING.title}
     </h2>
     <p class="text-muted-foreground mt-2 max-w-md text-sm leading-relaxed">
@@ -22,7 +27,7 @@ import { CURRENTLY_BUILDING } from '../../lib/portfolio'
       {
         CURRENTLY_BUILDING.tags.map((tag, i) => (
           <li
-            class="text-muted-foreground font-mono text-[0.65rem] tracking-wide bento-wake bento-wake-x"
+            class="text-muted-foreground bento-wake bento-wake-x font-mono text-[0.65rem] tracking-wide"
             style={`--wake-delay: ${i * 40}ms`}
           >
             / {tag}

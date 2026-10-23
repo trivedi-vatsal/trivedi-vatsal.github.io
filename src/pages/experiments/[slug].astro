@@ -16,7 +16,10 @@ const projectNumber = String(index + 1).padStart(2, '0')
 ---
 
 <BaseLayout title={experiment.title} description={experiment.blurb}>
-  <main class="experiment-detail flex min-h-[calc(100dvh-8rem)] flex-auto flex-col" transition:animate="fade">
+  <main
+    class="experiment-detail flex min-h-[calc(100dvh-8rem)] flex-auto flex-col"
+    transition:animate="fade"
+  >
     <TopLayout>
       <nav aria-label="Breadcrumb" class="text-muted-foreground mb-4 text-sm">
         <ol class="flex flex-wrap items-center gap-2">
@@ -65,7 +68,9 @@ const projectNumber = String(index + 1).padStart(2, '0')
           >
             {projectNumber}
           </span>
-          <p class="bento-label bento-wake bento-wake-label relative">The overview</p>
+          <p class="bento-label bento-wake bento-wake-label relative">
+            The overview
+          </p>
           <p
             id="overview-heading"
             class="text-muted-foreground relative mt-5 max-w-xl leading-relaxed"
@@ -101,7 +106,7 @@ const projectNumber = String(index + 1).padStart(2, '0')
       </div>
 
       <section
-        class="border-border/70 bg-secondary/30 mt-5 max-w-5xl rounded-xl border p-6 transition-[border-color,box-shadow] duration-300 hover:border-foreground/20 hover:shadow-[0_14px_40px_-22px_hsl(var(--foreground)/0.25)] sm:p-8"
+        class="border-border/70 bg-secondary/30 hover:border-foreground/20 mt-5 max-w-5xl rounded-xl border p-6 transition-[border-color,box-shadow] duration-300 hover:shadow-[0_14px_40px_-22px_hsl(var(--foreground)/0.25)] sm:p-8"
         aria-labelledby="built-heading"
       >
         <div class="grid gap-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-10">
@@ -142,12 +147,10 @@ const projectNumber = String(index + 1).padStart(2, '0')
           {
             experiment.capabilities.map((capability, capabilityIndex) => (
               <li class="bento-tile group p-5">
-                <span
-                  class="text-primary font-mono text-xs bento-wake bento-wake-fade"
-                >
+                <span class="text-primary bento-wake bento-wake-fade font-mono text-xs">
                   {String(capabilityIndex + 1).padStart(2, '0')}
                 </span>
-                <p class="mt-5 text-sm leading-relaxed bento-wake bento-wake-up">
+                <p class="bento-wake bento-wake-up mt-5 text-sm leading-relaxed">
                   {capability}
                 </p>
               </li>

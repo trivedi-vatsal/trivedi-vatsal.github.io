@@ -3,11 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { buttonVariants } from '../components/ui/button'
 ---
 
-<BaseLayout
-  title="404 - Not Found"
-  description="This page was not found."
->
-  <main class="flex min-h-[calc(100dvh-8rem)] w-full flex-auto items-center justify-center">
+<BaseLayout title="404 - Not Found" description="This page was not found.">
+  <main
+    class="flex min-h-[calc(100dvh-8rem)] w-full flex-auto items-center justify-center"
+  >
     <div class="flex flex-col items-center justify-center px-8">
       <figure class="portrait-frame mb-8 size-64 p-4">
         <img
@@ -23,7 +22,9 @@ import { buttonVariants } from '../components/ui/button'
       <h1 class="mt-2 text-4xl font-semibold tracking-tight lg:text-5xl">
         Page not found
       </h1>
-      <p class="text-muted-foreground mt-4 mb-6 max-w-[40ch] text-center leading-relaxed">
+      <p
+        class="text-muted-foreground mt-4 mb-6 max-w-[40ch] text-center leading-relaxed"
+      >
         The link may be old, or the page moved. Head back home.
       </p>
       <a href="/" class={buttonVariants()}>Go back home</a>
