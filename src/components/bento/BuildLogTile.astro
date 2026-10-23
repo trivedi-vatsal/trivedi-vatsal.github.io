@@ -22,7 +22,10 @@ const { entries } = Astro.props
     ) : (
       <ol class="build-timeline mt-4">
         {entries.map((entry, i) => (
-          <li class="build-entry bento-wake bento-wake-x" style={`--wake-delay: ${i * 50}ms`}>
+          <li
+            class="build-entry bento-wake bento-wake-x"
+            style={`--wake-delay: ${i * 50}ms`}
+          >
             <time class="text-muted-foreground font-mono text-[0.65rem] tracking-wide">
               {entry.date}
             </time>
@@ -69,7 +72,9 @@ const { entries } = Astro.props
     height: 7px;
     border-radius: 50%;
     background: hsl(var(--primary));
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease;
   }
   :global(.bento-tile:hover) .build-entry::after {
     transform: scale(1.35);

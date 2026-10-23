@@ -24,7 +24,7 @@ So you register an App you own, with Checks read and write, Contents read-only, 
 
 Setup is longer than pasting a personal access token. That's the cost of writing the same commit checks a pull request already shows. [ADR 003](https://docs.openpreflight.xyz/reference/decisions/003-github-app/) is the short version. There's a "Create with GitHub" flow now (GitHub's App manifest), so most people never paste a PEM. Paste stays under Advanced, including for GitHub Enterprise.
 
-Clone credentials are installation tokens from *our* App, passed to git via `GIT_CONFIG_*` as Basic `x-access-token`, then the remote is stripped before any pipeline step runs. The token never enters the remote URL, `.git/config`, or argv. GitHub's git endpoint wants Basic, not the REST API's Bearer. I got that wrong in my head at least once.
+Clone credentials are installation tokens from _our_ App, passed to git via `GIT_CONFIG_*` as Basic `x-access-token`, then the remote is stripped before any pipeline step runs. The token never enters the remote URL, `.git/config`, or argv. GitHub's git endpoint wants Basic, not the REST API's Bearer. I got that wrong in my head at least once.
 
 ## Why not just listen to push?
 

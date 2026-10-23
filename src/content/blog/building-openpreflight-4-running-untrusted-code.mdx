@@ -1,6 +1,6 @@
 ---
 title: 'Building openpreflight, part 4: Running untrusted code on a box you pay for'
-description: 'A fork pull request is an invitation to run a stranger''s code on your server. Hosted CI absorbs that. A binary on your VPS does not, so the default is no, and runtime: is docker run with the caps dropped.'
+description: "A fork pull request is an invitation to run a stranger's code on your server. Hosted CI absorbs that. A binary on your VPS does not, so the default is no, and runtime: is docker run with the caps dropped."
 pubDate: 2026-09-21
 tags: ['openpreflight', 'security', 'docker', 'engineering']
 series:
@@ -34,10 +34,10 @@ That was honest, and I hit the ceiling immediately. A Node job on a Go worker im
 
 [ADR 004](https://docs.openpreflight.xyz/reference/decisions/004-docker-executor/) split it:
 
-| Repository | Executor | Isolation |
-| --- | --- | --- |
-| Yours, binding enabled | Process, unless `runtime:` is set | The worker's unprivileged user on the host |
-| Fork pull request, or any job with `runtime:` | `docker run --rm` | Sibling container, capabilities dropped |
+| Repository                                    | Executor                          | Isolation                                  |
+| --------------------------------------------- | --------------------------------- | ------------------------------------------ |
+| Yours, binding enabled                        | Process, unless `runtime:` is set | The worker's unprivileged user on the host |
+| Fork pull request, or any job with `runtime:` | `docker run --rm`                 | Sibling container, capabilities dropped    |
 
 ```mermaid
 flowchart TD

@@ -12,22 +12,35 @@ import { IDENTITY } from '../../lib/portfolio'
 >
   <div class="identity-copy">
     <p class="bento-label bento-wake bento-wake-label">Engineer in Bengaluru</p>
-    <h1 class="bento-wake bento-wake-title">Vatsal<br />Trivedi<span>.</span></h1>
+    <h1 class="bento-wake bento-wake-title">
+      Vatsal<br />Trivedi<span>.</span>
+    </h1>
     <p class="identity-description">{IDENTITY.statement}</p>
     <div class="identity-actions">
-      <a class="work-link bento-wake bento-wake-up" style="--wake-delay: 40ms" href="/work/"
-        >See the work</a
+      <a
+        class="work-link bento-wake bento-wake-up"
+        style="--wake-delay: 40ms"
+        href="/work/">See the work</a
       >
-      <a class="about-link bento-wake bento-wake-x" style="--wake-delay: 80ms" href="/about/"
-        >About me <span aria-hidden="true">→</span></a
+      <a
+        class="about-link bento-wake bento-wake-x"
+        style="--wake-delay: 80ms"
+        href="/about/">About me <span aria-hidden="true">→</span></a
       >
     </div>
-    <a class="identity-location bento-wake bento-wake-fade" style="--wake-delay: 120ms" href="/about/#place">Based in Bengaluru, India</a>
+    <a
+      class="identity-location bento-wake bento-wake-fade"
+      style="--wake-delay: 120ms"
+      href="/about/#place">Based in Bengaluru, India</a
+    >
   </div>
   <dl class="identity-meta">
     {
       IDENTITY.meta.map((item, i) => (
-        <div class="bento-wake bento-wake-up" style={`--wake-delay: ${i * 50}ms`}>
+        <div
+          class="bento-wake bento-wake-up"
+          style={`--wake-delay: ${i * 50}ms`}
+        >
           <dt>{item.value}</dt>
           <dd>{item.label}</dd>
         </div>

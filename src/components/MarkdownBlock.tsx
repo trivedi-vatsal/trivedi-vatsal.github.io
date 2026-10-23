@@ -47,8 +47,16 @@ export function MarkdownBlock({
     <div className={cn('my-8 overflow-hidden rounded-md border', className)}>
       <div className="not-prose bg-muted/50 flex items-center justify-between gap-2 border-b px-3 py-1.5">
         <div className="text-muted-foreground flex min-w-0 items-center gap-2 text-sm">
-          {preview ? <Eye aria-hidden="true" className="size-4 shrink-0" /> : <Code aria-hidden="true" className="size-4 shrink-0" />}
-          {title && <span className="text-foreground truncate font-medium">{title}</span>}
+          {preview ? (
+            <Eye aria-hidden="true" className="size-4 shrink-0" />
+          ) : (
+            <Code aria-hidden="true" className="size-4 shrink-0" />
+          )}
+          {title && (
+            <span className="text-foreground truncate font-medium">
+              {title}
+            </span>
+          )}
           {title && <span aria-hidden="true">·</span>}
           <span className="shrink-0">{preview ? 'Preview' : 'Markdown'}</span>
         </div>
@@ -83,14 +91,20 @@ export function MarkdownBlock({
             title={copied ? 'Copied' : 'Copy'}
             onClick={copy}
           >
-            {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
+            {copied ? (
+              <Check aria-hidden="true" />
+            ) : (
+              <Copy aria-hidden="true" />
+            )}
           </Button>
         </div>
       </div>
       <div className="h-96 overflow-auto">
         {preview ? (
           <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none px-4 py-3 break-words">
-            <ReactMarkdown rehypePlugins={[rehypeLinksNewTab]}>{source}</ReactMarkdown>
+            <ReactMarkdown rehypePlugins={[rehypeLinksNewTab]}>
+              {source}
+            </ReactMarkdown>
           </div>
         ) : (
           <pre

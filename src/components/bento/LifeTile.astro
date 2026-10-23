@@ -10,7 +10,9 @@ import { LIFE } from '../../lib/portfolio'
   ariaLabel="Life outside code"
 >
   <div class="relative z-10">
-    <h2 class="text-xl font-semibold tracking-tight bento-wake bento-wake-title">
+    <h2
+      class="bento-wake bento-wake-title text-xl font-semibold tracking-tight"
+    >
       {LIFE.title}
     </h2>
     <ul class="mt-5 grid grid-cols-2 gap-3">
@@ -80,9 +82,7 @@ import { LIFE } from '../../lib/portfolio'
                   </svg>
                 )}
               </span>
-              <span>
-                {interest.label}
-              </span>
+              <span>{interest.label}</span>
             </a>
           </li>
         ))

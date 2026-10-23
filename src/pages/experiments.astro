@@ -11,7 +11,10 @@ import { EXPERIMENT_COVERS } from '../lib/experiment-covers'
   title={EXPERIMENTS_PAGE.TITLE}
   description={EXPERIMENTS_PAGE.DESCRIPTION}
 >
-  <main class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col" transition:animate="fade">
+  <main
+    class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col"
+    transition:animate="fade"
+  >
     <TopLayout>
       <h1
         class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
@@ -177,13 +180,12 @@ import { EXPERIMENT_COVERS } from '../lib/experiment-covers'
     justify-content: flex-end;
     gap: 0.75rem;
     padding: 1.5rem;
-    background:
-      linear-gradient(
-        160deg,
-        hsl(var(--primary) / 0.14),
-        hsl(var(--secondary) / 0.4) 55%,
-        hsl(var(--card))
-      );
+    background: linear-gradient(
+      160deg,
+      hsl(var(--primary) / 0.14),
+      hsl(var(--secondary) / 0.4) 55%,
+      hsl(var(--card))
+    );
   }
 
   .experiment-placeholder-title {

@@ -18,7 +18,9 @@ const accents = [
   ariaLabel="Experiments"
 >
   <div>
-    <h2 class="text-base font-semibold tracking-tight bento-wake bento-wake-title">
+    <h2
+      class="bento-wake bento-wake-title text-base font-semibold tracking-tight"
+    >
       Experiments
     </h2>
     <div class="relative mt-4 h-[9.5rem] overflow-hidden">
@@ -40,7 +42,7 @@ const accents = [
               <span class="flex min-w-0 items-center gap-2.5">
                 <span
                   class:list={[
-                    'inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-border/60 bg-secondary/50',
+                    'border-border/60 bg-secondary/50 inline-flex size-6 shrink-0 items-center justify-center rounded-md border',
                   ]}
                   aria-hidden="true"
                 >
@@ -65,7 +67,7 @@ const accents = [
     </div>
   </div>
   <span
-    class="bento-arrow text-foreground mt-4 bento-wake bento-wake-x"
+    class="bento-arrow text-foreground bento-wake bento-wake-x mt-4"
     style="--wake-delay: 60ms"
   >
     Browse experiments

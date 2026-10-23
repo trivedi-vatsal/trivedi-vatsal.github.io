@@ -59,7 +59,7 @@ A job id is the path segment of `/runs/{id}`. When a binding opts into shareable
 
 `store.NewJobID` builds a version 4 UUID by hand: 16 random bytes, version nibble 4, variant bits 10, formatted 8-4-4-4-12. That's twelve lines. `github.com/google/uuid` would replace them with one.
 
-The library is already in `go.sum`. It's an *indirect* requirement, pulled in by the SQLite driver through `modernc.org/libc`. Being in the module graph is not a reason to call it. It leaves whenever that chain changes.
+The library is already in `go.sum`. It's an _indirect_ requirement, pulled in by the SQLite driver through `modernc.org/libc`. Being in the module graph is not a reason to call it. It leaves whenever that chain changes.
 
 I wrote [ADR 006](https://docs.openpreflight.xyz/reference/decisions/006-job-ids/) because I kept almost adding the import. We use none of the library: no parsing, no v1/v5/v7, no comparison. The id is generated in one function, stored as TEXT, compared as a string. Indirect and direct are different commitments. A direct require is ours to audit, to upgrade, to answer for in `SECURITY.md`, for as long as the project lives. And the correctness here is readable. RFC 4122 §4.4 is two bit-twiddles. `TestNewJobIDIsAVersion4UUID` asserts the layout and that a thousand draws don't collide.
 
