@@ -1,0 +1,134 @@
+---
+title: 'The October 2026 Node.js bugs, and how to patch them yourself'
+description: '22.23.4, 24.22.1, and 26.12.1 are the fixed releases. Node 20 and the other dead lines get nothing. How to find the version you really run and pin the fix.'
+pubDate: 2026-10-23
+tags: ['security', 'nodejs', 'engineering']
+---
+
+import { MarkdownBlock } from '@/components/MarkdownBlock'
+import source from '../prompts/october-2026.md?raw'
+
+If a service is on Node 22, 24, or 26 and it is not on the October 21 point release, it is missing this fix. The patched builds are **22.23.4**, **24.22.1**, and **26.12.1**. Node 18, 20, 21, 23, and 25 will not get a build for this release. Those lines are already end of life, and the Node.js project treats end-of-life versions as affected whenever a security release goes out.
+
+## The prompt
+
+Paste this into an agent running on the repo. It walks through the whole October 21 release, step by step. Put your own GitHub login and email in the author lines, or the commit gets signed with whatever global git identity your work laptop has.
+
+<MarkdownBlock client:load title="Security scan prompt" source={source} />
+
+The rest of this post is what the prompt does, so you can check its work or do it by hand.
+
+The primary source is the [October 21 security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases). I also keep [this checker](https://sec-tools.qlo.in/nodejs-cve-checker/) open while I triage. You paste a version, an image tag, or a whole Dockerfile, and it tells you which of these CVEs apply and which tag to switch to. It runs in the browser and never looks at your servers, so `node -v` on the running process is still the check that closes the ticket.
+
+## What is broken
+
+Ten CVEs shipped together: four high, three medium, three low. The point release is the fix for all of them. These are the four high ones.
+
+[CVE-2026-111497](https://www.cve.org/CVERecord?id=CVE-2026-111497) is a Brotli decoder bug. It can write past the end of a buffer, and Node describes that as a path to remote code execution. It affects 22, 24, and 26. If something you run decompresses data from the network, this is the one I would move first.
+
+[CVE-2026-105482](https://www.cve.org/CVERecord?id=CVE-2026-105482) is in `dns.resolve`. A name that contains a NUL byte gets truncated. 22, 24, and 26.
+
+[CVE-2026-105483](https://www.cve.org/CVERecord?id=CVE-2026-105483) is a TLS hostname check that can be bypassed when an IP is written with fullwidth digits. The [advisory](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases) lists this one for 24 and 26.
+
+[CVE-2026-106069](https://www.cve.org/CVERecord?id=CVE-2026-106069) is the other TLS hostname bypass, for a host that only loosely resolves to an IP. 22, 24, and 26.
+
+The same builds also pick up new c-ares and Undici, a CA certificate store update (the eMudhra intermediate was compromised), OpenSSL on 22 and 24, and SQLite on 22. You get those by moving to the point release. You do not get them by editing `package.json`.
+
+## Which tag to switch to
+
+| What you have now                                                 | Pin this                               |
+| ----------------------------------------------------------------- | -------------------------------------- |
+| 22.x below 22.23.4, or a floating `node:22` tag                   | `22.23.4`, image `node:22.23.4-alpine` |
+| 24.x below 24.22.1, or a floating `node:24` tag                   | `24.22.1`, image `node:24.22.1-alpine` |
+| 26.x below 26.12.1, or a floating `node:26` tag                   | `26.12.1`, image `node:26.12.1-alpine` |
+| 18, 20, 21, 23, 25, `node:20`, `node:lts` from before the release | `22.23.4` / `node:22.23.4-alpine`      |
+
+Stay on the major you already run when that major has a fix. A 24 app should not be dragged back to 22, and it should not be jumped to 26 in the same afternoon as a security patch. A 20 app has no patched 20. Move it to 22.23.4.
+
+If the image is `bookworm`, `slim`, or Debian rather than Alpine, change the version and keep the variant. `node:24-bookworm` becomes `node:24.22.1-bookworm`. Swapping the base OS to Alpine will break native modules that were fine yesterday.
+
+`node:22-alpine` is not a pin. It means "whatever 22 was when this image was last pulled." An image built on October 20 is still the vulnerable build, even if the tag on Docker Hub has moved. Pull again, read `node -v`, then pin that exact version. The checker spells this out in its [notes on floating tags](https://sec-tools.qlo.in/nodejs-cve-checker/).
+
+## Find the version that is actually running
+
+The `engines` field in `package.json` only records what someone intended. The version that matters is whatever the running process reports.
+
+On a host or inside a container:
+
+```bash
+node -v
+```
+
+On an image you have not deployed yet:
+
+```bash
+docker run --rm --entrypoint node IMAGE -v
+```
+
+In the repo, search for the selectors, not the word "node":
+
+- every `FROM node:` in every Dockerfile, including the worker stage
+- `image:` lines in Compose
+- `.nvmrc` and `.node-version`
+- `node-version` in GitHub Actions
+- the Node image your CI builds with, which is often older than the app image
+
+A repo can be "fixed" in the Dockerfile and still build on Node 20 in Actions. Both have to move.
+
+## The edit
+
+Change the app stage and the worker stage. I missed a worker target once and shipped the patch to the API while the queue kept running the old image.
+
+```dockerfile
+# before
+FROM node:20-alpine
+
+# after
+FROM node:22.23.4-alpine
+```
+
+```dockerfile
+# before, already on 24
+FROM node:24-bookworm
+
+# after
+FROM node:24.22.1-bookworm
+```
+
+For a repo that has no image, do not add a Dockerfile so the patch looks complete. Change the version the build uses.
+
+```yaml
+# .github/workflows, or whatever file calls setup-node
+node-version: 22.23.4
+```
+
+```text
+# .nvmrc
+22.23.4
+```
+
+Then rebuild. A new Node binary on your laptop does not rewrite an image that is already in the registry. After the new image is running, `node -v` has to print `v22.23.4`, `v24.22.1`, or `v26.12.1`. Paste that output back into the [checker](https://sec-tools.qlo.in/nodejs-cve-checker/) if you want a second opinion, but treat it as a triage aid. If it ever disagrees with the [advisory](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases), the advisory wins.
+
+A few cases where the file looks patched and the service is not:
+
+- The image was not rebuilt, or it was rebuilt without pulling the new base.
+- One stage, usually the worker, is still on 20.
+- CI still installs Node 20.
+- The Node binary came from `apt`, `apk`, or a Red Hat UBI image. Those use their own version numbers and sometimes the system OpenSSL. Follow that vendor's advisory, then confirm with `node -v`.
+- You updated Node, and left an `undici` package in `package.json` on the old release. Node's bundled Undici moves with the runtime. A direct dependency does not.
+
+## Do this on the branch that deploys
+
+I have a site that deploys when `main` is pushed and publishes the files to `gh-pages`. Patching `gh-pages` changes nothing about the next build. Read the workflow. The branch in `on.push.branches` is the one to patch. Do not assume it is called `prod` or `develop`.
+
+Open one pull request for each branch that deploys. Start it from the remote tip of that branch. A local checkout that is a week behind will drag unrelated commits into the patch.
+
+In the pull request, say which images have to be rebuilt after merge, or say that there is no image. Don't write "rebuild the image" on a repo that doesn't have one.
+
+## PHP shipped the same day
+
+Skip this part if the repo doesn't run PHP. And don't add a PHP image to a Node repo because the two announcements landed together.
+
+PHP 8.5.12, 8.4.27, 8.3.36, and 8.2.35 fix two remote code execution bugs: [CVE-2026-109618](https://www.cve.org/CVERecord?id=CVE-2026-109618) (memory corruption if a request hits `memory_limit` at the wrong moment) and [CVE-2026-109619](https://www.cve.org/CVERecord?id=CVE-2026-109619) (stale engine state left behind after a fatal error). The [PHP Foundation writeup](https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/) is the one to read. Stay on the same major. An 8.3 service goes to 8.3.36.
+
+Once the pull request is open, run `node -v` yourself on whatever you deploy. I still go back to the [advisory](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases) when something looks off, and to the [checker](https://sec-tools.qlo.in/nodejs-cve-checker/) when I just want a quick look at a tag.
