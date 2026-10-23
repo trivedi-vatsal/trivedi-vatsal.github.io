@@ -59,5 +59,10 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript": "^5.4.3"
   },
-  "packageManager": "pnpm@9.1.4"
+  "packageManager": "pnpm@9.1.4",
+  "pnpm": {
+    "overrides": {
+      "postcss-selector-parser": "7.1.6"
+    }
+  }
 }

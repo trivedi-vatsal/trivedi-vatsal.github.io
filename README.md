@@ -11,7 +11,7 @@ Personal portfolio and blog built with Astro. Live at [vatsal.xyz](https://vatsa
 
 ## Requirements
 
-- Node.js 20+ (see `.nvmrc`)
+- Node.js 22.23.4 (see `.nvmrc`)
 - [pnpm](https://pnpm.io/) 9+
 
 ## Getting started
