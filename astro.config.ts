@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap'
 import robotsTxt from 'astro-robots-txt'
 import tailwindcss from '@tailwindcss/vite'
 import { rehypeMermaidPre } from './src/lib/rehype-mermaid-pre'
+import { rehypeLinksNewTab } from './src/lib/rehype-links-new-tab'
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,7 +16,7 @@ export default defineConfig({
       type: 'shiki',
       excludeLangs: ['mermaid'],
     },
-    rehypePlugins: [rehypeMermaidPre],
+    rehypePlugins: [rehypeMermaidPre, rehypeLinksNewTab],
   },
   vite: {
     plugins: [tailwindcss()],
