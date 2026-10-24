@@ -158,6 +158,31 @@ export const EXPERIMENTS = [
     action: 'Visit Knock',
   },
   {
+    title: 'astro-markdown-block',
+    slug: 'astro-markdown-block',
+    cover: 'astro-markdown-block',
+    kind: 'npm package',
+    blurb:
+      'A Markdown block for Astro and React. Readers flip between the rendered preview and the raw source, and copy the Markdown in one click.',
+    overview:
+      'Prompts, READMEs, and snippets usually get pasted somewhere else. This block shows them rendered, keeps the original Markdown one toggle away, and copies it exactly as written.',
+    whatIBuilt:
+      'A React component on npm with GitHub Flavored Markdown, light and dark themes from CSS variables, your own remark and rehype plugins, and about 1.7 KB of JS gzipped.',
+    builtFor: [
+      'Astro and MDX sites',
+      'React 18+ apps',
+      'Docs and prompt libraries',
+    ],
+    capabilities: [
+      'Install with npm install astro-markdown-block',
+      'Switch between rendered preview and raw Markdown, then copy it in one click',
+      'Restyle it with --amb-* CSS variables, no Tailwind needed',
+    ],
+    href: 'https://vatsal.xyz/astro-markdown-block/',
+    external: true,
+    action: 'Open the demo',
+  },
+  {
     title: 'InboxCraft',
     slug: 'inboxcraft',
     cover: 'inboxcraft',
