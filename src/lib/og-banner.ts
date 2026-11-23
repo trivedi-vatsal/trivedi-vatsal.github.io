@@ -113,10 +113,8 @@ function buildSvg(job: OgBannerJob): string {
   <rect width="100%" height="100%" fill="${COLORS.background}"/>
   <rect width="100%" height="100%" fill="url(#grid)" opacity="0.5"/>
   <circle cx="1040" cy="120" r="220" fill="url(#glow)"/>
-  <rect x="72" y="72" width="72" height="72" rx="12" fill="${COLORS.card}" stroke="${COLORS.border}" stroke-width="2"/>
-  <text x="108" y="124" text-anchor="middle" fill="${COLORS.foreground}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24" font-weight="500">VT</text>
-  <text x="168" y="108" fill="${COLORS.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" letter-spacing="0.08em">${eyebrow.toUpperCase()}</text>
-  <rect x="72" y="148" width="120" height="3" fill="${COLORS.primary}" rx="1.5"/>
+  <text x="96" y="114" fill="${COLORS.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" letter-spacing="0.08em">${eyebrow.toUpperCase()}</text>
+  <rect x="96" y="132" width="72" height="3" fill="${COLORS.primary}" rx="1.5"/>
   ${titleBlock}
   ${descriptionBlock}
   <text x="96" y="566" fill="${COLORS.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20">vatsal.xyz</text>
