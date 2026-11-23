@@ -51,6 +51,7 @@ jobs:
             --base-url https://vatsal.xyz
             --remap 'https://vatsal.xyz file://${{ github.workspace }}/dist'
             --exclude '/404/'
+            --exclude '(vatsal\.xyz|/dist)/astro-markdown-block'
             './dist/**/*.html'
             './dist/**/*.xml'
             './dist/robots.txt'
