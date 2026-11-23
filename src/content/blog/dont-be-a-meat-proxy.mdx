@@ -29,7 +29,11 @@ In standups, someone asks why the build broke and a teammate drops four paragrap
 
 In a services company, a lot of the job is writing to clients, and it's tempting to paste their email into Claude and send back whatever comes out. Clients can tell. A reply that is polished, generic and slightly beside the point tells them nobody on your side read their problem, and reading their problem is a big part of what they pay for.
 
+Call summaries have the same problem. The meeting tool produces a summary of the client call with every pointer in it, and it goes straight out to the client or the team without anyone proofreading it. Some action items are misheard, some land on the wrong person, and once it's in the client's inbox it reads as what you agreed to.
+
 Pull requests are where it does the most damage. You paste the Jira ticket into Claude Code, push whatever it writes, then paste the reviewer's comments back in and go round again. Code ships, so in one sense it works. But the person doing the thinking was the reviewer, and you were carrying messages between them and Claude. When it breaks in production at 2 a.m., whoever is on call will want to ask the author how it works, and the author won't know.
+
+It happens on the review side too. Someone dumps the whole PR into an LLM, asks for a review, and posts whatever comes back as their comments without reading them. The author ends up replying to a pile of feedback, some of it wrong and some of it about lines the PR never touched, and nobody has actually reviewed the change.
 
 Then there's asking upward. A lot of us grew up being told not to bother seniors with silly questions, and AI feels like a safe way around that. As a way to learn, it is. It goes wrong when you take the answer to your lead as if it were your own understanding, and their first follow-up question takes it apart.
 
