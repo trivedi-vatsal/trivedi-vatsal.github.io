@@ -3,6 +3,7 @@ export const EXPERIMENT_COVERS: Record<string, string> = {
   openpreflight: '/experiments/openpreflight.svg',
   knock: '/experiments/knock.svg',
   'astro-markdown-block': '/experiments/astro-markdown-block.svg',
+  receipts: '/experiments/receipts.svg',
   inboxcraft: '/experiments/inboxcraft.svg',
   'inboxcraft-skills': '/experiments/inboxcraft-skills.svg',
   'audit-plan-tasks': '/experiments/audit-plan-tasks.svg',

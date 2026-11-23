@@ -183,6 +183,31 @@ export const EXPERIMENTS = [
     action: 'Open the demo',
   },
   {
+    title: 'receipts',
+    slug: 'receipts',
+    cover: 'receipts',
+    kind: 'Claude Code tool',
+    blurb:
+      'A weekly record of what you shipped. Claude Code reads your git history and sessions and writes dated notes backed by commits, PRs, and measured results.',
+    overview:
+      'Performance reviews and 1:1s go better with receipts. Once a week this reads your commits and Claude Code sessions, then writes up what you shipped with every claim dated and sourced. Everything runs locally.',
+    whatIBuilt:
+      'A Python collector and no-AI draft step for the counting, a /weekly-update command for the prose, per-project topic files, and static share pages for non-technical readers.',
+    builtFor: [
+      'Engineers using Claude Code',
+      'Performance reviews and promotion packets',
+      'Managers who want a plain-language summary',
+    ],
+    capabilities: [
+      'Collect commits, PRs, sessions, and test results into a facts-only weekly draft, no AI needed',
+      'Run /weekly-update to write each week up, with a commit hash or PR behind every claim',
+      'Share static pages that work from disk and make no network requests',
+    ],
+    href: 'https://vatsal.xyz/receipts/',
+    external: true,
+    action: 'Visit receipts',
+  },
+  {
     title: 'InboxCraft',
     slug: 'inboxcraft',
     cover: 'inboxcraft',
