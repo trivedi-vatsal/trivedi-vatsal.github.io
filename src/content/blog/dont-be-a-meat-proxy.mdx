@@ -15,11 +15,11 @@ Simon Willison [linked to it](https://simonwillison.net/2026/Aug/3/dont-be-a-mea
 
 The main problem is that the person you're replying to can talk to Claude too. They'll probably get there faster than waiting for you, and they get to pick the context. If your contribution is the copy and the paste, you've added a delay and nothing else.
 
-Reading AI output also costs something. It runs long, it is sometimes wrong in ways that sound right, and it keeps getting denser. The original post quotes a sentence Claude once produced:
+Reading AI output also costs the reader something. It runs long, it's sometimes wrong in ways that sound right, and it keeps getting denser. Ask why an API is slow and you can get back a line like this:
 
-> NATS control-plane events: stream leader election / R3 quorum re-form during pod churn.
+> Root cause: N+1 ORM fan-out across prefetch boundaries saturating the connection pool under burst concurrency.
 
-Most readers would have to look up almost every word. If you forward something like that without understanding it, the reader now has to do the work you skipped.
+That might even be correct. But if you forward it without knowing what it means, your reader now has to decode it, check it, and work out whether it applies to your system. That was your job before you hit reply.
 
 ## What it looks like here
 
