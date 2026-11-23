@@ -1,0 +1,63 @@
+---
+title: 'Read it before you forward it'
+description: "On being a meat proxy: pasting Claude's answer without reading it. What the habit looks like in Indian teams, and what to do before you hit send."
+pubDate: 2026-11-23
+tags: ['ai', 'engineering', 'craftsmanship']
+---
+
+Earlier this year Niklas Gruhn wrote a short post called [Don't be a meat proxy](https://gruhn.me/blog/2026-08-03/). His complaint is simple. He asks a question in Slack, leaves a review comment, or argues with friends on WhatsApp, and the reply comes back as:
+
+> Claude said: [giant response, pasted verbatim]
+
+Simon Willison [linked to it](https://simonwillison.net/2026/Aug/3/dont-be-a-meat-proxy/) and called meat proxy "an excellent new term" for people who copy and paste AI output to their peers without reading it. He also pointed out that Frank Allenby got there first, with a longer piece on [meat-based LLM proxies](https://not-an-llm.com/meat-based-llm-proxies) back in March. That piece makes a point I keep coming back to: when someone is just relaying an LLM, "you can't reason with the human, because the human isn't doing the reasoning." Two people named the same problem within a few months of each other, which says something about how common it has become. I've done it too, more than once.
+
+## Why it bothers people
+
+The main problem is that the person you're replying to can talk to Claude too. They'll probably get there faster than waiting for you, and they get to pick the context. If your contribution is the copy and the paste, you've added a delay and nothing else.
+
+Reading AI output also costs the reader something. It runs long, it's sometimes wrong in ways that sound right, and it keeps getting denser. Ask why an API is slow and you can get back a line like this:
+
+> Root cause: N+1 ORM fan-out across prefetch boundaries saturating the connection pool under burst concurrency.
+
+That might even be correct. But if you forward it without knowing what it means, your reader now has to decode it, check it, and work out whether it applies to your system. That was your job before you hit reply.
+
+## What it looks like here
+
+These are the versions I run into most in Indian teams. You'll probably recognise a few.
+
+In standups, someone asks why the build broke and a teammate drops four paragraphs from ChatGPT into the channel. Nobody reads them. The real cause never gets found, and the build breaks again on Thursday.
+
+In a services company, a lot of the job is writing to clients, and it's tempting to paste their email into Claude and send back whatever comes out. Clients can tell. A reply that is polished, generic and slightly beside the point tells them nobody on your side read their problem, and reading their problem is a big part of what they pay for.
+
+Call summaries have the same problem. The meeting tool produces a summary of the client call with every pointer in it, and it goes straight out to the client or the team without anyone proofreading it. Some action items are misheard, some land on the wrong person, and once it's in the client's inbox it reads as what you agreed to.
+
+Pull requests are where it does the most damage. You paste the Jira ticket into Claude Code, push whatever it writes, then paste the reviewer's comments back in and go round again. Code ships, so in one sense it works. But the person doing the thinking was the reviewer, and you were carrying messages between them and Claude. When it breaks in production at 2 a.m., whoever is on call will want to ask the author how it works, and the author won't know.
+
+It happens on the review side too. Someone dumps the whole PR into an LLM, asks for a review, and posts whatever comes back as their comments without reading them. The author ends up replying to a pile of feedback, some of it wrong and some of it about lines the PR never touched, and nobody has actually reviewed the change.
+
+Then there's asking upward. A lot of us grew up being told not to bother seniors with silly questions, and AI feels like a safe way around that. As a way to learn, it is. It goes wrong when you take the answer to your lead as if it were your own understanding, and their first follow-up question takes it apart.
+
+It isn't only work, either. "Claude says turmeric cures X" is the new good-morning forward in the family WhatsApp group. Same habit, aimed at your relatives.
+
+## What it costs you
+
+Everyone on your team has the same tools now, so having them doesn't set you apart. Judgement about the output does: knowing which parts are confidently wrong, and which parts actually apply to the system in front of you.
+
+If what you send is identical to what anyone would get by typing the question in themselves, then the prompt could do your job. I wouldn't want to be the one explaining that in an appraisal.
+
+Meanwhile the people who use these tools well are getting faster and getting better at the work, because they are still the ones doing the thinking.
+
+## What to do instead
+
+The fix fits in one sentence: read it, understand it, validate it, and then write your reply in your own words. The original post calls that last step "a decent certificate that you've done the prior steps." I like that because you can check it. If you can't put the answer in your own words, you haven't done the first three steps.
+
+In practice that comes down to a few habits:
+
+1. Read the whole answer. If you wouldn't read it, don't send it.
+2. Cut it down. If Claude wrote 400 words and the answer is two lines, send the two lines.
+3. Check one thing before sending. Run the code, open the doc it cites, or try the claim against your actual system. One check catches most of the plausible nonsense.
+4. Translate the jargon. If you had to look a term up, your reader will too, so explain it or drop it.
+5. Say what you think. "Claude suggests X. I tried it and it fixes the timeout, but I don't trust the retry logic yet" gives the other person something to work with. A pasted wall of text doesn't.
+6. Read the diff before you push. Review Claude's code the way you'd review a junior's. If you can't explain a line, it doesn't ship.
+
+None of this is an argument for using AI less. I wrote about that side of it in [AI as a tool, not a substitute for thought](/blog/ai-as-a-tool-not-a-substitute/). Use it as much as you like, but read what it gives you before you pass it on. The person who asked you could have asked Claude. They asked you because they wanted your take.
