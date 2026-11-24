@@ -133,6 +133,31 @@ export const EXPERIMENTS = [
     action: 'Visit openpreflight',
   },
   {
+    title: 'gh-helix',
+    slug: 'gh-helix',
+    cover: 'gh-helix',
+    kind: 'Backup CLI',
+    blurb:
+      'Backs up every repository in a GitHub organization to local copies you can check, and restores them offline, Git LFS included.',
+    overview:
+      'GitHub being reliable is not the same as having a second copy. This keeps a checked, browsable mirror of every repo in an org and restores from it even when GitHub is down.',
+    whatIBuilt:
+      'A Node.js CLI that discovers repos through the GitHub API, clones every branch in parallel, runs git fsck on each copy, writes a manifest, and restores working clones offline with LFS objects.',
+    builtFor: [
+      'GitHub organizations',
+      'Disaster recovery plans',
+      'Teams that want a copy GitHub does not hold',
+    ],
+    capabilities: [
+      'Mirror every repo in an org as real files on disk, with renames and archives tracked by repo ID',
+      'Treat missing LFS objects as a failed backup and never delete a local copy',
+      'Restore a working clone with no network, and resume safely after an interrupted run',
+    ],
+    href: 'https://github.com/trivedi-vatsal/gh-helix',
+    external: true,
+    action: 'View source',
+  },
+  {
     title: 'Knock',
     slug: 'knock',
     cover: 'knock',
@@ -179,6 +204,31 @@ export const EXPERIMENTS = [
       'Restyle it with --amb-* CSS variables, no Tailwind needed',
     ],
     href: 'https://vatsal.xyz/astro-markdown-block/',
+    external: true,
+    action: 'Open the demo',
+  },
+  {
+    title: 'Terrazzo',
+    slug: 'astro-terrazzo',
+    cover: 'astro-terrazzo',
+    kind: 'Astro theme',
+    blurb:
+      'The theme behind this site, released on its own: a bento-grid portfolio and blog for Astro with a work timeline, experiments, and a journal.',
+    overview:
+      'This site, minus my content. A bento home page, work timeline, experiments gallery, and a journal with series, tags, search, and Mermaid diagrams. Sample content belongs to a made-up person, so you swap in your own.',
+    whatIBuilt:
+      'An Astro theme with no UI framework. Interactive parts are small custom elements, share images are generated at build time, and light and dark mode follow the system.',
+    builtFor: [
+      'Developers who want a portfolio and blog',
+      'Astro sites',
+      'People who like pages with almost no JavaScript',
+    ],
+    capabilities: [
+      'Start with npm create astro@latest -- --template trivedi-vatsal/astro-terrazzo',
+      'Write posts in series with numbering, next and previous links, and Mermaid diagrams',
+      'Get an Open Graph image for every page, plus a sitemap, RSS, and JSON-LD',
+    ],
+    href: 'https://vatsal.xyz/astro-terrazzo/',
     external: true,
     action: 'Open the demo',
   },
@@ -281,6 +331,31 @@ export const EXPERIMENTS = [
     href: 'https://github.com/trivedi-vatsal/audit-plan-tasks',
     external: true,
     action: 'View skill',
+  },
+  {
+    title: 'production-agent-md',
+    slug: 'production-agent-md',
+    cover: 'production-agent-md',
+    kind: 'Agent instructions',
+    blurb:
+      'My CLAUDE.md for Claude Code, packaged so the same instructions work in Codex through a mirrored AGENTS.md.',
+    overview:
+      'How I want coding agents to behave in a production codebase: planning, context management, safe edits, testing, and correcting themselves. One file is the source of truth, and the other is generated from it.',
+    whatIBuilt:
+      'A canonical CLAUDE.md, an AGENTS.md mirror, an install script that backs up existing files, and starter gotchas.md and context-log.md templates for session notes.',
+    builtFor: [
+      'Claude Code and Codex users',
+      'Production repositories',
+      'Teams that want agents to behave the same way every session',
+    ],
+    capabilities: [
+      'Install into a repo with one curl command, with existing files backed up first',
+      'Keep CLAUDE.md and AGENTS.md in sync from one source',
+      'Seed gotchas.md and context-log.md without overwriting history',
+    ],
+    href: 'https://github.com/trivedi-vatsal/production-agent-md',
+    external: true,
+    action: 'View source',
   },
   {
     title: 'StaleGuard',
