@@ -1,0 +1,358 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+import { LayersIcon, SearchIcon, SlidersHorizontalIcon } from 'lucide-react'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import TopLayout from '../../layouts/TopLayout.astro'
+import BottomLayout from '../../layouts/BottomLayout.astro'
+import NoteEntry from '../../components/notes/NoteEntry.astro'
+import NoteIcon from '../../components/notes/NoteIcon.astro'
+import { FilterDropdown } from '../../components/notes/FilterDropdown'
+import { NOTES } from '../../lib/constants'
+import { isListedPost } from '../../lib/blog'
+import {
+  NOTE_STATUSES,
+  NOTE_TYPE_BLURBS,
+  NOTE_TYPES,
+  noteSummary,
+  sortNotes,
+  type NoteStatus,
+  type NoteType,
+} from '../../lib/notes'
+
+const notes = sortNotes(await getCollection('notes', isListedPost))
+
+type Month = { id: string; label: string; notes: CollectionEntry<'notes'>[] }
+const months = new Map<string, Month>()
+for (const note of notes) {
+  const d = note.data.date
+  const id = `m-${d.toISOString().slice(0, 7)}`
+  const label = d.toLocaleDateString('en-US', {
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
+  if (!months.has(id)) months.set(id, { id, label, notes: [] })
+  months.get(id)!.notes.push(note)
+}
+
+// Filters only list values that have entries.
+const count = (fn: (n: CollectionEntry<'notes'>) => boolean) =>
+  notes.filter(fn).length
+const types = (Object.keys(NOTE_TYPES) as NoteType[])
+  .map((type) => ({
+    type,
+    label: NOTE_TYPES[type],
+    blurb: NOTE_TYPE_BLURBS[type],
+    count: count((n) => n.data.type === type),
+  }))
+  .filter((t) => t.count > 0)
+const statuses = (Object.keys(NOTE_STATUSES) as NoteStatus[])
+  .map((status) => ({
+    value: status,
+    label: NOTE_STATUSES[status],
+    count: count((n) => n.data.status === status),
+  }))
+  .filter((s) => s.count > 0)
+const tagCounts = new Map<string, { label: string; count: number }>()
+for (const note of notes)
+  for (const { tag, slug } of noteSummary(note).tags)
+    tagCounts.set(slug, {
+      label: tag,
+      count: (tagCounts.get(slug)?.count ?? 0) + 1,
+    })
+const tags = [...tagCounts]
+  .map(([value, t]) => ({ value, ...t }))
+  .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+
+const tile =
+  'group/tile whitespace-nowrap bg-card hover:border-foreground/30 aria-pressed:border-primary aria-pressed:bg-primary/5 flex items-start gap-2.5 rounded-lg border p-2.5 text-left transition-colors'
+---
+
+<BaseLayout title={NOTES.TITLE} description={NOTES.DESCRIPTION}>
+  <main
+    class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col"
+    transition:animate="fade"
+  >
+    <TopLayout>
+      <div
+        class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b pb-2"
+      >
+        <h1 class="text-3xl font-semibold tracking-tight">
+          {NOTES.TITLE}
+          <span class="text-muted-foreground ml-1 font-mono text-sm font-normal"
+            >{notes.length}</span
+          >
+        </h1>
+        <p class="text-muted-foreground text-sm">{NOTES.DESCRIPTION}</p>
+      </div>
+    </TopLayout>
+    <BottomLayout>
+      {
+        notes.length === 0 ? (
+          <p class="text-muted-foreground">Nothing here yet.</p>
+        ) : (
+          <div data-notes>
+            {/* Phones: filters collapse behind this toggle. */}
+            <div class="mb-3 flex items-center gap-3 sm:hidden">
+              <button
+                type="button"
+                data-filters-toggle
+                aria-expanded="false"
+                class="aria-expanded:border-primary aria-expanded:text-primary inline-flex h-8 items-center gap-1.5 rounded-md border px-3 font-mono text-xs transition-colors"
+              >
+                <SlidersHorizontalIcon className="size-3.5" />
+                Filters
+                <span data-filters-count class="text-primary" />
+              </button>
+              <button
+                type="button"
+                data-filters-clear
+                hidden
+                class="text-muted-foreground hover:text-foreground font-mono text-xs underline-offset-4 hover:underline"
+              >
+                Clear
+              </button>
+            </div>
+
+            {/* Type index: tiles double as the type filter. */}
+            <div
+              data-filter-panel
+              class="-mx-3 mb-4 flex gap-2 overflow-x-auto px-3 pb-1 sm:mx-0 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] sm:overflow-visible sm:px-0 sm:pb-0 [&>*]:flex-none"
+              role="group"
+              aria-label="Filter by type"
+            >
+              <button
+                type="button"
+                data-filter="type"
+                data-value="all"
+                class={tile}
+              >
+                <LayersIcon className="text-muted-foreground group-aria-pressed/tile:text-primary mt-0.5 size-4 shrink-0" />
+                <span class="min-w-0">
+                  <span class="block text-sm font-medium">
+                    Everything
+                    <span class="text-muted-foreground ml-1 font-mono text-xs font-normal">
+                      {notes.length}
+                    </span>
+                  </span>
+                  <span class="text-muted-foreground hidden truncate text-xs sm:block">
+                    The whole log
+                  </span>
+                </span>
+              </button>
+              {types.map((t) => (
+                <button
+                  type="button"
+                  data-filter="type"
+                  data-value={t.type}
+                  class={tile}
+                >
+                  <NoteIcon
+                    type={t.type}
+                    class="text-muted-foreground group-aria-pressed/tile:text-primary mt-0.5 size-4 shrink-0"
+                  />
+                  <span class="min-w-0">
+                    <span class="block text-sm font-medium">
+                      {t.label}
+                      <span class="text-muted-foreground ml-1 font-mono text-xs font-normal">
+                        {t.count}
+                      </span>
+                    </span>
+                    <span class="text-muted-foreground hidden truncate text-xs sm:block">
+                      {t.blurb}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <div class="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-12">
+              <aside
+                data-filter-panel
+                class="flex min-w-0 flex-col gap-4 lg:sticky lg:top-24 lg:self-start"
+              >
+                <label class="relative block">
+                  <span class="sr-only">Search the log</span>
+                  <SearchIcon className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2" />
+                  <input
+                    data-notes-search
+                    type="search"
+                    placeholder="Search…"
+                    class="bg-card focus-visible:ring-ring h-8 w-full rounded-md border pr-2 pl-8 text-sm outline-none focus-visible:ring-2"
+                  />
+                </label>
+
+                {(statuses.length > 1 || tags.length > 0) && (
+                  <div class="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-3">
+                    {statuses.length > 1 && (
+                      <FilterDropdown
+                        client:load
+                        name="status"
+                        label="Status"
+                        options={statuses}
+                      />
+                    )}
+                    {tags.length > 0 && (
+                      <FilterDropdown
+                        client:load
+                        name="tag"
+                        label="Topic"
+                        options={tags.map((t) => ({
+                          value: t.value,
+                          label: `#${t.label}`,
+                          count: t.count,
+                        }))}
+                      />
+                    )}
+                  </div>
+                )}
+
+                <nav aria-label="Archive" class="hidden lg:block">
+                  <p class="bento-label mb-1">Archive</p>
+                  <ul class="font-mono text-xs">
+                    {[...months.values()].map((m) => (
+                      <li>
+                        <a
+                          href={`#${m.id}`}
+                          class="text-muted-foreground hover:text-primary flex justify-between border-b border-dashed py-1.5 transition-colors"
+                        >
+                          <span>{m.label}</span>
+                          <span>{m.notes.length}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </aside>
+
+              <div class="min-w-0">
+                <p
+                  data-notes-empty
+                  hidden
+                  class="text-muted-foreground text-sm"
+                >
+                  Nothing matches.
+                </p>
+                {[...months.values()].map((m) => (
+                  <section
+                    id={m.id}
+                    data-month
+                    aria-label={m.label}
+                    class="scroll-mt-16"
+                  >
+                    <h2 class="bento-label bg-background/90 sticky top-14 z-20 -mx-1 mb-1 px-1 py-2 backdrop-blur-md sm:top-16">
+                      {m.label}
+                    </h2>
+                    <ol class="columns-1 gap-3 sm:columns-2 xl:columns-3">
+                      {m.notes.map((note) => (
+                        <NoteEntry note={note} />
+                      ))}
+                    </ol>
+                  </section>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </BottomLayout>
+  </main>
+</BaseLayout>
+
+<script>
+  // Type / status / topic filters + search. State lives in the URL
+  // (?type=movie&status=queued&tag=sci-fi&q=nolan) so views can be bookmarked
+  // and tag links on note pages land pre-filtered.
+  const KEYS = ['type', 'status', 'tag'] as const
+  type Key = (typeof KEYS)[number]
+
+  function initNotes() {
+    const root = document.querySelector<HTMLElement>('[data-notes]')
+    if (!root) return
+    const input = root.querySelector<HTMLInputElement>('[data-notes-search]')!
+    const buttons = [
+      ...root.querySelectorAll<HTMLButtonElement>('button[data-filter]'),
+    ]
+    const entries = [...root.querySelectorAll<HTMLElement>('li[data-type]')]
+    const months = [...root.querySelectorAll<HTMLElement>('[data-month]')]
+    const empty = root.querySelector<HTMLElement>('[data-notes-empty]')!
+    const toggle = root.querySelector<HTMLElement>('[data-filters-toggle]')!
+    const count = root.querySelector<HTMLElement>('[data-filters-count]')!
+    const clear = root.querySelector<HTMLElement>('[data-filters-clear]')!
+
+    const params = new URLSearchParams(location.search)
+    const state = Object.fromEntries(
+      KEYS.map((k) => [k, params.get(k) ?? 'all']),
+    ) as Record<Key, string>
+    input.value = params.get('q') ?? ''
+
+    const matches = (li: HTMLElement, q: string) =>
+      (state.type === 'all' || li.dataset.type === state.type) &&
+      (state.status === 'all' || li.dataset.status === state.status) &&
+      (state.tag === 'all' ||
+        li.dataset.tags!.split(' ').includes(state.tag)) &&
+      (!q || li.dataset.search!.includes(q))
+
+    const apply = () => {
+      const q = input.value.trim().toLowerCase()
+      for (const b of buttons)
+        b.setAttribute(
+          'aria-pressed',
+          String(state[b.dataset.filter as Key] === b.dataset.value),
+        )
+      // Publish state for the FilterDropdown islands.
+      root.dataset.state = JSON.stringify(state)
+      root.dispatchEvent(new Event('notes:state'))
+      for (const li of entries) li.hidden = !matches(li, q)
+      for (const m of months)
+        m.hidden = !m.querySelector('li[data-type]:not([hidden])')
+      empty.hidden = entries.some((li) => !li.hidden)
+
+      const active = KEYS.filter((k) => state[k] !== 'all').length + (q ? 1 : 0)
+      count.textContent = active ? String(active) : ''
+      clear.hidden = active === 0
+
+      const url = new URL(location.href)
+      for (const k of KEYS)
+        if (state[k] === 'all') url.searchParams.delete(k)
+        else url.searchParams.set(k, state[k])
+      if (q) url.searchParams.set('q', q)
+      else url.searchParams.delete('q')
+      history.replaceState(history.state, '', url)
+    }
+
+    for (const b of buttons)
+      b.addEventListener('click', () => {
+        state[b.dataset.filter as Key] = b.dataset.value!
+        apply()
+      })
+    root.addEventListener('notes:set', (e) => {
+      const { key, value } = (e as CustomEvent<{ key: Key; value: string }>)
+        .detail
+      state[key] = value
+      apply()
+    })
+    input.addEventListener('input', apply)
+    toggle.addEventListener('click', () => {
+      const open = root.toggleAttribute('data-open')
+      toggle.setAttribute('aria-expanded', String(open))
+    })
+    clear.addEventListener('click', () => {
+      for (const k of KEYS) state[k] = 'all'
+      input.value = ''
+      apply()
+    })
+    apply()
+  }
+
+  document.addEventListener('astro:page-load', initNotes)
+</script>
+
+<style>
+  /* Phones: filter tiles + sidebar stay collapsed until "Filters" is tapped. */
+  @media (max-width: 639.98px) {
+    [data-notes]:not([data-open]) [data-filter-panel] {
+      display: none;
+    }
+  }
+</style>

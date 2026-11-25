@@ -10,7 +10,12 @@ import { rehypeLinksNewTab } from './src/lib/rehype-links-new-tab'
 // https://astro.build/config
 export default defineConfig({
   site: 'https://vatsal.xyz',
-  integrations: [react(), mdx(), sitemap(), robotsTxt()],
+  integrations: [
+    react(),
+    mdx(),
+    sitemap({ filter: (page) => !new URL(page).pathname.startsWith('/go/') }),
+    robotsTxt(),
+  ],
   markdown: {
     syntaxHighlight: {
       type: 'shiki',

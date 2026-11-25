@@ -1,62 +1,157 @@
 ---
 import { FluidGradientText } from './fluid-gradient-text'
-import { ContactNote } from './ContactNote'
-import { LINKS } from '../lib/constants'
+import { LINKS, NAV_LINKS, SITE } from '../lib/constants'
 
-const socials = [
+const elsewhere = [
   { href: LINKS.github, label: 'GitHub' },
   { href: LINKS.linkedin, label: 'LinkedIn' },
   { href: LINKS.instagram, label: 'Instagram' },
+  { href: LINKS.dribbble, label: 'Dribbble' },
+  { href: LINKS.behance, label: 'Behance' },
+  { href: LINKS.devto, label: 'dev.to' },
+  { href: LINKS.resume, label: 'Résumé' },
 ]
+
+const more = [
+  { href: '/rss.xml', label: 'RSS feed' },
+  { href: '/sitemap-index.xml', label: 'Sitemap' },
+  {
+    href: 'https://github.com/trivedi-vatsal/trivedi-vatsal.github.io',
+    label: 'Source',
+    external: true,
+  },
+]
+
+const heading = 'bento-label mb-3'
+const link =
+  'text-muted-foreground hover:text-foreground inline-flex items-center gap-1 py-1 text-sm transition-colors'
 ---
 
 <footer class="border-border/60 w-full border-t">
-  <div
-    class="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-6 px-3 py-8 sm:px-4 md:flex-row md:items-start md:px-6"
-  >
-    <p
-      class="text-muted-foreground text-center font-mono text-xs tracking-wide md:pt-1 md:text-left"
+  <div class="mx-auto w-full max-w-6xl px-3 pt-10 pb-6 sm:px-4 md:px-6">
+    <div
+      class="grid gap-10 md:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))]"
     >
-      © {new Date().getFullYear()} Vatsal Trivedi · Built with Astro
-    </p>
-
-    <nav
-      aria-label="Footer links"
-      class="flex flex-col items-center gap-2 md:items-start"
-    >
-      <ContactNote client:visible email={LINKS.mail} label="Send a note" />
-      {
-        socials.map(({ href, label }) => (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-muted-foreground hover:text-foreground text-xs tracking-wide underline-offset-4 transition-colors hover:underline"
+      <div class="max-w-sm">
+        <a href="/" class="group inline-flex items-center gap-2 font-semibold">
+          <span
+            class="border-foreground/20 group-hover:border-primary group-hover:text-primary flex size-8 items-center justify-center border font-mono text-sm transition-colors"
+            >V</span
           >
-            {label}
-          </a>
-        ))
-      }
-      <a
-        href={LINKS.mail}
-        class="text-muted-foreground hover:text-foreground text-xs tracking-wide underline-offset-4 transition-colors hover:underline"
-      >
-        Email
-      </a>
-    </nav>
+          {SITE.TITLE}
+        </a>
+        <p class="text-muted-foreground mt-3 text-sm leading-relaxed">
+          {SITE.DESCRIPTION}
+        </p>
+        <a
+          href={LINKS.mail}
+          class="text-muted-foreground hover:text-foreground mt-4 inline-block font-mono text-xs transition-colors"
+          >{LINKS.mail.replace('mailto:', '')}</a
+        >
+        <p
+          class="text-muted-foreground mt-3 flex items-center gap-2 font-mono text-xs"
+        >
+          <span class="relative flex size-2" aria-hidden="true">
+            <span
+              class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:animate-none"
+            ></span>
+            <span
+              class="relative inline-flex size-2 rounded-full bg-emerald-500"
+            ></span>
+          </span>
+          Bengaluru, India
+        </p>
+      </div>
 
-    <p class="text-muted-foreground text-center text-xs md:pt-1 md:text-right">
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 md:contents">
+        <nav aria-label="Site">
+          <p class={heading}>Site</p>
+          <ul>
+            <li><a href="/" class={link}>Home</a></li>
+            {
+              NAV_LINKS.map((l) => (
+                <li>
+                  <a href={l.href} class={link}>
+                    {l.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <nav aria-label="Elsewhere">
+          <p class={heading}>Elsewhere</p>
+          <ul>
+            {
+              elsewhere.map((l) => (
+                <li>
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={link}
+                  >
+                    {l.label}
+                    <span aria-hidden="true" class="text-xs opacity-60">
+                      ↗
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <nav aria-label="More" class="col-span-2 sm:col-span-1">
+          <p class={heading}>More</p>
+          <ul class="flex flex-wrap gap-x-5 sm:block">
+            {
+              more.map((l) => (
+                <li>
+                  <a
+                    href={l.href}
+                    class={link}
+                    {...(l.external && {
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    })}
+                  >
+                    {l.label}
+                    {l.external && (
+                      <span aria-hidden="true" class="text-xs opacity-60">
+                        ↗
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div
+      class="text-muted-foreground mt-10 flex items-center justify-between gap-4 border-t border-dashed pt-5 font-mono text-xs"
+    >
+      <p class="flex flex-col gap-1 sm:flex-row sm:gap-3">
+        <span>© {new Date().getFullYear()} {SITE.TITLE}</span>
+        <span class="hidden sm:inline" aria-hidden="true">·</span>
+        <span>Built with Astro</span>
+      </p>
       <a
-        href="https://github.com/trivedi-vatsal/trivedi-vatsal.github.io"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hover:text-foreground underline-offset-4 transition-colors hover:underline"
+        href="#main-content"
+        aria-label="Back to top"
+        title="Back to top"
+        class="hover:border-primary hover:text-primary flex size-9 shrink-0 items-center justify-center rounded-full border text-sm transition-[color,border-color,transform] hover:-translate-y-0.5"
       >
-        Source
+        <span aria-hidden="true">↑</span>
       </a>
-    </p>
+    </div>
   </div>
-  <div class="text-foreground h-28 w-full sm:h-36 md:h-44 lg:h-52">
+
+  <div class="text-foreground h-20 w-full sm:h-28 md:h-32">
     <FluidGradientText
       client:visible
       text="Vatsal Trivedi"

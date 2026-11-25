@@ -1,0 +1,31 @@
+---
+// Short internal URL for a note's external link: /go/<note-id>/ → note.data.link
+import { getCollection } from 'astro:content'
+import { isListedPost } from '../../lib/blog'
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', isListedPost)
+  return notes
+    .filter((note) => note.data.link)
+    .map((note) => ({
+      params: { id: note.id },
+      props: { link: note.data.link! },
+    }))
+}
+
+const { link } = Astro.props as { link: string }
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${link}`} />
+    <link rel="canonical" href={link} />
+    <title>Redirecting…</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={link}>{link}</a></p>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+---
+import {
+  BookOpenIcon,
+  ClapperboardIcon,
+  HeadphonesIcon,
+  LightbulbIcon,
+  Link2Icon,
+  NewspaperIcon,
+  PlayIcon,
+  TvIcon,
+} from 'lucide-react'
+import type { NoteType } from '../../lib/notes'
+
+interface Props {
+  type: NoteType
+  class?: string
+}
+
+const ICONS: Record<NoteType, typeof LightbulbIcon> = {
+  thought: LightbulbIcon,
+  article: NewspaperIcon,
+  video: PlayIcon,
+  movie: ClapperboardIcon,
+  show: TvIcon,
+  book: BookOpenIcon,
+  podcast: HeadphonesIcon,
+  link: Link2Icon,
+}
+const Icon = ICONS[Astro.props.type]
+---
+
+<Icon className={Astro.props.class} aria-hidden="true" />

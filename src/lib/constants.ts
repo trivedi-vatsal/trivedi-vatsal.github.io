@@ -19,6 +19,7 @@ export const NAV_LINKS = [
   { label: 'Work', href: '/work/' },
   { label: 'Experiments', href: '/experiments/' },
   { label: 'Journal', href: '/blog/' },
+  { label: 'Notes', href: '/notes/' },
 ]
 
 // Global
@@ -52,6 +53,12 @@ export const WORK: Page = {
 export const BLOG: Page = {
   TITLE: 'Journal',
   DESCRIPTION: 'Notes on AI, engineering, and integrations.',
+}
+
+// Notes Page
+export const NOTES: Page = {
+  TITLE: 'Notes',
+  DESCRIPTION: 'A running log: what I watched, read, and thought.',
 }
 
 // Study Page
