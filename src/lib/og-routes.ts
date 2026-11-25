@@ -1,8 +1,9 @@
 import { getCollection } from 'astro:content'
-import { ABOUT, BLOG, EXPERIMENTS_PAGE, SITE, WORK } from './constants'
+import { ABOUT, BLOG, EXPERIMENTS_PAGE, NOTES, SITE, WORK } from './constants'
 import type { OgBannerJob } from './og-banner'
 import { getAllTags, isListedPost, toBlogPostSummary } from './blog'
 import { EXPERIMENTS } from './portfolio'
+import { noteSummary } from './notes'
 
 function sitePage(
   path: string,
@@ -23,6 +24,7 @@ export async function getOgBannerJobs(): Promise<OgBannerJob[]> {
       EXPERIMENTS_PAGE.DESCRIPTION,
     ),
     sitePage('blog', BLOG.TITLE, BLOG.DESCRIPTION),
+    sitePage('notes', NOTES.TITLE, NOTES.DESCRIPTION),
     sitePage(
       '404',
       'Page not found',
@@ -58,6 +60,17 @@ export async function getOgBannerJobs(): Promise<OgBannerJob[]> {
       title: experiment.title,
       description: experiment.blurb,
       kind: 'experiment',
+    })
+  }
+
+  for (const note of await getCollection('notes', isListedPost)) {
+    const s = noteSummary(note)
+    jobs.push({
+      path: `notes/${note.id}`,
+      title: s.heading ?? s.text,
+      description: s.heading ? s.text : '',
+      kind: 'note',
+      eyebrow: s.eyebrow,
     })
   }
 

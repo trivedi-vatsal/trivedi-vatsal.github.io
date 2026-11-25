@@ -1,10 +1,13 @@
 ---
+import { MenuIcon, XIcon } from 'lucide-react'
 import { buttonVariants } from '../components/ui/button'
 import { ModeToggle } from '../components/ui/ThemeToggle'
 import { NAV_LINKS } from '../lib/constants'
 import { cn } from '../lib/utils'
 
 const pathname = Astro.url.pathname
+const isActive = (href: string) =>
+  pathname === href || pathname.startsWith(href)
 ---
 
 <script is:inline>
@@ -43,30 +46,116 @@ const pathname = Astro.url.pathname
       </span>
     </a>
 
-    <nav
-      aria-label="Main navigation"
-      class="flex min-w-0 items-center gap-0.5 sm:gap-1"
-    >
-      {
-        NAV_LINKS.map((link) => {
-          const active =
-            pathname === link.href || pathname.startsWith(link.href)
-          return (
+    <div class="flex items-center gap-1">
+      <nav
+        aria-label="Main navigation"
+        class="hidden min-w-0 items-center gap-0.5 sm:flex sm:gap-1"
+      >
+        {
+          NAV_LINKS.map((link) => (
             <a
               href={link.href}
-              aria-current={active ? 'page' : undefined}
+              aria-current={isActive(link.href) ? 'page' : undefined}
               class={cn(
                 buttonVariants({ variant: 'ghost', size: 'sm' }),
                 'px-2 text-xs font-medium tracking-wide sm:px-3 md:text-sm',
-                active && 'bg-accent text-accent-foreground',
+                isActive(link.href) && 'bg-accent text-accent-foreground',
               )}
             >
               {link.label}
             </a>
-          )
-        })
-      }
+          ))
+        }
+      </nav>
       <ModeToggle transition:persist client:load />
+
+      <!-- Phones: native popover menu (light-dismiss + Esc built in, no JS). -->
+      <button
+        type="button"
+        popovertarget="mobile-nav"
+        aria-label="Open menu"
+        title="Menu"
+        class={cn(
+          buttonVariants({ variant: 'ghost', size: 'icon-sm' }),
+          'sm:hidden',
+        )}
+      >
+        <MenuIcon className="size-4" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-nav"
+    popover
+    class="mobile-nav bg-background/95 text-foreground fixed inset-x-0 top-14 m-0 w-full border-b p-0 backdrop-blur-md sm:hidden"
+  >
+    <nav aria-label="Main navigation (mobile)" class="px-3 pt-2 pb-4">
+      <ul>
+        {
+          NAV_LINKS.map((link, i) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                class={cn(
+                  'group flex items-center gap-4 border-b border-dashed py-3.5 transition-colors',
+                  isActive(link.href) ? 'text-primary' : 'hover:text-primary',
+                )}
+              >
+                <span class="text-muted-foreground w-6 font-mono text-xs">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span class="flex-1 text-lg font-medium tracking-tight">
+                  {link.label}
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="text-muted-foreground transition-transform group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <button
+        type="button"
+        popovertarget="mobile-nav"
+        popovertargetaction="hide"
+        class="text-muted-foreground hover:text-foreground mt-3 inline-flex items-center gap-1.5 font-mono text-xs"
+      >
+        <XIcon className="size-3.5" aria-hidden="true" />
+        Close
+      </button>
     </nav>
   </div>
 </header>
+
+<style>
+  .mobile-nav {
+    max-height: calc(100dvh - 3.5rem);
+    overflow-y: auto;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      display 0.2s allow-discrete,
+      overlay 0.2s allow-discrete;
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  .mobile-nav:popover-open {
+    opacity: 1;
+    transform: none;
+  }
+  .mobile-nav::backdrop {
+    background: rgb(0 0 0 / 0.35);
+  }
+  @starting-style {
+    .mobile-nav:popover-open {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+</style>

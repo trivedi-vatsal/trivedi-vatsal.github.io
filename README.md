@@ -74,6 +74,71 @@ The blog index is at `/blog/`. RSS is available at `/rss.xml`. A sitemap is gene
 - `draft: true` posts appear in `pnpm dev` so you can preview them.
 - Production builds, RSS, and `pnpm preview` omit drafts. Flip `draft` to `false` to publish.
 
+## Notes
+
+`/notes/` is a running log: thoughts, articles read, videos, movies, shows, books, podcasts, and bookmarks. Each entry is one Markdown file in `src/content/notes/`. Only `date` is required.
+
+```yaml
+---
+date: 2026-11-22
+type: movie # thought (default) | article | video | movie | show | book | podcast | link
+title: 'Dune: Part Two' # name of the thing; quote it if it contains a colon
+link: https://example.com # optional, http(s) only
+rating: 5 # optional, 1–5
+status: done # optional: queued | in-progress | done (default)
+tags: ['sci-fi'] # optional
+image: /posters/dune-2.jpg # optional poster/cover (URL or file in public/)
+draft: false
+---
+Optional comment, in Markdown.
+```
+
+The file name is the entry's id, so keep it short and flat (no subfolders): `dune-2.md` becomes `/notes/dune-2/`.
+
+A few examples:
+
+```md
+## <!-- src/content/notes/best-code.md: a quick thought -->
+
+## date: 2026-11-24
+
+The best code is the code you never had to write.
+```
+
+```md
+## <!-- src/content/notes/aposd.md: a book to read later -->
+
+date: 2026-11-24
+type: book
+title: A Philosophy of Software Design
+status: queued
+tags: ['design', 'engineering']
+
+---
+```
+
+```md
+## <!-- src/content/notes/talk-1.md: a video; the YouTube thumbnail is added automatically -->
+
+date: 2026-11-24
+type: video
+title: Some conference talk
+link: https://www.youtube.com/watch?v=VIDEO_ID
+
+---
+
+Worth it for the second half.
+```
+
+What each entry gets:
+
+- A card on `/notes/`, grouped by month. Filter by type, status, or topic, or search. Filters are kept in the URL (`/notes/?type=movie&status=queued&tag=sci-fi`), so a view can be bookmarked.
+- Its own page at `/notes/<id>/`, with details, related entries, and newer/older links.
+- A short link at `/go/<id>/` that redirects to `link`. Cards and pages link through it.
+- A square 1080×1080 share image at `/notes/<id>.png`. The share button on each entry offers download, copy image, copy link, and the system share sheet.
+
+`draft: true` works the same as for blog posts.
+
 ## Deployment
 
 The site deploys to GitHub Pages on push to `main` via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). The custom domain is configured in [`public/CNAME`](public/CNAME).
@@ -99,10 +164,10 @@ GitHub’s [custom domain docs](https://docs.github.com/en/pages/configuring-a-c
 public/          Static assets (images, CNAME)
 src/
   components/    Astro sections and shadcn UI
-  content/       Blog MDX posts and content config
+  content/       Blog posts (blog/) and log entries (notes/)
   layouts/       Page layouts
   lib/           Constants and utilities
-  pages/         Routes (/, /work, /blog)
+  pages/         Routes (/, /work, /blog, /notes, /go)
   styles/        Global CSS
 astro.config.ts
 src/styles/globals.css   Tailwind theme + base styles

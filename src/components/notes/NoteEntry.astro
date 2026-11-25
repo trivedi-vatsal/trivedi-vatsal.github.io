@@ -1,0 +1,151 @@
+---
+import { render, type CollectionEntry } from 'astro:content'
+import NoteIcon from './NoteIcon.astro'
+import { NoteShare } from './NoteShare'
+import { noteSummary } from '../../lib/notes'
+
+interface Props {
+  note: CollectionEntry<'notes'>
+}
+
+const { note } = Astro.props
+const { Content } = await render(note)
+const s = noteSummary(note)
+const site = Astro.site ?? 'https://vatsal.xyz'
+const date = note.data.date
+const search = [s.label, s.heading, s.host, s.text, ...s.tags.map((t) => t.tag)]
+  .join(' ')
+  .toLowerCase()
+// Short headless thoughts read as quotes; long ones stay body-sized.
+const isQuote = !s.heading && s.text.length <= 140
+---
+
+<li
+  id={note.id}
+  data-type={s.type}
+  data-status={s.status}
+  data-tags={s.tags.map((t) => t.slug).join(' ')}
+  data-search={search}
+  class="mb-3 scroll-mt-28 break-inside-avoid"
+>
+  <article class="bento-tile group flex flex-col">
+    <!-- Whole card opens the note page; inner links/buttons sit above it. -->
+    <a
+      href={`/notes/${note.id}/`}
+      class="absolute inset-0 z-[1]"
+      aria-label={`Open: ${s.name}`}></a>
+
+    {
+      s.thumb && (
+        <img
+          src={s.thumb}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          referrerpolicy="no-referrer"
+          class="bg-secondary max-h-80 w-full border-b object-cover"
+        />
+      )
+    }
+
+    <div class="flex flex-col gap-1.5 p-4">
+      <div
+        class="text-muted-foreground flex items-center gap-1.5 font-mono text-[0.6rem] tracking-[0.12em] uppercase"
+      >
+        <NoteIcon
+          type={s.type}
+          class="group-hover:text-primary size-3.5 shrink-0 transition-colors"
+        />
+        <span class:list={['truncate', s.status !== 'done' && 'text-primary']}
+          >{s.eyebrow}</span
+        >
+        <time datetime={date.toISOString()} class="ml-auto shrink-0">
+          {
+            date.toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              timeZone: 'UTC',
+            })
+          }
+        </time>
+      </div>
+
+      {
+        s.heading && (
+          <p class="group-hover:text-primary leading-snug font-medium transition-colors">
+            {s.heading}
+            {note.data.link && (
+              <a
+                href={`/go/${note.id}/`}
+                class="text-muted-foreground hover:text-primary relative z-10 ml-1 inline-block px-0.5 text-sm transition-transform hover:translate-x-0.5 hover:-translate-y-0.5"
+                aria-label={`Open ${s.host}`}
+                title={note.data.link}
+              >
+                ↗
+              </a>
+            )}
+          </p>
+        )
+      }
+      {
+        s.host && (
+          <p class="text-muted-foreground -mt-1 truncate font-mono text-[0.65rem]">
+            {s.host}
+          </p>
+        )
+      }
+
+      {
+        s.text && (
+          <div
+            class:list={[
+              'note-prose prose dark:prose-invert prose-p:my-0 prose-p:[&+p]:mt-2 line-clamp-6 max-w-none leading-relaxed',
+              isQuote
+                ? 'text-lg font-medium tracking-tight sm:text-xl'
+                : s.heading
+                  ? 'text-muted-foreground text-sm'
+                  : 'text-[0.95rem]',
+            ]}
+          >
+            <Content />
+          </div>
+        )
+      }
+
+      <div class="mt-1 flex items-end gap-2">
+        <p
+          class="flex min-w-0 flex-1 flex-wrap gap-x-2 font-mono text-[0.65rem]"
+        >
+          {
+            s.tags.map((t) => (
+              <a
+                href={`/notes/?tag=${t.slug}`}
+                class="text-muted-foreground hover:text-primary relative z-10 transition-colors"
+              >
+                #{t.tag}
+              </a>
+            ))
+          }
+        </p>
+        <div
+          class="relative z-10 -mr-2 -mb-2 shrink-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 [@media(hover:hover)]:opacity-0"
+        >
+          <NoteShare
+            client:visible
+            title={s.name.length > 80 ? `${s.name.slice(0, 79)}…` : s.name}
+            url={new URL(`/notes/${note.id}/`, site).href}
+            image={`/notes/${note.id}.png`}
+          />
+        </div>
+      </div>
+    </div>
+  </article>
+</li>
+
+<style>
+  /* Links inside the comment stay clickable above the whole-card link. */
+  .note-prose :global(a) {
+    position: relative;
+    z-index: 10;
+  }
+</style>

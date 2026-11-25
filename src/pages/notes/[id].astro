@@ -1,0 +1,323 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content'
+import { PlayIcon } from 'lucide-react'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import BottomLayout from '../../layouts/BottomLayout.astro'
+import NoteEntry from '../../components/notes/NoteEntry.astro'
+import NoteIcon from '../../components/notes/NoteIcon.astro'
+import { NoteShare } from '../../components/notes/NoteShare'
+import { isListedPost } from '../../lib/blog'
+import { NOTE_STATUSES, noteSummary, sortNotes } from '../../lib/notes'
+
+type Note = CollectionEntry<'notes'>
+
+export async function getStaticPaths() {
+  const notes = sortNotes(await getCollection('notes', isListedPost))
+  return notes.map((note, i) => ({
+    params: { id: note.id },
+    // Feed is newest-first: "newer" is the previous item, "older" the next.
+    props: { note, newer: notes[i - 1], older: notes[i + 1], all: notes },
+  }))
+}
+
+const { note, newer, older, all } = Astro.props as {
+  note: Note
+  newer?: Note
+  older?: Note
+  all: Note[]
+}
+const { Content } = await render(note)
+const s = noteSummary(note)
+const site = Astro.site ?? 'https://vatsal.xyz'
+const { link, rating, status } = note.data
+const longDate = note.data.date.toLocaleDateString('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+})
+
+// A thought has no title: its text is the heading, styled as a quote.
+const isQuote = !s.heading
+const heading = s.heading ?? s.text
+const showBody = Boolean(s.heading && s.text)
+const isVideoThumb = Boolean(s.thumb && !note.data.image && link)
+
+// Related: shared topics weigh most, same type breaks ties, newest first.
+const tagSet = new Set(note.data.tags)
+const related = all
+  .filter((n) => n.id !== note.id)
+  .map((n) => ({
+    n,
+    score:
+      n.data.tags.filter((t) => tagSet.has(t)).length * 2 +
+      (n.data.type === note.data.type ? 1 : 0),
+  }))
+  .filter((r) => r.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 3)
+  .map((r) => r.n)
+
+const shareTitle = s.name.length > 80 ? `${s.name.slice(0, 79)}…` : s.name
+const shareUrl = new URL(`/notes/${note.id}/`, site).href
+const row =
+  'flex items-baseline justify-between gap-4 border-b border-dashed py-2 last:border-0'
+const key =
+  'text-muted-foreground shrink-0 font-mono text-[0.6rem] tracking-[0.12em] uppercase'
+---
+
+<BaseLayout
+  title={s.name.length > 60 ? `${s.name.slice(0, 59)}…` : s.name}
+  description={(s.text || `${s.eyebrow}: ${s.name}`).slice(0, 160)}
+  ogType="article"
+  publishedTime={note.data.date}
+>
+  <main class="flex min-h-[calc(100dvh-8rem)] flex-auto flex-col">
+    <BottomLayout>
+      <nav
+        aria-label="Breadcrumb"
+        class="text-muted-foreground flex items-center gap-2 font-mono text-xs"
+      >
+        <a href="/notes/" class="hover:text-primary transition-colors">Notes</a>
+        <span aria-hidden="true">/</span>
+        <a
+          href={`/notes/?type=${s.type}`}
+          class="hover:text-primary transition-colors">{s.label}</a
+        >
+      </nav>
+
+      <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-12">
+        <article class="min-w-0">
+          <p
+            class="text-muted-foreground flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.12em] uppercase"
+          >
+            <NoteIcon type={s.type} class="text-primary size-4" />
+            {s.label}
+            <span aria-hidden="true">·</span>
+            <time datetime={note.data.date.toISOString()}>{longDate}</time>
+          </p>
+
+          {
+            isQuote ? (
+              <h1
+                class:list={[
+                  'border-primary mt-5 border-l-2 pl-5 font-semibold tracking-tight text-pretty',
+                  heading.length > 140
+                    ? 'text-xl leading-relaxed sm:text-2xl'
+                    : 'text-2xl leading-snug sm:text-4xl sm:leading-tight',
+                ]}
+              >
+                {heading}
+              </h1>
+            ) : (
+              <h1 class="mt-4 text-3xl font-semibold tracking-tight text-pretty sm:text-4xl">
+                {heading}
+              </h1>
+            )
+          }
+
+          {
+            s.thumb &&
+              (isVideoThumb ? (
+                <a
+                  href={`/go/${note.id}/`}
+                  class="group/media relative mt-6 block overflow-hidden rounded-xl border"
+                  aria-label={`Watch on ${s.host}`}
+                >
+                  <img
+                    src={s.thumb.replace('mqdefault', 'hqdefault')}
+                    alt=""
+                    referrerpolicy="no-referrer"
+                    class="bg-secondary aspect-video w-full object-cover transition-transform duration-500 group-hover/media:scale-[1.02]"
+                  />
+                  <span class="bg-background/85 group-hover/media:bg-primary group-hover/media:text-primary-foreground absolute top-1/2 left-1/2 flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border backdrop-blur transition-colors">
+                    <PlayIcon className="ml-0.5 size-6" />
+                  </span>
+                </a>
+              ) : (
+                <img
+                  src={s.thumb}
+                  alt=""
+                  referrerpolicy="no-referrer"
+                  class="bg-secondary mt-6 max-h-[28rem] w-auto max-w-full rounded-xl border object-cover"
+                />
+              ))
+          }
+
+          {
+            showBody && (
+              <div class="prose dark:prose-invert mt-6 max-w-none text-lg leading-relaxed">
+                <Content />
+              </div>
+            )
+          }
+
+          <div class="mt-8 flex flex-wrap items-center gap-2">
+            {
+              link && (
+                <a
+                  href={`/go/${note.id}/`}
+                  class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center gap-2 rounded-md px-4 text-sm font-medium transition-colors"
+                >
+                  Open on {s.host}
+                  <span aria-hidden="true">↗</span>
+                </a>
+              )
+            }
+            <NoteShare
+              client:visible
+              label="Share"
+              title={shareTitle}
+              url={shareUrl}
+              image={`/notes/${note.id}.png`}
+            />
+          </div>
+        </article>
+
+        <aside class="lg:sticky lg:top-24 lg:self-start">
+          <div class="bento-tile p-4">
+            <p class="bento-label mb-1">Details</p>
+            <dl class="text-sm">
+              <div class={row}>
+                <dt class={key}>Type</dt>
+                <dd>
+                  <a
+                    href={`/notes/?type=${s.type}`}
+                    class="hover:text-primary inline-flex items-center gap-1.5 transition-colors"
+                  >
+                    <NoteIcon type={s.type} class="size-3.5" />
+                    {s.label}
+                  </a>
+                </dd>
+              </div>
+              <div class={row}>
+                <dt class={key}>Logged</dt>
+                <dd class="font-mono text-xs">
+                  {
+                    note.data.date.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                      timeZone: 'UTC',
+                    })
+                  }
+                </dd>
+              </div>
+              {
+                rating && (
+                  <div class={row}>
+                    <dt class={key}>Rating</dt>
+                    <dd aria-label={`${rating} out of 5`}>
+                      <span class="text-primary tracking-widest">
+                        {'★'.repeat(rating)}
+                      </span>
+                      <span class="text-muted-foreground/40 tracking-widest">
+                        {'★'.repeat(5 - rating)}
+                      </span>
+                    </dd>
+                  </div>
+                )
+              }
+              <div class={row}>
+                <dt class={key}>Status</dt>
+                <dd>
+                  <a
+                    href={`/notes/?status=${status}`}
+                    class:list={[
+                      'rounded-full border px-2 py-0.5 font-mono text-[0.65rem] transition-colors',
+                      status === 'done'
+                        ? 'text-muted-foreground hover:text-foreground'
+                        : 'border-primary/50 text-primary hover:bg-primary/10',
+                    ]}
+                  >
+                    {NOTE_STATUSES[status]}
+                  </a>
+                </dd>
+              </div>
+              {
+                link && (
+                  <div class={row}>
+                    <dt class={key}>Source</dt>
+                    <dd class="min-w-0 truncate">
+                      <a
+                        href={`/go/${note.id}/`}
+                        title={link}
+                        class="hover:text-primary font-mono text-xs transition-colors"
+                      >
+                        {s.host} ↗
+                      </a>
+                    </dd>
+                  </div>
+                )
+              }
+              {
+                s.tags.length > 0 && (
+                  <div class={row}>
+                    <dt class={key}>Topics</dt>
+                    <dd class="flex flex-wrap justify-end gap-x-2 font-mono text-xs">
+                      {s.tags.map((t) => (
+                        <a
+                          href={`/notes/?tag=${t.slug}`}
+                          class="text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          #{t.tag}
+                        </a>
+                      ))}
+                    </dd>
+                  </div>
+                )
+              }
+            </dl>
+          </div>
+        </aside>
+      </div>
+
+      {
+        related.length > 0 && (
+          <section aria-labelledby="related" class="mt-14">
+            <h2 id="related" class="bento-label mb-3">
+              Related
+            </h2>
+            <ol class="columns-1 gap-3 sm:columns-2 lg:columns-3">
+              {related.map((n) => (
+                <NoteEntry note={n} />
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
+      <nav
+        aria-label="More notes"
+        class="mt-10 grid gap-3 border-t pt-4 sm:grid-cols-2"
+      >
+        {
+          [
+            { n: newer, dir: '← Newer', align: '' },
+            { n: older, dir: 'Older →', align: 'sm:text-right' },
+          ].map(({ n, dir, align }) =>
+            n ? (
+              <a
+                href={`/notes/${n.id}/`}
+                class:list={[
+                  'group/nav hover:border-foreground/30 min-w-0 rounded-lg border p-3 transition-colors',
+                  align,
+                ]}
+              >
+                <span class="text-muted-foreground block font-mono text-[0.65rem] tracking-[0.12em] uppercase">
+                  {dir} · {noteSummary(n).label}
+                </span>
+                <span class="group-hover/nav:text-primary mt-1 block truncate text-sm font-medium transition-colors">
+                  {noteSummary(n).name}
+                </span>
+              </a>
+            ) : (
+              <span />
+            ),
+          )
+        }
+      </nav>
+    </BottomLayout>
+  </main>
+</BaseLayout>
